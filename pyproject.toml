@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mainz3d-teaching"
+version = "0.1.0"
+description = "A Folium-style Python wrapper for a five-step CesiumJS urban GIS exercise"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = []
+
+[project.optional-dependencies]
+notebook = ["jupyterlab>=4,<5", "ipython>=8,<10"]
+
+[tool.setuptools.packages.find]
+include = ["mainz3d*"]
+
+[tool.setuptools.package-data]
+mainz3d = ["assets/*.html", "assets/*.css", "assets/*.js"]

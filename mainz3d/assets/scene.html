@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mainz 3D</title>
+<script>window.CESIUM_BASE_URL="https://cesium.com/downloads/cesiumjs/releases/1.146/Build/Cesium/";</script>
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.146/Build/Cesium/Cesium.js"></script>
+<link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.146/Build/Cesium/Widgets/widgets.css">
+<style>__SCENE_CSS__</style></head><body>
+<div id="scene"></div>
+<section class="panel"><div class="eyebrow">GIS EXERCISE / MAINZ</div>
+<h1 id="title"></h1><p id="stage-description"></p>
+<div class="row" data-min-task="2"><button id="aerial" aria-pressed="true">Luftbild · DOP20</button><button id="map" aria-pressed="false">Basiskarte</button></div>
+<section data-min-task="2"><label for="raster-opacity">Luftbild-Deckkraft <output id="raster-value">80%</output></label><input id="raster-opacity" type="range" min="0" max="100" step="5" value="80" aria-label="Luftbild-Deckkraft"></section><div class="row"><button id="overview" disabled>Alle Flächen</button><button id="top" disabled>Draufsicht</button><button id="toggle" disabled>Gebäude ausblenden</button></div>
+<section data-min-task="5"><p><label for="sun-date">Datum </label><input id="sun-date" type="date" aria-label="Datum" value="2026-10-25" min="1900-01-01" max="2100-12-31"></p>
+<label for="sun-time">Uhrzeit <output id="sun-value" for="sun-time">13:00</output></label>
+<input id="sun-time" type="range" min="240" max="1320" step="15" value="780" aria-label="Uhrzeit">
+<p class="shadow-note">04:00 — 22:00 · Ortszeit Mainz (inkl. Sommerzeit)<br>Modellschatten folgen der Sonne; Schatten im Luftbild bleiben unverändert.</p>
+</section><p class="hint">Ziehen: verschieben · Mausrad: zoomen · Strg + Ziehen: neigen / drehen<br>Fläche auswählen; Quellenangaben bei Screenshots beibehalten.</p>
+<section data-min-task="3"><p><label><input type="checkbox" id="fill" checked> Flächenfüllung anzeigen</label></p>
+</section><section data-min-task="4"><p><label><input type="checkbox" id="nearby-toggle" disabled> Gebäude im Umfeld aller Flächen hervorheben</label></p>
+<label for="nearby-distance">Suchabstand <output id="nearby-value">75 m</output></label>
+<input id="nearby-distance" type="range" min="0" max="200" step="5" value="75" aria-label="Suchabstand" disabled>
+<p id="nearby-count" class="shadow-note">Auswahl nach dem kürzesten Abstand zu allen Parkplatzflächen.</p>
+</section><section data-min-task="3"><div id="legend"></div><p id="details">Parkplatznamen anklicken. OSM-Flächen, keine Flurstücksgrenzen.</p><p><a id="source-link" target="_blank" rel="noopener">Parkplatz in OpenStreetMap öffnen</a></p></section><p id="status">3D-Szene wird gestartet …</p></section>
+<div class="credit">© GeoBasis-DE/BKG 2026 · basemap.de · <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors · ODbL</a><br><span id="imagery-credit"></span>Bearbeitung: Gebäudefarben, Parkplatzflächen und Szenenlayout</div>
+<script>__SCENE_JS__</script></body></html>
