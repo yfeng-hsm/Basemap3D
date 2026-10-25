@@ -1,0 +1,32 @@
+{
+  "title": "Zensus 2022 population, 1 km grid, rectangular Berlin study area",
+  "source_url": "https://www.destatis.de/static/DE/zensus/gitterdaten/Zensus2022_Bevoelkerungszahl.zip",
+  "archive_member": "Zensus2022_Bevoelkerungszahl_1km-Gitter.csv",
+  "archive_sha256": "1a8428d31eab264c8717bfdcbf40fbd66c217edb2e2a98d0e67741bd8a1a941a",
+  "source_page": "https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Zensus2022/_publikationen.html",
+  "source_credit": "© Statistische Ämter des Bundes und der Länder, 2024",
+  "license": "Datenlizenz Deutschland – Namensnennung – Version 2.0 (dl-de/by-2-0)",
+  "license_url": "https://www.govdata.de/dl-de/by-2-0",
+  "reference_date": "2022-05-15",
+  "retrieved": "2026-10-25",
+  "grid_cell_size_m": 1000,
+  "original_crs": "EPSG:3035",
+  "output_crs": "EPSG:4326",
+  "bbox_wgs84": [
+    13.18,
+    52.4,
+    13.6,
+    52.62
+  ],
+  "clip_rule": "Keep positive published counts whose cell centres fall inside this rectangle.",
+  "cell_count": 657,
+  "maximum_population": 24164,
+  "sum_of_published_counts": 3327130,
+  "modifications": "Rectangular subset; cell centres reprojected to WGS84; columns renamed; counts unchanged.",
+  "limitations": [
+    "This rectangle is not the Berlin administrative boundary; its sum is not a Berlin city total.",
+    "Counts are reference-date census figures with Cell-Key confidentiality perturbation, not current or exact individual locations.",
+    "Uninhabited or unpublished cells are absent from the source. Absence is not a measured zero.",
+    "Display bar widths and heights are thematic encodings, not real building dimensions."
+  ]
+}

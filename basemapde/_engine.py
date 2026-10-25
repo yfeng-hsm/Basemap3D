@@ -1,13 +1,13 @@
-"""Internal renderer. Public teaching API is exported from mainz3d."""
+"""Internal renderer. Public teaching API is exported from basemapde."""
 from pathlib import Path
 import json
 import math
+import csv
 
-BASE=Path(__file__).resolve().parents[1]
 SUPPORT=Path(__file__).resolve().parent / "assets"
-STAGES={1:"Basiskarte, Gelände und 3D-Gebäude",2:"Rasterdaten: Luftbild und Transparenz",3:"Vektordaten: fünf Parkplatzflächen",4:"Räumliche Abfrage und Attribut-Popup",5:"Sonnenstand und Gebäudeschatten"}
+STAGES={1:"Basiskarte, Gelände und 3D-Gebäude",2:"Rasterdaten: Luftbild und Transparenz",3:"Vektordaten: Untersuchungsflächen",4:"Räumliche Abfrage und Attribut-Popup",5:"Sonnenstand und Gebäudeschatten",6:"Bevölkerungsverteilung im 1-km-Gitter"}
 
-def create_scene(title="Mainz 3D", center=(8.2692, 50.0063),
+def create_scene(title="basemap.de · 3D", center=(10.4515, 51.1657),
                  heading=25, pitch=-45, distance_m=900):
     if not (-180 <= center[0] <= 180 and -90 <= center[1] <= 90):
         raise ValueError("center must use [longitude, latitude].")
@@ -24,8 +24,6 @@ def create_scene(title="Mainz 3D", center=(8.2692, 50.0063),
 
 def _geojson(path):
     target = Path(path)
-    if not target.is_absolute():
-        target = BASE / target
     data = json.loads(target.read_text(encoding="utf-8"))
     if data.get("type") != "FeatureCollection" or not data.get("features"):
         raise ValueError(f"{target.name} must be a non-empty FeatureCollection.")
@@ -68,12 +66,42 @@ def render(config):
     config["stage_description"]=STAGES[config["task"]]
     empty={"type":"FeatureCollection","features":[]}
     plots=_geojson(config["vector_file"]) if config["has_vector"] else empty
-    buildings=_geojson(config["buildings_file"]) if config["query_enabled"] else empty
+    buildings=empty
+    if config["query_enabled"]:
+        if config.get("buildings_file"):
+            buildings=_geojson(config["buildings_file"])
+            config['query_source_label']='Lokale Gebäude-Datei'
+        else:
+            from ._osm import fetch_around
+            buildings=fetch_around(plots,config['nearby_max_distance_m'])
+            config['query_source_label']='OSM automatisch für diese Flächen'
+    bars=_bars(config['bars_file'],config['bar_value']) if config.get('bars_enabled') else []
     config.pop("vector_file", None)
     config.pop("buildings_file", None)
+    config.pop("bars_file",None)
     page=(SUPPORT/"scene.html").read_text(encoding="utf-8")
     page=page.replace("__SCENE_CSS__",(SUPPORT/"scene.css").read_text(encoding="utf-8"))
     page=page.replace("__SCENE_JS__",(SUPPORT/"scene.js").read_text(encoding="utf-8"))
     page=page.replace("__CONFIG_JSON__",_script_json(config))
     page=page.replace("__GEOJSON_JSON__",_script_json(plots))
-    return page.replace("__BUILDINGS_JSON__",_script_json(buildings))
+    page=page.replace("__BUILDINGS_JSON__",_script_json(buildings))
+    return page.replace("__BARS_JSON__",_script_json(bars))
+
+
+def _bars(path,value):
+    """Load small thematic CSV data with explicit coordinates; never synthesize population."""
+    rows=[]
+    with Path(path).open(encoding='utf-8-sig',newline='') as f:
+        reader=csv.DictReader(f)
+        if not {'longitude','latitude',value}<=set(reader.fieldnames or []):
+            raise ValueError('Bar CSV needs longitude, latitude and the selected value column.')
+        for number,row in enumerate(reader,2):
+            try:lon,lat,val=float(row['longitude']),float(row['latitude']),float(row[value])
+            except (TypeError,ValueError) as exc:raise ValueError(f'Invalid bar data at CSV line {number}.') from exc
+            if not all(math.isfinite(x) for x in (lon,lat,val)) or not -180<=lon<=180 or not -90<=lat<=90 or val<0:
+                raise ValueError(f'Invalid coordinates or negative/non-finite value at CSV line {number}.')
+            rows.append(dict(longitude=lon,latitude=lat,value=val,
+                             name=row.get('name') or row.get('cell_id') or str(number-1),
+                             reference_date=row.get('reference_date','')))
+    if not rows:raise ValueError('Bar CSV must contain at least one row.')
+    return rows

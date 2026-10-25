@@ -15,19 +15,20 @@ class Map:
     Pass distance_m for an explicit camera distance. Official models stream online.
     """
 
-    def __init__(self, location=(50.0063, 8.2692), zoom_start=16, *,
+    def __init__(self, location=(51.1657, 10.4515), zoom_start=6, *,
                  heading=25, pitch=-45, distance_m=None, height=700,
-                 title="Mainz 3D", tiles="basemap.de"):
+                 title="basemap.de · 3D", tiles="basemap.de", buildings=True):
         if tiles != "basemap.de":
             raise ValueError("This teaching wrapper currently provides tiles='basemap.de'.")
-        if not isinstance(zoom_start, (int, float)) or not math.isfinite(zoom_start) or not 10 <= zoom_start <= 20:
-            raise ValueError("zoom_start must be between 10 and 20.")
+        if not isinstance(zoom_start, (int, float)) or not math.isfinite(zoom_start) or not 2 <= zoom_start <= 20:
+            raise ValueError("zoom_start must be between 2 and 20.")
         if len(location) != 2:
             raise ValueError("location must be [latitude, longitude].")
-        distance = distance_m if distance_m is not None else max(200, min(8000, 900 * 2 ** (16 - zoom_start)))
+        distance = distance_m if distance_m is not None else max(200, min(8000000, 900 * 2 ** (16 - zoom_start)))
         self._config = _engine.create_scene(title, (location[1], location[0]), heading, pitch, distance)
         self._config.update(has_raster=False, has_vector=False, query_enabled=False,
-                            popup_enabled=False, sun_enabled=False)
+                            popup_enabled=False, sun_enabled=False, bars_enabled=False,
+                            buildings_enabled=bool(buildings), nearby_max_distance_m=200)
         if not isinstance(height, int) or not 200 <= height <= 2000:
             raise ValueError("height must be an integer between 200 and 2000 pixels.")
         self.height = height
@@ -60,7 +61,7 @@ class Map:
 
     def _repr_html_(self):
         """Let Jupyter render the map when the map object is the last cell expression."""
-        return ('<iframe title="Mainz 3D" srcdoc="' + html.escape(self._render(), quote=True)
+        return ('<iframe title="'+html.escape(self._config['title'],quote=True)+'" srcdoc="' + html.escape(self._render(), quote=True)
                 + f'" width="100%" height="{self.height}" style="border:1px solid #dce4e7;border-radius:12px"></iframe>')
 
 
@@ -100,16 +101,18 @@ class GeoJson:
 class NearbyBuildings:
     """Select footprints within distance_m of any polygon and enable attribute popups."""
 
-    def __init__(self, data, *, distance_m=75, popup=True, enabled=True):
+    def __init__(self, data=None, *, distance_m=75, popup=True, enabled=True):
         if not 0 <= distance_m <= 200:
-            raise ValueError("The bundled data supports distance_m between 0 and 200.")
-        self.options = dict(buildings_file=str(Path(data).resolve()), query_enabled=True,
+            raise ValueError("distance_m must be between 0 and 200 metres.")
+        self.options = dict(buildings_file=str(Path(data).resolve()) if data is not None else None, query_enabled=True,
                             nearby_distance_m=distance_m, popup_enabled=bool(popup),
                             highlight_nearby=bool(enabled))
 
     def add_to(self, m):
         if not m._config["has_vector"]:
             raise ValueError("Add a GeoJson polygon layer before NearbyBuildings.")
+        if not m._config["buildings_enabled"]:
+            raise ValueError("Enable Map(buildings=True) to highlight 3D buildings.")
         m._update(4, **self.options)
         return self
 
@@ -125,4 +128,28 @@ class SunShadows:
 
     def add_to(self, m):
         m._update(5, **self.options)
+        return self
+
+
+class BarLayer:
+    """Display a CSV of WGS84 centres as thematic 3D columns, not real buildings.
+
+    Required columns: longitude, latitude, and the selected numeric value field.
+    Optional columns: cell_id, name, reference_date. Width and height are encodings.
+    """
+
+    def __init__(self, data, *, value="population", height_scale=0.08, bar_width_m=700,
+                 opacity=0.9, legend_title="Bevölkerung je 1-km-Zelle", unit="Personen",
+                 attribution=""):
+        if not 0 < height_scale <= 10 or not math.isfinite(height_scale):
+            raise ValueError("height_scale must be finite, positive and at most 10 metres per unit.")
+        if not 1 <= bar_width_m <= 10000 or not 0 <= opacity <= 1:
+            raise ValueError("bar_width_m must be 1–10000; opacity must be 0–1.")
+        self.options=dict(bars_file=str(Path(data).resolve()), bars_enabled=True,
+                          bar_value=value,bar_height_scale=height_scale,bar_width_m=bar_width_m,
+                          bar_opacity=opacity,bar_legend_title=legend_title,bar_unit=unit,
+                          bar_attribution=attribution,popup_enabled=True)
+
+    def add_to(self,m):
+        m._update(6,**self.options)
         return self

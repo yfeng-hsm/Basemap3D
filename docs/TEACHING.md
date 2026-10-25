@@ -2,7 +2,7 @@
 
 ## Intended use
 
-This lab introduces a progressively assembled urban planning viewer to students with basic GIS concepts and introductory Python. Package explanations are English; the concrete Mainz tasks and scene interface are German. Plan approximately two to three 90-minute sessions, with additional time for setup and discussion according to students' experience.
+This lab introduces a progressively assembled urban planning viewer to students with basic GIS concepts and introductory Python. Package explanations are English; the concrete Mainz tasks and scene interface are German. Plan approximately two to three 90-minute sessions, with additional time for setup and discussion according to students' experience. Both notebooks can also be opened through their Colab badges.
 
 ## Learning sequence
 
@@ -35,9 +35,15 @@ Suggested assessment: data and coordinate handling 25%; correct incremental work
 - Test the five prebuilt examples on a classroom computer and network.
 - Check access to the three online service domains listed in the README.
 - Install the package in the same environment used by Jupyter.
-- Start with the provided data; it avoids making data acquisition a prerequisite.
+- Start with the provided study polygons. Task 4 demonstrates automatic building retrieval for those polygons; use the explicitly named offline snapshot if classroom network access is unavailable.
 - Discuss provenance and the difference between a visualization, a scenario model and a live digital twin. The exercise has no real-time parking, traffic or sensor feed.
 
 ## Maintenance
 
 Run `python -m unittest discover -s tests -v` and `python tools/build_examples.py` after source or input changes. Review the generated HTML visually before teaching. Keep notebook outputs cleared in Git; generated interactive examples live in `docs/examples/`.
+
+## Additional population case
+
+`Population_3D_Columns.ipynb` moves to Berlin to demonstrate that the wrapper is city-independent. Students add `BarLayer`, change height encoding, filter low-count cells and inspect a grid cell's date and count. Discuss equal-area source units, the difference between graphic height and physical height, quantile classification, confidentiality perturbation and the difference between a rectangular study area and an administrative city boundary.
+
+The 657-row official CSV is prepared in advance. Students do not download national data or paste arrays into the notebook. Case-study instructions and the corresponding web page remain German.

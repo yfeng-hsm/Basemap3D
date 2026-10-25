@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mainz 3D</title>
+<title>basemap.de · Python</title>
 <script>window.CESIUM_BASE_URL="https://cesium.com/downloads/cesiumjs/releases/1.146/Build/Cesium/";</script>
 <script src="https://cesium.com/downloads/cesiumjs/releases/1.146/Build/Cesium/Cesium.js"></script>
 <link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.146/Build/Cesium/Widgets/widgets.css">
@@ -20,16 +20,29 @@ select{width:100%;padding:8px;margin:8px 0;border:1px solid #c9d6d9;border-radiu
 .credit{z-index:2;position:absolute;bottom:35px;right:8px;background:#ffffffec;padding:5px 8px;font-size:10px;border-radius:5px;max-width:65%}
 @media(max-width:650px){.panel{max-width:235px;padding:10px;top:8px;left:8px}h1{font-size:15px}.hint{display:none}}
 
-[hidden]{display:none!important}input[type="date"]{padding:4px;border:1px solid #cbd9dd;border-radius:5px}</style></head><body>
+[hidden]{display:none!important}input[type="date"]{padding:4px;border:1px solid #cbd9dd;border-radius:5px}
+.reading{background:#eaf2f9;border-left:3px solid #2171b5;padding:8px;color:#173e61}#bar-legend{margin:10px 0}.reading+.item{margin-top:8px}
+
+.population-mode #scene{position:absolute;left:320px;width:calc(100% - 320px)}.population-mode .panel{box-sizing:border-box;left:0;top:0;width:320px;max-width:none;height:100%;max-height:100%;border-radius:0;padding:18px;box-shadow:none}.population-mode .hint{display:none}.population-mode #status{font-size:10px}.population-mode .credit{max-width:calc(100% - 355px)}
+@media(max-width:650px){.population-mode #scene{left:240px;width:calc(100% - 240px)}.population-mode .panel{width:240px;padding:10px}.population-mode .credit{max-width:calc(100% - 270px)}}
+</style></head><body>
 <div id="scene"></div>
-<section class="panel"><div class="eyebrow">GIS EXERCISE / MAINZ</div>
+<section class="panel"><div class="eyebrow">BASEMAP.DE / PYTHON</div>
 <h1 id="title"></h1><p id="stage-description"></p>
-<div class="row" data-min-task="2"><button id="aerial" aria-pressed="true">Luftbild · DOP20</button><button id="map" aria-pressed="false">Basiskarte</button></div>
+<section id="bars-panel" hidden>
+<p><strong id="bars-title"></strong></p><p id="bar-reading" class="reading"></p><div id="bar-legend"></div>
+<label for="bar-height">Höhenfaktor <output id="bar-height-value"></output></label>
+<input id="bar-height" type="range" min="0.01" max="0.32" step="0.01" value="0.08" aria-label="Höhenfaktor">
+<label for="bar-minimum">Mindestwert <output id="bar-minimum-value">0</output></label>
+<input id="bar-minimum" type="range" min="0" max="25000" step="100" value="0" aria-label="Mindestwert">
+<p id="bar-count" class="shadow-note"></p>
+<p class="shadow-note">Säulenhöhe ist eine thematische Skalierung, keine Gebäudehöhe. Werte beziehen sich auf den Zensus-Stichtag.</p>
+</section><div class="row" data-min-task="2"><button id="aerial" aria-pressed="true">Luftbild · DOP20</button><button id="map" aria-pressed="false">Basiskarte</button></div>
 <section data-min-task="2"><label for="raster-opacity">Luftbild-Deckkraft <output id="raster-value">80%</output></label><input id="raster-opacity" type="range" min="0" max="100" step="5" value="80" aria-label="Luftbild-Deckkraft"></section><div class="row"><button id="overview" disabled>Alle Flächen</button><button id="top" disabled>Draufsicht</button><button id="toggle" disabled>Gebäude ausblenden</button></div>
 <section data-min-task="5"><p><label for="sun-date">Datum </label><input id="sun-date" type="date" aria-label="Datum" value="2026-10-25" min="1900-01-01" max="2100-12-31"></p>
 <label for="sun-time">Uhrzeit <output id="sun-value" for="sun-time">13:00</output></label>
 <input id="sun-time" type="range" min="240" max="1320" step="15" value="780" aria-label="Uhrzeit">
-<p class="shadow-note">04:00 — 22:00 · Ortszeit Mainz (inkl. Sommerzeit)<br>Modellschatten folgen der Sonne; Schatten im Luftbild bleiben unverändert.</p>
+<p class="shadow-note">04:00 — 22:00 · Ortszeit Deutschland (inkl. Sommerzeit)<br>Modellschatten folgen der Sonne; Schatten im Luftbild bleiben unverändert.</p>
 </section><p class="hint">Ziehen: verschieben · Mausrad: zoomen · Strg + Ziehen: neigen / drehen<br>Fläche auswählen; Quellenangaben bei Screenshots beibehalten.</p>
 <section data-min-task="3"><p><label><input type="checkbox" id="fill" checked> Flächenfüllung anzeigen</label></p>
 </section><section data-min-task="4"><p><label><input type="checkbox" id="nearby-toggle" disabled> Gebäude im Umfeld aller Flächen hervorheben</label></p>
@@ -37,24 +50,31 @@ select{width:100%;padding:8px;margin:8px 0;border:1px solid #c9d6d9;border-radiu
 <input id="nearby-distance" type="range" min="0" max="200" step="5" value="75" aria-label="Suchabstand" disabled>
 <p id="nearby-count" class="shadow-note">Auswahl nach dem kürzesten Abstand zu allen Parkplatzflächen.</p>
 </section><section data-min-task="3"><div id="legend"></div><p id="details">Parkplatznamen anklicken. OSM-Flächen, keine Flurstücksgrenzen.</p><p><a id="source-link" target="_blank" rel="noopener">Parkplatz in OpenStreetMap öffnen</a></p></section><p id="status">3D-Szene wird gestartet …</p></section>
-<div class="credit">© GeoBasis-DE/BKG 2026 · basemap.de · <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors · ODbL</a><br><span id="imagery-credit"></span>Bearbeitung: Gebäudefarben, Parkplatzflächen und Szenenlayout</div>
+<div class="credit">© GeoBasis-DE/BKG 2026 · basemap.de · <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors · ODbL</a><br><span id="bar-credit"></span><span id="imagery-credit"></span>Bearbeitung: thematische Darstellung und Szenenlayout</div>
 <script>
-const config = {"task": 1, "title": "Mainz · Stadtmodell am Schloss", "center": [8.2692, 50.0063], "heading": 25, "pitch": -45, "distance_m": 900, "use_terrain": true, "basemap": "map", "start_parking": 0, "opacity": 0.25, "building_color": "#eef2f3", "roof_color": "#91a8b8", "raster_url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "raster_layer": "rp_dop20", "raster_opacity": 0.8, "highlight_nearby": false, "nearby_distance_m": 75, "sun_date": "2026-10-25", "sun_hour": 13.0, "has_raster": false, "has_vector": false, "query_enabled": false, "popup_enabled": false, "sun_enabled": false, "stage_description": "Basiskarte, Gelände und 3D-Gebäude"};
+const config = {"task": 1, "title": "Mainz · Stadtmodell am Schloss", "center": [8.2692, 50.0063], "heading": 25, "pitch": -45, "distance_m": 900, "use_terrain": true, "basemap": "map", "start_parking": 0, "opacity": 0.25, "building_color": "#eef2f3", "roof_color": "#91a8b8", "raster_url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "raster_layer": "rp_dop20", "raster_opacity": 0.8, "highlight_nearby": false, "nearby_distance_m": 75, "sun_date": "2026-10-25", "sun_hour": 13.0, "has_raster": false, "has_vector": false, "query_enabled": false, "popup_enabled": false, "sun_enabled": false, "bars_enabled": false, "buildings_enabled": true, "nearby_max_distance_m": 200, "stage_description": "Basiskarte, Gelände und 3D-Gebäude"};
 const geojson = {"type": "FeatureCollection", "features": []};
 const buildingFootprints = {"type": "FeatureCollection", "features": []};
+const barRows = [];
 const status = document.getElementById('status');
 document.getElementById('title').textContent = config.title;
 document.title = config.title;
 const available={2:config.has_raster,3:config.has_vector,4:config.query_enabled,5:config.sun_enabled};
 document.querySelectorAll('[data-min-task]').forEach(node=>{node.hidden=!available[Number(node.dataset.minTask)];});
 document.getElementById('stage-description').textContent=config.stage_description;
+if(!config.has_vector)document.getElementById('overview').textContent=config.bars_enabled?'3D-Säulen':'Gesamtansicht';
+if(config.bars_enabled)document.getElementById('top').textContent='2D-Verteilung';
 if(!config.has_vector)document.querySelector('.hint').textContent='Ziehen: verschieben · Mausrad: zoomen · Strg + Ziehen: neigen / drehen';
 
 const warnings = [];
-function report(){status.textContent = 'Task '+config.task+' bereit. Karten und Gebäude werden für die aktuelle Ansicht geladen.' + (warnings.length?'\n'+warnings.join('\n'):'');}
+function report(){status.textContent = (config.bars_enabled?'Themenkarte bereit.':'Task '+config.task+' bereit.')+' Kartendaten werden für die aktuelle Ansicht geladen.' + (warnings.length?'\n'+warnings.join('\n'):'');}
 // Implementation detail for the teaching renderer.
-const localScaleX=111320*Math.cos(50*Math.PI/180), localScaleY=111320;
-function metricPolygon(polygon){return polygon.map(ring=>ring.map(p=>[(p[0]-8.26)*localScaleX,(p[1]-50)*localScaleY]));}
+function coordinatePairs(coords){return typeof coords[0]==='number'?[coords]:coords.flatMap(coordinatePairs);}
+const queryPoints=geojson.features.flatMap(f=>coordinatePairs(f.geometry.coordinates));
+const queryLon=queryPoints.length?queryPoints.reduce((v,p)=>v+p[0],0)/queryPoints.length:config.center[0];
+const queryLat=queryPoints.length?queryPoints.reduce((v,p)=>v+p[1],0)/queryPoints.length:config.center[1];
+const localScaleX=111320*Math.cos(queryLat*Math.PI/180), localScaleY=111320;
+function metricPolygon(polygon){return polygon.map(ring=>ring.map(p=>[(p[0]-queryLon)*localScaleX,(p[1]-queryLat)*localScaleY]));}
 function polygonParts(geometry){return geometry.type==='Polygon'?[geometry.coordinates]:geometry.coordinates;}
 function pointInRing(p,ring){
  let inside=false;
@@ -96,7 +116,7 @@ function setupNearbyHighlight(viewer,buildings){
   let distance=Infinity;
   for(const a of polygons)for(const b of plots)distance=Math.min(distance,polygonDistance(a,b));
   return {feature,distance};
- }).filter(x=>x.distance<=200);
+ }).filter(x=>x.distance<=config.nearby_max_distance_m);
  let layer=null,lastDistance=-1,timer;
  const gold=Cesium.Color.fromCssColorString('#ffc04d').withAlpha(0.8);
  function hierarchy(polygon){
@@ -127,11 +147,12 @@ function setupNearbyHighlight(viewer,buildings){
    lastDistance=distance;
   }
   if(layer)layer.show=true;
-  count.textContent='Alle '+geojson.features.length+' Flächen: '+selected.length+' OSM-Gebäudeumrisse ausgewählt. 3D-Modelle werden ansichtsabhängig geladen.';
+  count.textContent='Alle '+geojson.features.length+' Flächen: '+selected.length+' OSM-Gebäudeumrisse ausgewählt. '+config.query_source_label+'.';
   viewer.scene.requestRender();
  }
  toggle.disabled=false;slider.disabled=false;
  toggle.checked=config.highlight_nearby;
+ slider.max=String(config.nearby_max_distance_m);
  slider.value=String(config.nearby_distance_m);
  output.textContent=slider.value+' m';
  toggle.addEventListener('change',()=>{clearTimeout(timer);update();});
@@ -140,9 +161,77 @@ function setupNearbyHighlight(viewer,buildings){
  update();
 }
 
+function setupBars(viewer){
+ document.getElementById('bars-panel').hidden=false;
+ document.getElementById('bars-title').textContent=config.bar_legend_title;
+ document.getElementById('bar-reading').textContent='Dunkler und höher = mehr '+config.bar_unit+'. Die Draufsicht zeigt das räumliche Muster ohne Überdeckung.';
+ document.getElementById('bar-credit').textContent=config.bar_attribution+' · ';
+ const heightSlider=document.getElementById('bar-height');
+ const minimumSlider=document.getElementById('bar-minimum');
+ heightSlider.min=String(config.bar_height_scale/10);
+ heightSlider.step=String(config.bar_height_scale/10);
+ heightSlider.max=String(config.bar_height_scale*4);
+ heightSlider.value=String(config.bar_height_scale);
+ const values=barRows.map(row=>row.value).sort((a,b)=>a-b);
+ const maximum=values[values.length-1];
+ minimumSlider.max=String(Math.ceil(maximum/100)*100);
+ minimumSlider.step=String(Math.max(1,Math.round(maximum/250)));
+ const breaks=[...new Set([0.2,0.4,0.6,0.8].map(q=>values[Math.floor(q*(values.length-1))]))];
+ const palette=['#c6dbef','#6baed6','#4292c6','#2171b5','#08306b'];
+ const format=n=>n.toLocaleString('de-DE',{maximumFractionDigits:2});
+ const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const colorFor=value=>palette[Math.min(palette.length-1,breaks.filter(v=>value>v).length)];
+ const dataset=new Cesium.CustomDataSource('Thematische Säulen');
+ viewer.dataSources.add(dataset);
+ const columns=barRows.map(row=>{
+  const height=Math.max(0.1,row.value*config.bar_height_scale);
+  return dataset.entities.add({
+   name:row.name,
+   position:Cesium.Cartesian3.fromDegrees(row.longitude,row.latitude,height/2),
+   properties:{kind:'bar',value:row.value},
+   box:{dimensions:new Cesium.Cartesian3(config.bar_width_m,config.bar_width_m,height),
+    heightReference:Cesium.HeightReference.RELATIVE_TO_GROUND,
+    material:Cesium.Color.fromCssColorString(colorFor(row.value)).withAlpha(config.bar_opacity),
+    outline:false,shadows:Cesium.ShadowMode.DISABLED},
+   description:'<table class="cesium-infoBox-defaultTable"><tbody>'+
+    '<tr><th>Gitterzelle</th><td>'+escape(row.name)+'</td></tr>'+
+    '<tr><th>'+escape(config.bar_legend_title)+'</th><td>'+format(row.value)+' '+escape(config.bar_unit)+'</td></tr>'+
+    '<tr><th>Stichtag</th><td>'+escape(row.reference_date || 'Siehe Datenquelle')+'</td></tr>'+
+    '<tr><th>Darstellung</th><td>Thematische Säule, keine Gebäudehöhe.</td></tr></tbody></table>'
+  });
+ });
+ const legend=document.getElementById('bar-legend');
+ for(let i=0;i<=breaks.length;i++){
+  const row=document.createElement('div');row.className='item';
+  const dot=document.createElement('span');dot.className='swatch';dot.style.background=palette[i];
+  const label=document.createElement('span');
+  label.textContent=(i===0?'≤ '+format(breaks[0]):i===breaks.length?'> '+format(breaks[i-1]):'> '+format(breaks[i-1])+' – ≤ '+format(breaks[i]))+' '+config.bar_unit;
+  row.append(dot,label);legend.append(row);
+ }
+ function update(){
+  const factor=Number(heightSlider.value),minimum=Number(minimumSlider.value);
+  let shown=0;
+  columns.forEach((entity,i)=>{
+   const row=barRows[i],height=Math.max(0.1,row.value*factor);
+   entity.show=row.value>=minimum;
+   if(entity.show)shown++;
+   entity.position=Cesium.Cartesian3.fromDegrees(row.longitude,row.latitude,height/2);
+   entity.box.dimensions=new Cesium.Cartesian3(config.bar_width_m,config.bar_width_m,height);
+  });
+  document.getElementById('bar-height-value').textContent=format(factor)+' m / Einheit';
+  document.getElementById('bar-minimum-value').textContent=format(minimum)+' '+config.bar_unit;
+  document.getElementById('bar-count').textContent=shown+' von '+barRows.length+' Säulen sichtbar. Farben: feste Quantilklassen des geladenen Datensatzes.';
+  viewer.scene.requestRender();
+ }
+ heightSlider.addEventListener('input',update);
+ minimumSlider.addEventListener('input',update);
+ update();
+}
+
 async function main(){
  if(typeof Cesium==='undefined') throw new Error('CesiumJS konnte nicht geladen werden. Internetverbindung und CDN-Zugriff prüfen.');
  Cesium.Ion.defaultAccessToken = '';
+ if(config.bars_enabled)document.body.classList.add('population-mode');
  const viewer = new Cesium.Viewer('scene', {
    baseLayer:false, baseLayerPicker:false, geocoder:false,
    animation:false, timeline:false, homeButton:false, sceneModePicker:false,
@@ -150,6 +239,7 @@ async function main(){
    selectionIndicator:false, shadows:config.sun_enabled, terrainShadows:config.sun_enabled?Cesium.ShadowMode.RECEIVE_ONLY:Cesium.ShadowMode.DISABLED, requestRenderMode:true
  });
  window.viewer = viewer;
+ document.getElementById('toggle').hidden=!config.buildings_enabled;
  viewer.clock.shouldAnimate=false;
  viewer.scene.light=new Cesium.SunLight();
  viewer.scene.globe.enableLighting=config.sun_enabled;
@@ -188,11 +278,13 @@ async function main(){
  viewer.scene.globe.depthTestAgainstTerrain = false;
  viewer.scene.postProcessStages.fxaa.enabled = true;
  viewer.creditDisplay.addStaticCredit(new Cesium.Credit('© GeoBasis-DE/BKG 2026 · basemap.de | Bearbeitung: Farben und Lehrbeispiele',true));
+ if(config.bars_enabled)setupBars(viewer);
  const imageryCredit = '©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0, www.lvermgeo.rlp.de';
  const mapLayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
   url:'https://sgx.geodatenzentrum.de/wms_basemapde',layers:'de_basemapde_web_raster_farbe',
   parameters:{version:'1.1.1',format:'image/png',transparent:true},credit:'© GeoBasis-DE/BKG 2026'
  }));
+ if(config.bars_enabled){mapLayer.saturation=0;mapLayer.brightness=1.15;mapLayer.contrast=0.65;mapLayer.gamma=1.1;}
  const aerialLayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
   url:config.raster_url,layers:config.raster_layer,
   parameters:{version:'1.1.1',format:'image/png',transparent:true},
@@ -247,16 +339,17 @@ async function main(){
  }
  function allPoints(coords){return typeof coords[0]==='number'?[coords]:coords.flatMap(allPoints);}
  const points=geojson.features.flatMap(f=>allPoints(f.geometry.coordinates));
+ if(config.bars_enabled)points.push(...barRows.map(row=>[row.longitude,row.latitude]));
  const sphereFor=feature=>Cesium.BoundingSphere.fromPoints(allPoints(feature.geometry.coordinates).map(p=>Cesium.Cartesian3.fromDegrees(p[0],p[1])));
  const startSphere=new Cesium.BoundingSphere(Cesium.Cartesian3.fromDegrees(config.center[0],config.center[1]),100);
  const allSphere=points.length?Cesium.BoundingSphere.fromPoints(points.map(p=>Cesium.Cartesian3.fromDegrees(p[0],p[1]))):startSphere;
- let currentSphere=geojson.features.length?sphereFor(geojson.features[config.start_parking] || geojson.features[0]):startSphere;
+ let currentSphere=geojson.features.length?sphereFor(geojson.features[config.start_parking] || geojson.features[0]):(config.bars_enabled?allSphere:startSphere);
  function go(top=false){
   const target=Cesium.Cartographic.fromCartesian(currentSphere.center);
   target.height=viewer.scene.globe.getHeight(target) || (config.use_terrain?100:0);
   const center=Cesium.Cartographic.toCartesian(target);
   viewer.camera.lookAt(center,new Cesium.HeadingPitchRange(
-   Cesium.Math.toRadians(config.heading),Cesium.Math.toRadians(top?-89:config.pitch),Math.max(config.distance_m,currentSphere.radius*3)));
+   Cesium.Math.toRadians(config.heading),Cesium.Math.toRadians(top?-89:config.pitch),Math.max(config.distance_m,currentSphere.radius*(config.bars_enabled?2.1:3))));
   viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);viewer.scene.requestRender();
  }
  function showDetails(feature){
@@ -289,6 +382,7 @@ async function main(){
  viewer.screenSpaceEventHandler.setInputAction(click=>{
   const picked=viewer.scene.pick(click.position);
   const entity=picked && picked.id;
+  if(config.popup_enabled && entity?.properties?.kind?.getValue(viewer.clock.currentTime)==='bar')viewer.selectedEntity=entity;
   if(entity && source.entities.contains(entity)){
    document.getElementById('details').textContent=entity.name;
    if(config.popup_enabled)viewer.selectedEntity=entity;
@@ -306,6 +400,7 @@ async function main(){
    viewer.terrainProvider.errorEvent.addEventListener(()=>{if(!failed){failed=true;warnings.push('Einige Geländekacheln fehlen. Internetverbindung prüfen.');report();}});
   }catch(error){warnings.push('Gelände nicht verfügbar: flache Darstellung mit passender Gebäudevariante.');}
  }
+ if(config.buildings_enabled){
  try{
   const suffix=terrainEnabled?'dgm5':'null';
   const buildings=await Cesium.Cesium3DTileset.fromUrl('https://sgx.geodatenzentrum.de/gdz_basemapde_3d_gebaeude/lod2_4326_'+suffix+'.json',{maximumScreenSpaceError:12});
@@ -326,6 +421,7 @@ async function main(){
   toggle.onclick=()=>{buildings.show=!buildings.show;toggle.textContent=buildings.show?'Gebäude ausblenden':'Gebäude einblenden';viewer.scene.requestRender();};
   window.buildings=buildings;
  }catch(error){warnings.push('Gebäudedienst nicht verfügbar. Flächen und Karte bleiben sichtbar. Netzwerk prüfen und neu laden.');console.error(error);}
+ }
  go();report();viewer.scene.requestRender();
 }
 main().catch(error=>{status.textContent='Szene konnte nicht gestartet werden: '+error.message+'\nDie exportierte HTML-Datei öffnen oder WebGL2 / Hardwarebeschleunigung prüfen.';console.error(error);});</script></body></html>
