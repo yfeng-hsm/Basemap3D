@@ -7,12 +7,14 @@ A five-step urban GIS lab with a **Folium-style Python interface** and a CesiumJ
 ## Start here
 
 - [Five-step notebook](Mainz_3D_5_Tasks.ipynb)
+- [Live web documentation (English)](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/)
+- [Live case studies (German)](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/beispiele.html)
 - [Web documentation source](docs/index.html) — open this file locally after downloading the repository.
 - [German case-study page](docs/beispiele.html)
 - [API reference](docs/API.md), [teaching guide](docs/TEACHING.md), [data and limitations](docs/DATA.md)
 - [Download the complete repository as ZIP](https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/archive/refs/heads/main.zip)
 
-GitHub's source viewer does not execute interactive notebook or HTML output. Run the notebook locally, open the exported HTML files in a browser, or use the repository's GitHub Pages site when it is enabled. Hosting instructions are in [docs/HOSTING.md](docs/HOSTING.md).
+GitHub's source viewer does not execute interactive notebook or HTML output. Run the notebook locally, open the exported HTML files in a browser, or use the live GitHub Pages links above. Hosting is configured from `main` → `/docs`; maintenance instructions are in [docs/HOSTING.md](docs/HOSTING.md).
 
 ## What students need to install
 
