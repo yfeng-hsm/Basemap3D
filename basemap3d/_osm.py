@@ -44,7 +44,7 @@ def _download(box,cache_dir):
     if file.exists() and time.time()-file.stat().st_mtime<CACHE_SECONDS:
         return json.loads(file.read_text(encoding='utf-8'))
     url='https://api.openstreetmap.org/api/0.6/map.json?bbox='+','.join(map(str,box))
-    request=Request(url,headers={'User-Agent':'basemapde-wrapper/0.2 teaching GIS (+https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz)'})
+    request=Request(url,headers={'User-Agent':'Basemap3D/0.3 teaching GIS (+https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz)'})
     try:
         with urlopen(request,timeout=30) as response:data=json.load(response)
     except Exception as exc:
@@ -116,7 +116,7 @@ def from_elements(elements):
 
 def fetch_around(polygons,radius_m=200,cache_dir=None):
     """Fetch complete requests atomically; cached responses expire after 24 hours."""
-    cache_dir=Path(cache_dir) if cache_dir else Path.cwd()/'.basemapde-cache'
+    cache_dir=Path(cache_dir) if cache_dir else Path.cwd()/'.basemap3d-cache'
     elements=[]
     for box in request_boxes(polygons,radius_m):elements.extend(_download(box,cache_dir).get('elements',[]))
     result=from_elements(elements)

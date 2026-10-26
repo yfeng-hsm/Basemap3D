@@ -1,6 +1,6 @@
-# basemapde API reference
+# basemap3d API reference
 
-`basemapde` is a deliberately small, independent teaching wrapper around CesiumJS. It adopts Folium's map-object workflow without promising Folium API compatibility. Package documentation and errors are English; the included Mainz scenes use German labels and descriptions.
+`basemap3d` is a deliberately small, independent teaching wrapper around CesiumJS. It adopts Folium's map-object workflow without promising Folium API compatibility. Package documentation and errors are English; the included Mainz scenes use German labels and descriptions.
 
 ## Map
 
@@ -27,6 +27,7 @@ Basemap, online DGM5 terrain and matching LoD2 buildings are provided by the pre
 m                         # Display in Jupyter through _repr_html_
 m.save("results/map.html") # Export the same scene; returns None
 m2 = m.copy()             # Independent snapshot of configuration
+m.show()                 # Explicit inline display; m alone also works
 m.add_child(layer)        # Alternative to layer.add_to(m); returns m
 ```
 
@@ -64,7 +65,7 @@ NearbyBuildings("my_buildings.geojson", distance_m=75).add_to(m)
 
 Requires a polygon `GeoJson` layer and `Map(buildings=True)`. With no `data` argument, it derives geographic API boxes from the **current polygons**, fetches OpenStreetMap building ways/multipolygons, reconstructs holes and prepares 3 m display margins. There are no fixed Mainz query coordinates or fixed-city fallback. A changed study area generates different requests and cache keys.
 
-The UI covers 0–200 m. It fetches candidate footprints for the full 200 m area once; changing the slider then filters locally. Responses are cached for 24 hours in `.basemapde-cache/`. Requests are limited to 12 small boxes; larger areas require a local file. Download failures abort the query rather than silently returning another area's data. OSM completeness is not guaranteed.
+The UI covers 0–200 m. It fetches candidate footprints for the full 200 m area once; changing the slider then filters locally. Responses are cached for 24 hours in `.basemap3d-cache/`. Requests are limited to 12 small boxes; larger areas require a local file. Download failures abort the query rather than silently returning another area's data. OSM completeness is not guaranteed.
 
 Passing a local file explicitly disables automatic acquisition. `data/mainz_buildings_snapshot.geojson` is a documented, optional offline snapshot for the original parking case; it is not the package default. Local datasets must cover the desired polygons and distances.
 
@@ -103,4 +104,8 @@ The thematic view uses a separate sidebar, a muted grey basemap, blue sequential
 
 ## Jupyter and Colab
 
-Both notebooks include an Open in Colab badge and a conditional setup cell. It clones the public repository into `/content/basemapde-course`, installs the package, adds its source directory to the current kernel path and changes to the course directory. Existing checkouts are preserved. A fresh Colab runtime gets the current `main` branch. See [COLAB.md](COLAB.md).
+Both notebooks include an Open in Colab badge and a conditional setup cell. It clones the public repository into `/content/basemap3d-course`, installs the package, adds its source directory to the current kernel path and changes to the course directory. Existing checkouts are preserved. A fresh Colab runtime gets the current `main` branch. See [COLAB.md](COLAB.md).
+
+## Notebook display backends
+
+`m` and `m.show()` use Colab’s official kernel-port iframe proxy when running in Colab. The wrapper starts a scene-only in-memory HTML server automatically; no student server command is needed. A connected runtime is required, and the output must be rerun after a runtime restart. Local Jupyter uses an embedded srcdoc iframe. `m.save(...)` always writes the same standalone scene HTML. See [Colab instructions](COLAB.md).

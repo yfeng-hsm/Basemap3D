@@ -59,6 +59,25 @@ class Map:
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(self._render(), encoding="utf-8")
 
+    def show(self):
+        """Display inline, using Colab's official kernel-port proxy when available.
+
+        Colab requires a connected runtime. The wrapper manages its small HTML
+        server automatically; students do not start a server or choose a port.
+        """
+        import os
+        import sys
+        if "google.colab" in sys.modules or "COLAB_RELEASE_TAG" in os.environ:
+            from . import _colab
+            _colab.show(self._render(), self.height)
+        else:
+            from IPython.display import display
+            display({"text/html": self._repr_html_()}, raw=True)
+
+    def _ipython_display_(self):
+        """A final map expression uses the appropriate notebook display backend."""
+        self.show()
+
     def _repr_html_(self):
         """Let Jupyter render the map when the map object is the last cell expression."""
         return ('<iframe title="'+html.escape(self._config['title'],quote=True)+'" srcdoc="' + html.escape(self._render(), quote=True)

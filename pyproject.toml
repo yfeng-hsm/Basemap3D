@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "basemapde-wrapper"
-version = "0.2.0"
-description = "A Folium-style Python wrapper for a five-step CesiumJS urban GIS exercise"
+name = "basemap3d"
+version = "0.3.0"
+description = "A Folium-style Python wrapper for basemap.de 3D maps and thematic layers"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
@@ -15,7 +15,7 @@ dependencies = ["shapely>=2,<3"]
 notebook = ["jupyterlab>=4,<5", "ipython>=8,<10"]
 
 [tool.setuptools.packages.find]
-include = ["basemapde*"]
+include = ["basemap3d*"]
 
 [tool.setuptools.package-data]
-basemapde = ["assets/*.html", "assets/*.css", "assets/*.js"]
+basemap3d = ["assets/*.html", "assets/*.css", "assets/*.js"]

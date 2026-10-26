@@ -7,4 +7,7 @@ dist/
 .ipynb_checkpoints/
 .DS_Store
 results/
+.basemap3d-cache/
+
+# Legacy cache from the previous package name
 .basemapde-cache/

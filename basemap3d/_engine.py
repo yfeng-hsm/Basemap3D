@@ -1,4 +1,4 @@
-"""Internal renderer. Public teaching API is exported from basemapde."""
+"""Internal renderer. Public teaching API is exported from basemap3d."""
 from pathlib import Path
 import json
 import math

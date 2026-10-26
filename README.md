@@ -1,4 +1,4 @@
-# basemapde · Unofficial Python wrapper for basemap.de
+# Basemap3D · Unofficial Python wrapper for basemap.de
 
 A city-independent, **Folium-style** Python interface to basemap.de's online maps, terrain and LoD2 buildings, rendered with CesiumJS. Create a `Map`, add layers with `.add_to(m)`, display `m` in Jupyter or Colab, and export with `m.save(...)`. The package is independent of the basemap.de providers and Folium; it is not an official SDK or a complete Folium-compatible API.
 
@@ -7,7 +7,7 @@ A city-independent, **Folium-style** Python interface to basemap.de's online map
 [![Five-step planning lab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_3D_5_Tasks.ipynb) **Five-step planning lab**
 [![Population columns](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Population_3D_Columns.ipynb) **Population columns**
 
-Click a badge to open that notebook in Colab, then run its setup cell and the remaining cells. The setup clones this public repository, installs the wrapper and makes the supplied files available. A Google sign-in may be required. No local installation or GPU runtime is needed for Colab. It does not start executing merely by opening the link.
+Click a badge to open that notebook in Colab, then run its setup cell and the remaining cells. The setup clones this public repository, installs the wrapper and makes the supplied files available. Colab displays maps through its official runtime iframe proxy; the wrapper manages the small HTML server automatically. Students do not start Go Live or type server commands. A Google sign-in may be required. No local installation or GPU runtime is needed for Colab. It does not start executing merely by opening the link.
 
 ## Documentation and examples
 
@@ -16,10 +16,12 @@ Click a badge to open that notebook in Colab, then run its setup cell and the re
 - [API reference](docs/API.md) · [Colab instructions](docs/COLAB.md) · [data and limitations](docs/DATA.md) · [teaching guide](docs/TEACHING.md)
 - [Download the complete repository ZIP](https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/archive/refs/heads/main.zip)
 
+The project is named **Basemap3D**; the Python import is `basemap3d`. It was previously named `basemapde`.
+
 ## Familiar usage
 
 ```python
-from basemapde import Map, GeoJson, NearbyBuildings
+from basemap3d import Map, GeoJson, NearbyBuildings
 
 m = Map(location=[52.52, 13.405], zoom_start=16)
 GeoJson("my_study_area.geojson", popup=True).add_to(m)
@@ -35,7 +37,7 @@ m
 **`NearbyBuildings()` derives its requests from the polygons you actually add.** It retrieves OSM building ways and multipolygon relations, including courtyard holes, around those geometries. Changing the polygon file or study location changes the requests. The local metric reference is also derived from the input, not fixed Mainz coordinates.
 
 - The interactive query covers 0–200 m. Footprints are fetched for that full radius once, then filtering runs in the browser.
-- Responses are cached locally for 24 hours in `.basemapde-cache/`; this is OSM vector data, not an official 3D-tile cache.
+- Responses are cached locally for 24 hours in `.basemap3d-cache/`; this is OSM vector data, not an official 3D-tile cache.
 - The lightweight downloader limits a request to 12 small API boxes. For larger study areas, use a suitable local building GeoJSON. Network failures are reported; there is no silent fallback to the demonstration sites.
 - `NearbyBuildings("my_buildings.geojson", distance_m=75)` explicitly uses your local data instead.
 - `data/mainz_buildings_snapshot.geojson` is an **optional offline teaching snapshot**, covering only the original Mainz sites. The main notebook now uses automatic retrieval by default.
@@ -45,7 +47,7 @@ Matching is still spatial classification of LoD2 geometry using OSM footprints, 
 ## Population as 3D columns
 
 ```python
-from basemapde import Map, BarLayer
+from basemap3d import Map, BarLayer
 
 m = Map(location=[52.51, 13.39], buildings=False, distance_m=26000)
 BarLayer("data/berlin_population_1km.csv", value="population",
@@ -99,7 +101,7 @@ The additional [population HTML](docs/examples/population_berlin.html) and [popu
 ## Repository layout
 
 ```text
-basemapde/                        # General Python wrapper and renderer assets
+basemap3d/                        # General Python wrapper and renderer assets
 Mainz_3D_5_Tasks.ipynb             # German planning case; Colab ready
 Population_3D_Columns.ipynb        # German Berlin population case; Colab ready
 data/parking.geojson              # Planning case's study polygons
@@ -110,7 +112,7 @@ docs/                            # English docs, German examples and HTML galler
 tools/                           # Gallery builder; optional population preparation
 tests/                           # API, portability and data-contract checks
 results/                         # Generated locally; ignored by Git
-.basemapde-cache/                 # OSM response cache; ignored by Git
+.basemap3d-cache/                 # OSM response cache; ignored by Git
 ```
 
 ## Maintenance
@@ -125,7 +127,7 @@ Gallery rebuilding runs the notebook cells; the planning query may fetch OSM dat
 
 ## Troubleshooting
 
-- Missing `basemapde`: install into the notebook's Python environment, or rerun the Colab setup.
+- Missing `basemap3d`: install into the notebook's Python environment, or rerun the Colab setup.
 - Blank notebook: trust your own output and test its exported HTML. GitHub source previews do not execute 3D code.
 - Missing map/tiles: check WebGL2, hardware acceleration, and access to `cesium.com`, `sgx.geodatenzentrum.de`, and the selected raster service.
 - Automatic OSM query fails: check access to `api.openstreetmap.org`, retry after a service interruption, reduce the area, or explicitly provide a local building file. No unrelated city data is substituted.
