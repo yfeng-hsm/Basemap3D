@@ -1,0 +1,44 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Mainz Stadtmitte processing extent",
+    "area_km2": 9,
+    "width_m": 3000,
+    "height_m": 3000,
+    "crs_projected": "EPSG:25832",
+    "bounds_utm": [
+      446000,
+      5537000,
+      449000,
+      5540000
+    ],
+    "status": "selected_processing_extent_not_administrative_boundary"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          8.24677950246942,
+          49.982888366806094
+        ],
+        [
+          8.28862157141482,
+          49.983152472803354
+        ],
+        [
+          8.288223379522409,
+          50.010132565968775
+        ],
+        [
+          8.246357894858876,
+          50.00986820893757
+        ],
+        [
+          8.24677950246942,
+          49.982888366806094
+        ]
+      ]
+    ]
+  }
+}

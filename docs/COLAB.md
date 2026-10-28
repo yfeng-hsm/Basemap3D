@@ -3,7 +3,9 @@
 - [Open the five-step planning lab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_3D_5_Tasks.ipynb)
 - [Open the population-columns case](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Population_3D_Columns.ipynb)
 
-The same links appear as Open in Colab badges in the README and both notebooks, and as buttons on the website. They open the GitHub notebook in Colab; they do not execute code without the student's action. A Google sign-in may be required.
+The same links appear as Open in Colab badges in the README and all three notebooks, and as buttons on the website. They open the GitHub notebook in Colab; they do not execute code without the student's action. A Google sign-in may be required.
+
+- [Open the Mainz tree-layer case](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_Trees_3D.ipynb)
 
 ## Run
 

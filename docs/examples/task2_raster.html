@@ -29,6 +29,7 @@ select{width:100%;padding:8px;margin:8px 0;border:1px solid #c9d6d9;border-radiu
 <div id="scene"></div>
 <section class="panel"><div class="eyebrow">BASEMAP.DE / PYTHON</div>
 <h1 id="title"></h1><p id="stage-description"></p>
+<section id="tiles3d-panel" hidden><p><strong>Zusätzliche 3D-Layer</strong></p><div id="tiles3d-controls"></div><p id="tiles3d-details" class="shadow-note">Baum anklicken, um ID, Modellhöhe und Höhenquelle zu prüfen.</p></section>
 <section id="bars-panel" hidden>
 <p><strong id="bars-title"></strong></p><p id="bar-reading" class="reading"></p><div id="bar-legend"></div>
 <label for="bar-height">Höhenfaktor <output id="bar-height-value"></output></label>
@@ -50,7 +51,7 @@ select{width:100%;padding:8px;margin:8px 0;border:1px solid #c9d6d9;border-radiu
 <input id="nearby-distance" type="range" min="0" max="200" step="5" value="75" aria-label="Suchabstand" disabled>
 <p id="nearby-count" class="shadow-note">Auswahl nach dem kürzesten Abstand zu allen Parkplatzflächen.</p>
 </section><section data-min-task="3"><div id="legend"></div><p id="details">Parkplatznamen anklicken. OSM-Flächen, keine Flurstücksgrenzen.</p><p><a id="source-link" target="_blank" rel="noopener">Parkplatz in OpenStreetMap öffnen</a></p></section><p id="status">3D-Szene wird gestartet …</p></section>
-<div class="credit">© GeoBasis-DE/BKG 2026 · basemap.de · <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors · ODbL</a><br><span id="bar-credit"></span><span id="imagery-credit"></span>Bearbeitung: thematische Darstellung und Szenenlayout</div>
+<div class="credit">© GeoBasis-DE/BKG 2026 · basemap.de · <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors · ODbL</a><br><span id="tiles3d-credit"></span><span id="bar-credit"></span><span id="imagery-credit"></span>Bearbeitung: thematische Darstellung und Szenenlayout</div>
 <script>
 const config = {"task": 2, "title": "Mainz · Stadtmodell am Schloss", "center": [8.2692, 50.0063], "heading": 25, "pitch": -45, "distance_m": 900, "use_terrain": true, "basemap": "aerial", "start_parking": 0, "opacity": 0.25, "building_color": "#eef2f3", "roof_color": "#91a8b8", "raster_url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "raster_layer": "rp_dop20", "raster_opacity": 0.8, "highlight_nearby": false, "nearby_distance_m": 75, "sun_date": "2026-10-25", "sun_hour": 13.0, "has_raster": true, "has_vector": false, "query_enabled": false, "popup_enabled": false, "sun_enabled": false, "bars_enabled": false, "buildings_enabled": true, "nearby_max_distance_m": 200, "stage_description": "Rasterdaten: Luftbild und Transparenz"};
 const geojson = {"type": "FeatureCollection", "features": []};
@@ -61,13 +62,13 @@ document.getElementById('title').textContent = config.title;
 document.title = config.title;
 const available={2:config.has_raster,3:config.has_vector,4:config.query_enabled,5:config.sun_enabled};
 document.querySelectorAll('[data-min-task]').forEach(node=>{node.hidden=!available[Number(node.dataset.minTask)];});
-document.getElementById('stage-description').textContent=config.stage_description;
+document.getElementById('stage-description').textContent=(config.tiles3d_layers?.length && !config.has_vector && !config.bars_enabled)?'Gehostete 3D-Layer · Gelände und Stadtmodell':config.stage_description;
 if(!config.has_vector)document.getElementById('overview').textContent=config.bars_enabled?'3D-Säulen':'Gesamtansicht';
 if(config.bars_enabled)document.getElementById('top').textContent='2D-Verteilung';
 if(!config.has_vector)document.querySelector('.hint').textContent='Ziehen: verschieben · Mausrad: zoomen · Strg + Ziehen: neigen / drehen';
 
 const warnings = [];
-function report(){status.textContent = (config.bars_enabled?'Themenkarte bereit.':'Task '+config.task+' bereit.')+' Kartendaten werden für die aktuelle Ansicht geladen.' + (warnings.length?'\n'+warnings.join('\n'):'');}
+function report(){status.textContent = (config.bars_enabled?'Themenkarte bereit.':config.tiles3d_layers?.length?'3D-Szene bereit.':'Task '+config.task+' bereit.')+' Kartendaten werden für die aktuelle Ansicht geladen.' + (warnings.length?'\n'+warnings.join('\n'):'');}
 // Implementation detail for the teaching renderer.
 function coordinatePairs(coords){return typeof coords[0]==='number'?[coords]:coords.flatMap(coordinatePairs);}
 const queryPoints=geojson.features.flatMap(f=>coordinatePairs(f.geometry.coordinates));
@@ -228,6 +229,74 @@ function setupBars(viewer){
  update();
 }
 
+function showTileFeature(viewer, picked){
+ if(!picked || typeof picked.getPropertyIds!=='function')return false;
+ const esc=value=>String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const tree=picked.getProperty('tree_id');
+ const labels={tree_id:'Baum-ID',model_height_m:'Modellhöhe (m)',source_height_m:'Geschätzte Baumhöhe (m)',ground_height_m:'Geländehöhe DGM5 (m)',needs_review:'Prüfung empfohlen'};
+ const ids=tree?Object.keys(labels):picked.getPropertyIds().slice(0,30);
+ const rows=ids.map(id=>{let value=picked.getProperty(id);if(value===undefined)return '';
+  if(typeof value==='number')value=value.toLocaleString('de-DE',{maximumFractionDigits:2});
+  if(id==='needs_review')value=Boolean(picked.getProperty(id));
+  if(typeof value==='boolean')value=value?'Ja':'Nein';
+  return '<tr><th>'+esc(labels[id] || id)+'</th><td>'+esc(value)+'</td></tr>';
+ }).join('');
+ const name=tree?'Baum '+tree:'3D-Objekt';
+ viewer.selectedEntity=new Cesium.Entity({name,description:'<table class="cesium-infoBox-defaultTable"><tbody>'+rows+'</tbody></table>'+(tree?'<p>Automatisch erkannter Kandidat; schematisches Modell, keine bestätigte Baumaufnahme.</p>':'')});
+ document.getElementById('tiles3d-details').textContent=tree?name+' · Modellhöhe '+Number(picked.getProperty('model_height_m')).toLocaleString('de-DE',{maximumFractionDigits:2})+' m · '+(picked.getProperty('needs_review')?'Bitte manuell prüfen.':'Automatischer Kandidat.'):name;
+ return true;
+}
+
+async function setupTiles3D(viewer, terrainEnabled){
+ const layers=config.tiles3d_layers || [];
+ if(!layers.length)return;
+ document.getElementById('tiles3d-panel').hidden=false;
+ document.getElementById('tiles3d-credit').textContent=[...new Set(layers.map(x=>x.attribution).filter(Boolean))].join(' · ')+' · ';
+ await Promise.all(layers.map(async option=>{
+  const box=document.createElement('div');
+  const label=document.createElement('label');
+  const visible=document.createElement('input');visible.type='checkbox';visible.checked=option.show;
+  label.append(visible,document.createTextNode(' '+option.name));box.append(label);
+  const note=document.createElement('p');note.className='shadow-note';note.textContent=option.note || '';box.append(note);
+  let selector;
+  if(option.variants){
+   selector=document.createElement('select');selector.setAttribute('aria-label',option.name+' · Höhenmodus');
+   for(const [value,url] of Object.entries(option.variants)){
+    const item=document.createElement('option');item.value=value;item.textContent=value==='uniform'?'Einheitliche Höhe · 15 m':'Geschätzte Baumhöhe';selector.append(item);
+   }
+   selector.value=option.variant;box.append(selector);
+  }
+  const fit=document.createElement('button');fit.textContent='Zum Layer';fit.disabled=true;box.append(fit);
+  const state=document.createElement('p');state.className='shadow-note';state.textContent='Layer wird geladen …';box.append(state);
+  document.getElementById('tiles3d-controls').append(box);
+  if(option.require_terrain && !terrainEnabled){
+   state.textContent='Nicht geladen: Dieser Layer benötigt basemap.de DGM5-Gelände. Verbindung prüfen und neu laden.';
+   visible.disabled=true;if(selector)selector.disabled=true;return;
+  }
+  let current=null;
+  visible.onchange=()=>{if(current)current.show=visible.checked;viewer.scene.requestRender();};
+  fit.onclick=()=>{if(current)viewer.camera.flyToBoundingSphere(current.boundingSphere,{duration:0.8,offset:new Cesium.HeadingPitchRange(Cesium.Math.toRadians(25),Cesium.Math.toRadians(-45),0)});};
+  async function load(url){
+   if(selector)selector.disabled=true;state.textContent='Layer wird geladen …';
+   try{
+    const settings={maximumScreenSpaceError:option.maximum_screen_space_error};
+    if(option.feature_id_label)settings.instanceFeatureIdLabel=option.feature_id_label;
+    const next=await Cesium.Cesium3DTileset.fromUrl(url,settings);
+    next.show=visible.checked;next.shadows=config.sun_enabled?Cesium.ShadowMode.CAST_ONLY:Cesium.ShadowMode.DISABLED;
+    viewer.scene.primitives.add(next);
+    if(current)viewer.scene.primitives.remove(current);
+    current=next;fit.disabled=false;state.textContent='3D-Layer bereit · sichtbare Kacheln werden geladen.';
+    next.allTilesLoaded.addEventListener(()=>{state.textContent='Sichtbare Kacheln geladen.';});
+    next.tileFailed.addEventListener(()=>{state.textContent='Eine Kachel fehlt. Netzwerk prüfen und neu laden.';});
+    viewer.scene.requestRender();
+   }catch(error){state.textContent='Layer konnte nicht geladen werden: '+error.message;}
+   finally{if(selector)selector.disabled=false;}
+  }
+  if(selector)selector.onchange=()=>load(option.variants[selector.value]);
+  await load(option.url);
+ }));
+}
+
 async function main(){
  if(typeof Cesium==='undefined') throw new Error('CesiumJS konnte nicht geladen werden. Internetverbindung und CDN-Zugriff prüfen.');
  Cesium.Ion.defaultAccessToken = '';
@@ -382,6 +451,7 @@ async function main(){
  viewer.screenSpaceEventHandler.setInputAction(click=>{
   const picked=viewer.scene.pick(click.position);
   const entity=picked && picked.id;
+  if((config.tiles3d_layers || []).some(layer=>layer.popup) && showTileFeature(viewer,picked))return;
   if(config.popup_enabled && entity?.properties?.kind?.getValue(viewer.clock.currentTime)==='bar')viewer.selectedEntity=entity;
   if(entity && source.entities.contains(entity)){
    document.getElementById('details').textContent=entity.name;
@@ -422,6 +492,7 @@ async function main(){
   window.buildings=buildings;
  }catch(error){warnings.push('Gebäudedienst nicht verfügbar. Flächen und Karte bleiben sichtbar. Netzwerk prüfen und neu laden.');console.error(error);}
  }
+ await setupTiles3D(viewer,terrainEnabled);
  go();report();viewer.scene.requestRender();
 }
 main().catch(error=>{status.textContent='Szene konnte nicht gestartet werden: '+error.message+'\nDie exportierte HTML-Datei öffnen oder WebGL2 / Hardwarebeschleunigung prüfen.';console.error(error);});</script></body></html>

@@ -32,3 +32,7 @@ python tools/build_examples.py
 ```
 
 Commit the updated `docs/examples/` files after changing package code or case-study data. Each example embeds the local vector data required for that stage but still loads official imagery and 3D tiles online. Preserve all credits when copying scenes to another host.
+
+## Hosted tree tiles
+
+`docs/layers/mainz-trees/` is published unchanged by GitHub Pages alongside the documentation. Keep both root JSONs and all relative content paths together. The nine spatial tiles have coarse/fine GLBs for each height variant (36 GLBs in total). No server-side tiling is performed. `TreeLayer` references the HTTPS Pages address, which is also usable from independent Cesium applications. Raw data provenance and attribution are included with the layer.

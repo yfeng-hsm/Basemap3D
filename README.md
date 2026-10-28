@@ -7,6 +7,8 @@ A city-independent, **Folium-style** Python interface to basemap.de's online map
 [![Five-step planning lab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_3D_5_Tasks.ipynb) **Five-step planning lab**
 [![Population columns](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Population_3D_Columns.ipynb) **Population columns**
 
+[![Mainz tree layer](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_Trees_3D.ipynb) **Hosted tree layer**
+
 Click a badge to open that notebook in Colab, then run its setup cell and the remaining cells. The setup clones this public repository, installs the wrapper and makes the supplied files available. Colab displays maps through its official runtime iframe proxy; the wrapper manages the small HTML server automatically. Students do not start Go Live or type server commands. A Google sign-in may be required. No local installation or GPU runtime is needed for Colab. It does not start executing merely by opening the link.
 
 ## Documentation and examples
@@ -133,3 +135,24 @@ Gallery rebuilding runs the notebook cells; the planning query may fetch OSM dat
 - Automatic OSM query fails: check access to `api.openstreetmap.org`, retry after a service interruption, reduce the area, or explicitly provide a local building file. No unrelated city data is substituted.
 - New location has no matching cached data: automatic retrieval uses location-based cache keys; a manually supplied snapshot must be replaced by an appropriate file.
 - Population interpretation: use the reference date and legend, not the visual column footprint, to interpret counts.
+
+## Hosted Mainz tree layer
+
+Basemap3D 0.4.0 adds `Tiles3D` for arbitrary hosted standard tilesets and `TreeLayer` as a preset for this project's **nine 1-km² tree tiles** (13,317 automatic candidates). No API key is required. The dataset is separate from the Python wheel.
+
+```python
+from basemap3d import Map, TreeLayer
+m = Map(location=[49.99892, 8.27412], zoom_start=16)
+TreeLayer(variant="uniform").add_to(m)
+m
+```
+
+The viewer can switch to estimated height, hide the layer, fit its extent and show feature metadata. For other services use `Tiles3D(url, name="...").add_to(m)`.
+
+[German case study](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/trees.html) · [Tree notebook](Mainz_Trees_3D.ipynb) · [Open in Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_Trees_3D.ipynb) · [Layer documentation](docs/layers/mainz-trees/README.md)
+
+**Uniform endpoint:** `https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset.json`
+
+**Estimated endpoint:** `https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset-estimated.json`
+
+The candidates are unverified; 29 height estimates above 30 m are flagged. Models have fixed base elevations aligned to basemap.de DGM5. Retain source credits; see the dataset documentation.

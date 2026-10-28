@@ -1,0 +1,156 @@
+[
+  {
+    "filename": "dom1_32_446_5537_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dom1/current/tif/dom1_32_446_5537_1_rp_2023.tif",
+    "sha256": "10d552641685e324b8d11e3c8f7927279f4520c97146d6d607e23c64aabc2e46",
+    "bytes": 3367213,
+    "product": "dom1"
+  },
+  {
+    "filename": "dom1_32_446_5538_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dom1/current/tif/dom1_32_446_5538_1_rp_2023.tif",
+    "sha256": "965585a6e60369304651d910fb9f15b072c164a45d782e5163fce34d1224bbf8",
+    "bytes": 3367739,
+    "product": "dom1"
+  },
+  {
+    "filename": "dom1_32_446_5539_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dom1/current/tif/dom1_32_446_5539_1_rp_2023.tif",
+    "sha256": "93f3c4e6ec009c1b107dbc4565e44d77a134a3d552622303894a2619491c2262",
+    "bytes": 3261969,
+    "product": "dom1"
+  },
+  {
+    "filename": "dom1_32_447_5537_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dom1/current/tif/dom1_32_447_5537_1_rp_2023.tif",
+    "sha256": "e4d47d29a55f2d6b8332fc04f65b42adf9df89ebb391313b22b4cde75b22c029",
+    "bytes": 3367737,
+    "product": "dom1"
+  },
+  {
+    "filename": "dom1_32_447_5538_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dom1/current/tif/dom1_32_447_5538_1_rp_2023.tif",
+    "sha256": "6622967dd55aa4821a2e558fa511a2d1c8260ac111baff47272633e0d132b74c",
+    "bytes": 3353739,
+    "product": "dom1"
+  },
+  {
+    "filename": "dom1_32_447_5539_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dom1/current/tif/dom1_32_447_5539_1_rp_2023.tif",
+    "sha256": "e9c4f1e0fc1e21037bf78466010a9f0372f0a18d07ca98610bc7acb6ac427246",
+    "bytes": 3081295,
+    "product": "dom1"
+  },
+  {
+    "filename": "dom1_32_448_5537_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dom1/current/tif/dom1_32_448_5537_1_rp_2023.tif",
+    "sha256": "4ac1320a1055000062eae3d5e30b376d8c73ca2366a7f2cdb6db4595d3370bcb",
+    "bytes": 3355543,
+    "product": "dom1"
+  },
+  {
+    "filename": "dom1_32_448_5538_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dom1/current/tif/dom1_32_448_5538_1_rp_2023.tif",
+    "sha256": "88a5671e825fe7959ec76d4e80c2841fd305fa83a5770d6c307a5703e0a884f8",
+    "bytes": 2576543,
+    "product": "dom1"
+  },
+  {
+    "filename": "dom1_32_448_5539_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dom1/current/tif/dom1_32_448_5539_1_rp_2023.tif",
+    "sha256": "04a051278bc91cd2b14933273388e916dad00657de69fcce6c206312cd52eb10",
+    "bytes": 2376235,
+    "product": "dom1"
+  },
+  {
+    "filename": "dgm1_32_446_5537_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dgm1/current/tif/dgm1_32_446_5537_1_rp_2023.tif",
+    "sha256": "60cad885f130a9bfc48c767cd5e8c95ada322a943729b7f0b273a5b52030cc4c",
+    "bytes": 1523277,
+    "product": "dgm1"
+  },
+  {
+    "filename": "dgm1_32_446_5538_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dgm1/current/tif/dgm1_32_446_5538_1_rp_2023.tif",
+    "sha256": "33e04566f94e3e50197b62780ec6d116ea79fe7b51f32c6d62f10b665c4d032c",
+    "bytes": 1495571,
+    "product": "dgm1"
+  },
+  {
+    "filename": "dgm1_32_446_5539_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dgm1/current/tif/dgm1_32_446_5539_1_rp_2023.tif",
+    "sha256": "5e9fb99a114414f969e10a80f2476d4f8413d1f22752f078c081d71ca76c875e",
+    "bytes": 1429026,
+    "product": "dgm1"
+  },
+  {
+    "filename": "dgm1_32_447_5537_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dgm1/current/tif/dgm1_32_447_5537_1_rp_2023.tif",
+    "sha256": "36dbfcf90c0a311524668684725b2f26a017a93dc7bc9133d618df104d773988",
+    "bytes": 1408104,
+    "product": "dgm1"
+  },
+  {
+    "filename": "dgm1_32_447_5538_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dgm1/current/tif/dgm1_32_447_5538_1_rp_2023.tif",
+    "sha256": "63eb186416e31600f384a4d6046fee4098e89eafc0b4138de093896e01334146",
+    "bytes": 1448823,
+    "product": "dgm1"
+  },
+  {
+    "filename": "dgm1_32_447_5539_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dgm1/current/tif/dgm1_32_447_5539_1_rp_2023.tif",
+    "sha256": "486ef3c96ac1fff66b95d6477ead692babf5047ffd81e82543365676e963bbca",
+    "bytes": 1285075,
+    "product": "dgm1"
+  },
+  {
+    "filename": "dgm1_32_448_5537_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dgm1/current/tif/dgm1_32_448_5537_1_rp_2023.tif",
+    "sha256": "54cc7f2a55dea79db178fc96bb15f33426347e2735f2917d17ec6c4cadb7c18d",
+    "bytes": 1443147,
+    "product": "dgm1"
+  },
+  {
+    "filename": "dgm1_32_448_5538_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dgm1/current/tif/dgm1_32_448_5538_1_rp_2023.tif",
+    "sha256": "4977a44e09d89dcd6a9278cff6122ef11523a399aabedc7559ec4a8edb68d4be",
+    "bytes": 1119773,
+    "product": "dgm1"
+  },
+  {
+    "filename": "dgm1_32_448_5539_1_rp_2023.tif",
+    "url": "https://geobasis-rlp.de/data/dgm1/current/tif/dgm1_32_448_5539_1_rp_2023.tif",
+    "sha256": "dfbd3a4f07f7f7b1cf939a53c2c04869adbc74a3f2ab722c9ac8db03ab2f4bb9",
+    "bytes": 1046169,
+    "product": "dgm1"
+  },
+  {
+    "filename": "dop20rgbi_32_446_5536_2_rp_2024.jp2",
+    "url": "https://geobasis-rlp.de/data/dop20rgbi/current/jp2/dop20rgbi_32_446_5536_2_rp_2024.jp2",
+    "sha256": "8a85219da7517ea38dacf759dfa179b6937f920d573ed8b4d162e0373760e813",
+    "bytes": 183298577,
+    "product": "dop20rgbi"
+  },
+  {
+    "filename": "dop20rgbi_32_446_5538_2_rp_2024.jp2",
+    "url": "https://geobasis-rlp.de/data/dop20rgbi/current/jp2/dop20rgbi_32_446_5538_2_rp_2024.jp2",
+    "sha256": "c6886a5d347ee1fe21cd41525fa2d0bb84b274810e4e70805d6848b7a42fcb56",
+    "bytes": 181597182,
+    "product": "dop20rgbi"
+  },
+  {
+    "filename": "dop20rgbi_32_448_5536_2_rp_2024.jp2",
+    "url": "https://geobasis-rlp.de/data/dop20rgbi/current/jp2/dop20rgbi_32_448_5536_2_rp_2024.jp2",
+    "sha256": "37c662bd35bf8fad6a8c90a9cc89ca83f429d393c5e6627bf97b04d003794978",
+    "bytes": 174622377,
+    "product": "dop20rgbi"
+  },
+  {
+    "filename": "dop20rgbi_32_448_5538_2_rp_2024.jp2",
+    "url": "https://geobasis-rlp.de/data/dop20rgbi/current/jp2/dop20rgbi_32_448_5538_2_rp_2024.jp2",
+    "sha256": "4f3af892a823303277e107b3c3781f62cb996df25b05841fd2f26e15654d9d84",
+    "bytes": 153253743,
+    "product": "dop20rgbi"
+  }
+]

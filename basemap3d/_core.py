@@ -172,3 +172,51 @@ class BarLayer:
     def add_to(self,m):
         m._update(6,**self.options)
         return self
+
+
+class Tiles3D:
+    """Add a hosted standard 3D Tiles tileset without changing its georeference."""
+
+    def __init__(self, url, *, name="3D Tiles", show=True, maximum_screen_space_error=12,
+                 attribution="", popup=True, feature_id_label=None, require_terrain=False):
+        from urllib.parse import urlsplit
+        parsed = urlsplit(str(url))
+        if parsed.scheme not in ("http", "https") or not parsed.netloc or parsed.username or parsed.password:
+            raise ValueError("Provide an HTTP(S) tileset URL without embedded credentials.")
+        if not math.isfinite(maximum_screen_space_error) or maximum_screen_space_error <= 0:
+            raise ValueError("maximum_screen_space_error must be finite and positive.")
+        self.options = dict(url=str(url), name=str(name), show=bool(show),
+                            maximum_screen_space_error=maximum_screen_space_error,
+                            attribution=str(attribution), popup=bool(popup),
+                            feature_id_label=feature_id_label, require_terrain=bool(require_terrain))
+
+    def add_to(self, m):
+        layers=deepcopy(m._config.get("tiles3d_layers", []))
+        layers.append(deepcopy(self.options))
+        m._update(1, tiles3d_layers=layers,
+                  popup_enabled=m._config["popup_enabled"] or self.options["popup"])
+        return self
+
+
+class TreeLayer(Tiles3D):
+    """Mainz Stadtmitte preset: nine 1-km tiles, uniform or estimated tree height.
+
+    Automatically detected candidates, not a verified municipal tree inventory.
+    The model bases are fixed to basemap.de DGM5 terrain, not clamped at runtime.
+    """
+
+    BASE_URL="https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees"
+    ATTRIBUTION="©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL"
+
+    def __init__(self, *, variant="uniform", show=True, maximum_screen_space_error=12,
+                 base_url=None):
+        if variant not in ("uniform", "estimated"):
+            raise ValueError("variant must be 'uniform' or 'estimated'.")
+        base=(self.BASE_URL if base_url is None else str(base_url)).rstrip("/")
+        urls={"uniform":base+"/tileset.json", "estimated":base+"/tileset-estimated.json"}
+        super().__init__(urls[variant], name="Bäume · Mainz Stadtmitte", show=show,
+                         maximum_screen_space_error=maximum_screen_space_error,
+                         attribution=self.ATTRIBUTION, popup=True, feature_id_label="tree",
+                         require_terrain=True)
+        self.options.update(variants=urls, variant=variant,
+                            note="13.317 Kandidaten · 9 × 1 km² · 29 Höhenwerte über 30 m bitte prüfen.")

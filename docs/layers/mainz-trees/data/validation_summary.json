@@ -1,0 +1,9 @@
+{
+  "glb_files_validated": 36,
+  "trees_per_variant": 13317,
+  "max_position_error_degrees": 2.128128784306682e-10,
+  "max_ground_height_error_m": 7.6164128870459535e-06,
+  "gltf_validation_errors": 0,
+  "cesium_metadata_read_test": "passed",
+  "webgl_render_test": "not available in cloud browser"
+}

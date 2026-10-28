@@ -65,3 +65,7 @@ The archive's data description credits **© Statistische Ämter des Bundes und d
 The source uses Cell-Key confidentiality processing, so some published counts are perturbed. Missing cells can reflect non-residential areas or unpublished data and are not measured zeroes. This is a 2022 snapshot, not current population, household addresses or live occupancy.
 
 Each column symbol represents an original equal-area 1-km cell. Its 800 m display width is a graphic choice; population is not divided by that smaller footprint. Colour classes and heights encode counts; the height factor is cartographic, not a physical building height.
+
+## Mainz Stadtmitte tree candidates
+
+The hosted dataset in `docs/layers/mainz-trees/` was imported unchanged from the earlier tree-generation project, with both height variants and all nine spatial tiles. It contains 13,317 unverified candidates; 29 estimates above 30 m are flagged. It is not a municipal tree inventory. Credits: ©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL (boundary/building masks). Source rasters date from 2023/2024. Original data terms remain applicable alongside the wrapper’s MIT licence. See the [dataset README](layers/mainz-trees/README.md) for metadata, transformations, source URLs/hashes and stable endpoints.

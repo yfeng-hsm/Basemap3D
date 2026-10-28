@@ -109,3 +109,17 @@ Both notebooks include an Open in Colab badge and a conditional setup cell. It c
 ## Notebook display backends
 
 `m` and `m.show()` use Colab’s official kernel-port iframe proxy when running in Colab. The wrapper starts a scene-only in-memory HTML server automatically; no student server command is needed. A connected runtime is required, and the output must be rerun after a runtime restart. Local Jupyter uses an embedded srcdoc iframe. `m.save(...)` always writes the same standalone scene HTML. See [Colab instructions](COLAB.md).
+
+## Hosted 3D Tiles
+
+```python
+Tiles3D(url, name="3D Tiles", show=True, maximum_screen_space_error=12,
+        attribution="", popup=True, feature_id_label=None, require_terrain=False)
+TreeLayer(variant="uniform", show=True, maximum_screen_space_error=12, base_url=None)
+```
+
+Both support `.add_to(m)` and can coexist with other map layers. Additions accumulate without changing previous map copies. `Tiles3D` takes an HTTP(S) root tileset URL, preserves the tileset transforms and streams relative content URLs in the browser. It does not upload or reproject local models. Use `feature_id_label` when the source defines labelled instance features. `require_terrain=True` prevents loading if the scene cannot initialize its basemap.de DGM5 terrain.
+
+`TreeLayer` is the Mainz Stadtmitte preset, with `variant="uniform"` (15 m) or `"estimated"`. The German viewer selector can switch variants in place, replacing the old model; it also offers a checkbox and extent button. `base_url` overrides the dataset directory for self-hosting. The default is this project's public GitHub Pages dataset. The dataset is not included in the Python package. `m.save()` embeds the URL, not the downloaded GLBs.
+
+Feature popups display source metadata. Generic tilesets must provide supported feature metadata for picking; the tree preset uses the `tree` instance-feature label. The source data's licence and attribution must be supplied for generic services. [Tree dataset and limitations](layers/mainz-trees/README.md).

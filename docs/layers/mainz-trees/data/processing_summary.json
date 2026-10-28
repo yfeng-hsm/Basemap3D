@@ -1,0 +1,37 @@
+{
+  "selected_frame_area_km2": 9,
+  "mainz_area_inside_frame_km2": 8.039,
+  "candidate_tree_count": 13317,
+  "height_range_m": [
+    4.02,
+    38.33
+  ],
+  "height_over_30m_review_count": 29,
+  "building_footprints_used": 7500,
+  "tile_counts": {
+    "32_446_5539": 1449,
+    "32_447_5539": 918,
+    "32_448_5539": 54,
+    "32_448_5538": 694,
+    "32_446_5538": 2218,
+    "32_447_5538": 1617,
+    "32_446_5537": 1943,
+    "32_448_5537": 2311,
+    "32_447_5537": 2113
+  },
+  "method": {
+    "ndvi_min": 0.3,
+    "minimum_height_m": 4,
+    "minimum_crown_area_m2": 16,
+    "peak_spacing_m": 4,
+    "building_exclusion_buffer_m_approx": 1,
+    "height_estimation": "P99(pixelwise DOM1-DGM1)",
+    "municipal_mask": "OpenStreetMap Mainz relation 62630"
+  },
+  "limits": [
+    "Automatic candidates; not field-verified.",
+    "Closely spaced trees may merge or split.",
+    "OSM building omissions and crown overhangs can cause errors or omissions.",
+    "2023 elevation and 2024 imagery are not simultaneous."
+  ]
+}
