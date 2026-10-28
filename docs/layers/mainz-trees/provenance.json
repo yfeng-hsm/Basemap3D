@@ -12,14 +12,19 @@
     5540000
   ],
   "spatial_tiles": 9,
-  "candidate_count": 13317,
+  "candidate_count": 26849,
   "variants": [
     "uniform 15 m",
-    "estimated 4.02–38.33 m"
+    "estimated 3.00–39.22 m"
   ],
-  "review_over_30m": 29,
+  "review_over_30m": 48,
   "terrain_alignment": "Fixed model bases aligned to basemap.de DGM5 terrain; not runtime ground clamping.",
   "source_data": "RLP DOM1/DGM1 2023 and RGBI imagery 2024; OSM municipality/building masks. See data/input_manifest.json.",
   "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL",
-  "limitations": "Automatic candidates, not field-verified or a municipal tree inventory. 2023 elevation and 2024 imagery are not simultaneous."
+  "limitations": "Automatic candidates, not field-verified or a municipal tree inventory. 2023 elevation and 2024 imagery are not simultaneous.",
+  "configuration": "C_balanced",
+  "previous_commit": "99342f686067727cfdfe9f02cd7c812d6db577f4",
+  "source_commit_note": "source_commit identifies the earlier source project; current candidates reprocessed from the same rasters",
+  "crown_scaling": "Area-equivalent crown diameter independent of model height"
 }
+

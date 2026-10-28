@@ -138,7 +138,7 @@ Gallery rebuilding runs the notebook cells; the planning query may fetch OSM dat
 
 ## Hosted Mainz tree layer
 
-Basemap3D 0.4.0 adds `Tiles3D` for arbitrary hosted standard tilesets and `TreeLayer` as a preset for this project's **nine 1-km² tree tiles** (13,317 automatic candidates). No API key is required. The dataset is separate from the Python wheel.
+Basemap3D 0.4.0 adds `Tiles3D` for arbitrary hosted standard tilesets and `TreeLayer` as a preset for this project's **nine 1-km² tree tiles** (26,849 automatic candidates). No API key is required. The dataset is separate from the Python wheel.
 
 ```python
 from basemap3d import Map, TreeLayer
@@ -155,4 +155,5 @@ The viewer can switch to estimated height, hide the layer, fit its extent and sh
 
 **Estimated endpoint:** `https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset-estimated.json`
 
-The candidates are unverified; 29 height estimates above 30 m are flagged. Models have fixed base elevations aligned to basemap.de DGM5. Retain source credits; see the dataset documentation.
+The candidates are unverified; 48 height estimates above 30 m are flagged. Models have fixed base elevations aligned to basemap.de DGM5. Retain source credits; see the dataset documentation.
+

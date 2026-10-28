@@ -1,30 +1,33 @@
 {
   "selected_frame_area_km2": 9,
   "mainz_area_inside_frame_km2": 8.039,
-  "candidate_tree_count": 13317,
+  "candidate_tree_count": 26849,
   "height_range_m": [
-    4.02,
-    38.33
+    3.0,
+    39.22
   ],
-  "height_over_30m_review_count": 29,
+  "height_over_30m_review_count": 48,
   "building_footprints_used": 7500,
   "tile_counts": {
-    "32_446_5539": 1449,
-    "32_447_5539": 918,
-    "32_448_5539": 54,
-    "32_448_5538": 694,
-    "32_446_5538": 2218,
-    "32_447_5538": 1617,
-    "32_446_5537": 1943,
-    "32_448_5537": 2311,
-    "32_447_5537": 2113
+    "32_446_5539": 2988,
+    "32_447_5539": 1997,
+    "32_448_5539": 112,
+    "32_446_5538": 4378,
+    "32_448_5538": 1384,
+    "32_447_5538": 3268,
+    "32_446_5537": 4053,
+    "32_448_5537": 4594,
+    "32_447_5537": 4075
   },
   "method": {
-    "ndvi_min": 0.3,
-    "minimum_height_m": 4,
-    "minimum_crown_area_m2": 16,
-    "peak_spacing_m": 4,
-    "building_exclusion_buffer_m_approx": 1,
+    "ndvi_min": 0.25,
+    "minimum_height_m": 3,
+    "minimum_crown_area_m2": 8,
+    "peak_spacing_m": 2,
+    "building_exclusion_buffer_m_approx": 0,
+    "configuration": "C_balanced",
+    "mask_min_height_m": 2.5,
+    "smoothed_sigma_m": 0.6,
     "height_estimation": "P99(pixelwise DOM1-DGM1)",
     "municipal_mask": "OpenStreetMap Mainz relation 62630"
   },

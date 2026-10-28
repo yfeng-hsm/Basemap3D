@@ -1,9 +1,11 @@
 {
   "glb_files_validated": 36,
-  "trees_per_variant": 13317,
-  "max_position_error_degrees": 2.128128784306682e-10,
-  "max_ground_height_error_m": 7.6164128870459535e-06,
-  "gltf_validation_errors": 0,
-  "cesium_metadata_read_test": "passed",
-  "webgl_render_test": "not available in cloud browser"
+  "trees_per_variant": 26849,
+  "total_instances_two_variants": 53698,
+  "max_position_error_degrees": 2.12816431144347e-10,
+  "max_ground_height_error_m": 7.624575033560177e-06,
+  "all_gltf_validation_errors": 0,
+  "crown_dimensions": "Independent diameter and height verified for each instance at both LODs",
+  "browser_render": "Not verified in this run",
+  "station_diagnostic_window_count": 6
 }

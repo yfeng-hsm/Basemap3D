@@ -1,6 +1,6 @@
 # Mainz Stadtmitte trees · hosted 3D Tiles
 
-This static dataset contains **13,317 automatically detected candidate trees**, covering a 3 × 3 km processing frame split into **nine 1-km² tiles**. The Mainz municipal mask retains approximately 8.039 km² of that frame. This is not a verified municipal tree inventory.
+This static dataset contains **26,849 automatically detected candidate trees**, covering a 3 × 3 km processing frame split into **nine 1-km² tiles**. The Mainz municipal mask retains approximately 8.039 km² of that frame. This is not a verified municipal tree inventory.
 
 ## Stable endpoints
 
@@ -47,12 +47,17 @@ No API key or custom backend is required. HTTPS access and WebGL are required. T
 
 Preserve the tileset transforms. They convert the local instanced GLBs into earth-fixed coordinates; loading a GLB alone as an unreferenced model does not place it correctly. Base elevations are fixed to the basemap.de DGM5 terrain used during generation. Use that terrain service for the intended alignment; the preset refuses to load on the flat fallback if terrain initialization fails. Do not add the terrain elevation again or apply per-tree clamping.
 
-Uniform mode is a schematic **15 m** above each model base. Estimated mode uses the source height estimates **4.02–38.33 m**; **29 estimates above 30 m are flagged for review**. Trees are schematic models, not measured crown meshes. Both variants retain source-height metadata so changing their visual height does not change the observations. Automatic detection can miss, merge or split crowns and can confuse buildings or other vegetation with trees.
+Uniform mode is a schematic **15 m** above each model base. Estimated mode uses the source height estimates **3.00–39.22 m**; **48 estimates above 30 m are flagged for review**. Trees are schematic models, not measured crown meshes. Both variants retain source-height metadata so changing their visual height does not change the observations. Automatic detection can miss, merge or split crowns and can confuse buildings or other vegetation with trees.
 
-Feature metadata includes `tree_id`, `model_height_m`, `source_height_m`, `ground_height_m` and `needs_review`. Candidate points, review points, processing frame, OSM masks, input URLs/hashes and original processing/validation summaries are in `data/`. The original validation summary describes source-generation checks; it is not proof of a new browser render in every environment. `manifest.sha256.json` records the unmodified imported source files, and `provenance.json` records this migration.
+Feature metadata includes `crown_diameter_m`, `tree_id`, `model_height_m`, `source_height_m`, `ground_height_m` and `needs_review`. Candidate points, review points, processing frame, OSM masks, input URLs/hashes and original processing/validation summaries are in `data/`. The original validation summary describes source-generation checks; it is not proof of a new browser render in every environment. `manifest.sha256.json` records the current layer files, and `provenance.json` records this migration.
 
 ## Attribution and source rights
 
 **©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL (municipal boundary and building masks).**
 
 Source rasters: RLP DOM1/DGM1 2023 and RGBI orthophotography 2024. Modification: automatic crown candidate extraction, height estimation, masking, schematic tree model generation, DGM5 alignment and spatial/LOD tiling. Preserve attribution and the modification note when redistributing. The wrapper's MIT licence does not replace the source-data terms. See `data/input_manifest.json`, `data/processing_summary.json` and the project [data documentation](https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/docs/DATA.md).
+
+## C configuration update (2026-10-28)
+
+Reprocessed the full original frame using C_balanced: NDVI > 0.25; initial height mask > 2.5 m, post-closing mask > 2 m; accepted P99 height 3–40 m; minimum segmented crown area 8 m²; peak spacing 2 m; Gaussian sigma 0.6 m; building footprints excluded without an extra buffer. Crown diameter is 2√(segmented area/π), independently scaled from tree height in both height modes and both LODs. These additional detections include recovered small crowns and possible oversegmentation, not a measured increase in true tree count. Candidate IDs have been regenerated and should not be joined to previous IDs. Reproduction scripts are in `processing-scripts/`.
+

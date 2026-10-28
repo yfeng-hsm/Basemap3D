@@ -219,4 +219,5 @@ class TreeLayer(Tiles3D):
                          attribution=self.ATTRIBUTION, popup=True, feature_id_label="tree",
                          require_terrain=True)
         self.options.update(variants=urls, variant=variant,
-                            note="13.317 Kandidaten · 9 × 1 km² · 29 Höhenwerte über 30 m bitte prüfen.")
+                            note="26.849 Kandidaten · 9 × 1 km² · 48 Höhenwerte über 30 m bitte prüfen.")
+
