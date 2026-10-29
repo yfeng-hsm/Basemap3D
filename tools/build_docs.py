@@ -88,17 +88,6 @@ m = Map(location=[52.51, 13.39], buildings=False,
 BarLayer("data/berlin_population_1km.csv",
          height_scale=0.06, bar_width_m=800).add_to(m)
 m''','population_berlin.html','Column heights use a thematic scale. Find the data and complete notebook in the repository.')
-add('population-context','Extra · Berlin base map','The starting map for the population example, with buildings and columns disabled.',['Map'],'''from basemap3d import Map
-
-m = Map(location=[52.51, 13.39], buildings=False,
-        distance_m=34000, heading=0, pitch=-65)
-m''','population_context.html','Add BarLayer to display population values.')
-add('trees-only','Extra · Trees & imagery','A compact scene with buildings, aerial imagery and estimated 3D trees.',['Map','WmsTileLayer','TreeLayer'],'''from basemap3d import Map, WmsTileLayer, TreeLayer
-
-m = Map(location=[49.99892, 8.27412], zoom_start=16)
-WmsTileLayer(opacity=0.7).add_to(m)
-TreeLayer().add_to(m)
-m''','mainz_trees.html','Estimated trees and heights for visualization; not a precise survey.')
 (d/'examples/index.html').write_text(head('Examples','../')+nav('../','examples')+'''<main class="shell"><div class="sectionbar"><div><div class="eyebrow">Step by step</div><h1 style="font-size:34px;margin-bottom:0">Examples</h1></div><select id="example-select" aria-label="Choose an example">'''+''.join(f'<option value="{x["id"]}">{html.escape(x["title"])}</option>' for x in items)+'''</select></div><div class="steps" aria-label="Learning sequence">'''+''.join(f'<a href="#{x["id"]}" data-step="{x["id"]}">{i+1} · {name}</a>' for i,(x,name) in enumerate(zip(items[:6],['Map','Raster / WMS','Polygons','Query','Trees','Shadows'])))+'''<a href="#complete" data-step="complete">Complete ↗</a></div>'''+bench(items[0]['title'],items[0]['description'],items[0]['modules'],items[0]['code'],items[0]['file'])+'''<div class="below"><span>Each example includes the complete code for its combination.</span><a id="notebook" href="https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_3D_5_Tasks.ipynb" target="_blank" rel="noopener">Notebook in Colab ↗</a></div></main>'''+footer+'<script>const examples='+json.dumps(items,ensure_ascii=False)+''';
 function show(){const id=location.hash.slice(1)||'map';const x=examples.find(e=>e.id===id)||examples[0];document.getElementById('example-select').value=x.id;document.getElementById('example-title').textContent=x.title;document.getElementById('example-description').textContent=x.description;document.getElementById('example-note').textContent=x.note;document.getElementById('code').textContent=x.code;document.getElementById('modules').replaceChildren(...x.modules.map(m=>{const span=document.createElement('span');span.className='chip';span.textContent=m;return span;}));const f=document.getElementById('result');if(f.getAttribute('src')!==x.file)f.src=x.file;document.getElementById('result-link').href=x.file;document.querySelectorAll('[data-step]').forEach(a=>a.setAttribute('aria-current',String(a.dataset.step===x.id)));document.getElementById('copy').textContent='Copy code';const nb=x.id==='impervious'?'Impervious_Surface.ipynb':x.id.startsWith('population')?'Population_3D_Columns.ipynb':x.id==='trees-only'?'Mainz_Trees_3D.ipynb':'Mainz_Modules.ipynb';document.getElementById('notebook').href='https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/'+nb;}
 document.getElementById('example-select').onchange=e=>location.hash=e.target.value;window.addEventListener('hashchange',show);show();'''+copyjs+'</script></body></html>')
@@ -119,7 +108,7 @@ m</pre><p class="note">TreeLayer provides estimated trees for the Mainz study ar
 <section class="start-card"><h2>4. Save and open a webpage</h2><p>Export the scene from your notebook or Python script:</p><pre>m.save("results/map.html")</pre><p>From the repository folder, start a local web server:</p><pre>python -m http.server 8000</pre><p>Open <a href="http://localhost:8000/results/map.html"><code>http://localhost:8000/results/map.html</code></a> in your browser. VS Code Live Server / Go Live also works. Keep the server running while viewing the map; online map services are still required.</p><p class="note">In Colab, view maps directly below the notebook cells. Download a saved HTML file if you want to host or share it later.</p></section>
 <div class="actions"><a class="button primary" href="examples/">Build step by step →</a><a class="button" href="https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/docs/API.md">Read the API ↗</a></div></main>'''+footer+'</body></html>')
 # Keep previous public entry points as bookmarks into the unified examples.
-for name,target in [('beispiele.html','map'),('trees.html','trees-only'),('population.html','population')]:
+for name,target in [('beispiele.html','map'),('trees.html','trees'),('population.html','population')]:
  (d/name).write_text('<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=examples/#'+target+'"><title>Examples · Basemap3D</title></head><body><a href="examples/#'+target+'">Open example →</a></body></html>')
 
 old=json.loads((r/'Mainz_Trees_3D.ipynb').read_text());cells=old['cells'][:2]

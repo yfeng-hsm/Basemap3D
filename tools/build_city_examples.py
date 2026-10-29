@@ -29,7 +29,7 @@ def main():
   variants.append(dict(id=s['kind'],city=s['city'],title=('Mesh models' if s['kind']=='mesh' else 'LoD3 buildings')+' · '+s['city'],description='Stream external 3D Tiles with the same Tiles3D interface. Switch the city or viewpoint to update the scene and Python code.',modules=['Map','Tiles3D'],code=code,file=filename,note=s['note']))
  path=target/'index.html';page=path.read_text()
  start=page.index('const examples=')+len('const examples=');items,end=json.JSONDecoder().raw_decode(page[start:]);end+=start
- items=[x for x in items if x['id'] not in ('mesh','lod3')]
+ items=[x for x in items if x['id'] not in ('mesh','lod3','population-context','trees-only')]
  items[1:1]=[next(x for x in variants if x['id']==kind) for kind in ('mesh','lod3')]
  numbers={'map':1,'mesh':2,'lod3':3,'imagery':4,'vectors':5,'query':6,'trees':7,'shadows':8}
  import re
