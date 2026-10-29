@@ -1,9 +1,18 @@
 {
-  "glb_files_validated": 36,
-  "trees_per_variant": 13317,
-  "max_position_error_degrees": 2.128128784306682e-10,
-  "max_ground_height_error_m": 7.6164128870459535e-06,
+  "glb_files_validated": 54,
+  "trees": 40482,
+  "spatial_cells": 28,
+  "nonempty_cells": 27,
+  "max_position_error_degrees": 2.1288926177476242e-10,
+  "max_ground_height_error_m": 1.5127904703149397e-05,
   "gltf_validation_errors": 0,
-  "cesium_metadata_read_test": "passed",
-  "webgl_render_test": "not available in cloud browser"
+  "gltf_validation_warnings": 0,
+  "terrain": {
+    "terrain_tiles": 305,
+    "level": 16,
+    "sample_count": 27165,
+    "original_reference_check_max_error_m": 4.8085329723335235e-05,
+    "method": "Cesium-compatible heightmap-1.0 triangle interpolation; heightScale=0.2, heightOffset=-1000"
+  },
+  "height_mode": "estimated_only"
 }

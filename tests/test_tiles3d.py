@@ -23,12 +23,12 @@ class HostedTilesTest(TestCase):
         self.assertNotIn(str(DATA),second._render())
 
     def test_presets_and_input_validation(self):
-        self.assertTrue(TreeLayer(variant='estimated').options['url'].endswith('/tileset-estimated.json'))
+        self.assertTrue(TreeLayer().options['url'].endswith('/tileset-estimated.json'))
         self.assertTrue(TreeLayer().options['require_terrain'])
         self.assertEqual(TreeLayer().options['feature_id_label'],'tree')
         for bad in ('file:///tmp/model.glb','data:text/html,hello','https://secret:password@example.org/tileset.json'):
             with self.assertRaises(ValueError):Tiles3D(bad)
-        with self.assertRaises(ValueError):TreeLayer(variant='unknown')
+        with self.assertRaises(TypeError):TreeLayer(variant='uniform')
         with self.assertRaises(ValueError):Tiles3D('https://example.org/tileset.json',maximum_screen_space_error=float('nan'))
 
     def test_imported_files_match_the_source_checksums(self):
@@ -36,13 +36,16 @@ class HostedTilesTest(TestCase):
         for name,sha in checks.items():
             self.assertEqual(hashlib.sha256((DATA/name).read_bytes()).hexdigest(),sha,name)
 
-    def test_both_variants_have_nine_complete_georeferenced_tiles(self):
-        for filename,variant in [('tileset.json','uniform'),('tileset-estimated.json','estimated')]:
+    def test_estimated_endpoints_have_28_georeferenced_cells(self):
+        for filename,variant in [('tileset.json','estimated'),('tileset-estimated.json','estimated')]:
             tileset=json.loads((DATA/filename).read_text())
             self.assertEqual(tileset['asset']['version'],'1.1')
-            self.assertEqual(tileset['asset']['extras']['candidate_tree_count'],13317)
-            self.assertEqual(len(tileset['root']['children']),9)
+            self.assertEqual(tileset['asset']['extras']['candidate_tree_count'],40482)
+            self.assertEqual(len(tileset['root']['children']),28)
             for tile in tileset['root']['children']:
+                if 'content' not in tile:
+                    self.assertEqual(tile['extras']['candidate_count'],0)
+                    continue
                 self.assertEqual(len(tile['transform']),16)
                 self.assertEqual(tile['refine'],'REPLACE')
                 for lod in [tile,*tile['children']]:
@@ -58,10 +61,15 @@ class HostedTilesTest(TestCase):
 
     def test_candidates_are_unique_and_review_flags_are_preserved(self):
         features=json.loads((DATA/'data/tree_points.geojson').read_text())['features']
-        self.assertEqual(len(features),13317)
-        self.assertEqual(len({f['properties']['tree_id'] for f in features}),13317)
+        self.assertEqual(len(features),40482)
+        self.assertEqual(len({f['properties']['tree_id'] for f in features}),40482)
         summary=json.loads((DATA/'data/processing_summary.json').read_text())
-        self.assertEqual(len(summary['tile_counts']),9)
-        self.assertEqual(sum(summary['tile_counts'].values()),13317)
+        self.assertEqual(len(summary['tile_counts']),28)
+        self.assertEqual(sum(summary['tile_counts'].values()),40482)
         review=json.loads((DATA/'data/review_points.geojson').read_text())['features']
-        self.assertEqual(len(review),29)
+        self.assertEqual(len(review),109)
+
+    def test_fixed_height_files_are_removed(self):
+        self.assertFalse((DATA/'tiles/uniform').exists())
+        self.assertEqual(len(list((DATA/'tiles/estimated').glob('*.glb'))),54)
+        self.assertEqual((DATA/'tileset.json').read_bytes(),(DATA/'tileset-estimated.json').read_bytes())

@@ -28,6 +28,30 @@ def _geojson(path):
     if data.get("type") != "FeatureCollection" or not data.get("features"):
         raise ValueError(f"{target.name} must be a non-empty FeatureCollection.")
 
+    declaration = data.get("crs")
+    if declaration:
+        from pyproj import CRS, Transformer
+        props = declaration.get("properties", {}) if isinstance(declaration, dict) else {}
+        source = (declaration if isinstance(declaration, str) else
+                  props.get("name") or props.get("href") or props.get("proj4") or props.get("wkt") or
+                  ("EPSG:" + str(props["code"]) if "code" in props else None))
+        if not source:
+            raise ValueError("GeoJSON CRS must declare an EPSG code, WKT or PROJ definition.")
+        try:
+            transformer = Transformer.from_crs(CRS.from_user_input(source), "EPSG:4326", always_xy=True)
+            def convert(coords):
+                if isinstance(coords[0], (int, float)):
+                    x, y = transformer.transform(coords[0], coords[1], errcheck=True)
+                    return [x, y, *coords[2:]]
+                return [convert(part) for part in coords]
+            for feature in data["features"]:
+                feature["geometry"]["coordinates"] = convert(feature["geometry"]["coordinates"])
+                feature.pop("bbox", None)
+            data.pop("crs", None)
+            data.pop("bbox", None)
+        except Exception as exc:
+            raise ValueError("Could not transform the declared GeoJSON CRS to WGS84.") from exc
+
     def check_coordinates(coords):
         if not isinstance(coords, list) or not coords:
             raise ValueError("Geometry coordinates must not be empty.")
@@ -52,7 +76,7 @@ def _geojson(path):
         props = feature.setdefault("properties", {})
         if props is None:
             props = feature["properties"] = {}
-        props.setdefault("name", f"Fläche {i + 1}")
+        props.setdefault("name", str(props.get("Name") or props.get("NAME") or props.get("Bezeichnung") or props.get("label") or feature.get("id") or f"Objekt {i + 1}"))
         props.setdefault("color", palette[i % len(palette)])
     return data
 

@@ -1,25 +1,21 @@
 {
-  "dataset": "Mainz Stadtmitte tree candidates",
-  "source_site": "https://mainz-tree-viewer-yufeng.genialchord2049.chatgpt.site/stadtmitte/",
-  "source_commit": "eeb2721591eae19ab4bdafbf1c0f5ebf7e380cce",
-  "published_for": "GISProjekt26_HS_Mainz / Basemap3D",
-  "date": "2026-10-28",
+  "dataset": "Mainz estimated-height tree candidates · 7 × 4 km",
+  "date": "2026-10-29",
   "processing_frame_crs": "EPSG:25832",
   "processing_bounds": [
-    446000,
+    442000,
     5537000,
     449000,
-    5540000
+    5541000
   ],
-  "spatial_tiles": 9,
-  "candidate_count": 13317,
-  "variants": [
-    "uniform 15 m",
-    "estimated 4.02–38.33 m"
-  ],
-  "review_over_30m": 29,
-  "terrain_alignment": "Fixed model bases aligned to basemap.de DGM5 terrain; not runtime ground clamping.",
-  "source_data": "RLP DOM1/DGM1 2023 and RGBI imagery 2024; OSM municipality/building masks. See data/input_manifest.json.",
+  "spatial_tiles": 28,
+  "candidate_count": 40482,
+  "height_mode": "estimated",
+  "retained_original_candidates": 13317,
+  "added_candidates": 27165,
+  "terrain_alignment": "Fixed model bases aligned to basemap.de DGM5 level 16 using Cesium-compatible triangle interpolation.",
+  "source_data": "RLP DOM1/DGM1 2023, RGBI orthophotos 2024; OSM building and Mainz municipality masks.",
   "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL",
-  "limitations": "Automatic candidates, not field-verified or a municipal tree inventory. 2023 elevation and 2024 imagery are not simultaneous."
+  "original_source_commit": "eeb2721591eae19ab4bdafbf1c0f5ebf7e380cce",
+  "municipal_mask_retained": true
 }

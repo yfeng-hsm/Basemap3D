@@ -68,4 +68,8 @@ Each column symbol represents an original equal-area 1-km cell. Its 800 m displa
 
 ## Mainz Stadtmitte tree candidates
 
-The hosted dataset in `docs/layers/mainz-trees/` was imported unchanged from the earlier tree-generation project, with both height variants and all nine spatial tiles. It contains 13,317 unverified candidates; 29 estimates above 30 m are flagged. It is not a municipal tree inventory. Credits: ©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL (boundary/building masks). Source rasters date from 2023/2024. Original data terms remain applicable alongside the wrapper’s MIT licence. See the [dataset README](layers/mainz-trees/README.md) for metadata, transformations, source URLs/hashes and stable endpoints.
+The estimated-height tree dataset in `docs/layers/mainz-trees/` covers a 7 × 4 km frame (EPSG:25832: [442000, 5537000, 449000, 5541000]). It retains 13,317 original candidates and adds 27,165, for 40,482 total. The Mainz municipal mask covers 25.2651 km² inside the frame; the northeast cell has no Mainz area. Heights use P99(DOM1−DGM1); bases align to basemap.de DGM5. The fixed 15 m variant is removed. Credits: ©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL. See the [dataset README](layers/mainz-trees/README.md).
+
+## Impervious-surface WMS example
+
+Copernicus Land Monitoring Service, Imperviousness Density 2024, 10 m raster, released 2026. Data values are estimated artificial sealing per pixel, 0–100%; 255 is outside the dataset area. © European Union, Copernicus Land Monitoring Service. Source and terms: https://doi.org/10.2909/f0bcb6f0-d775-4218-bec1-13adea01ff8f . WMS listed by the official metadata: https://geoserver.geoville.com/geoserver/nvlcc_2024/wms . Layer: HRL_NVLCC_IMD_2024_10m.

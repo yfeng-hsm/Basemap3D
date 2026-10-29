@@ -115,11 +115,23 @@ Both notebooks include an Open in Colab badge and a conditional setup cell. It c
 ```python
 Tiles3D(url, name="3D Tiles", show=True, maximum_screen_space_error=12,
         attribution="", popup=True, feature_id_label=None, require_terrain=False)
-TreeLayer(variant="uniform", show=True, maximum_screen_space_error=12, base_url=None)
+TreeLayer(show=True, maximum_screen_space_error=12, base_url=None)
 ```
 
 Both support `.add_to(m)` and can coexist with other map layers. Additions accumulate without changing previous map copies. `Tiles3D` takes an HTTP(S) root tileset URL, preserves the tileset transforms and streams relative content URLs in the browser. It does not upload or reproject local models. Use `feature_id_label` when the source defines labelled instance features. `require_terrain=True` prevents loading if the scene cannot initialize its basemap.de DGM5 terrain.
 
-`TreeLayer` is the Mainz Stadtmitte preset, with `variant="uniform"` (15 m) or `"estimated"`. The German viewer selector can switch variants in place, replacing the old model; it also offers a checkbox and extent button. `base_url` overrides the dataset directory for self-hosting. The default is this project's public GitHub Pages dataset. The dataset is not included in the Python package. `m.save()` embeds the URL, not the downloaded GLBs.
+`TreeLayer` loads estimated-height trees for the 7 × 4 km Mainz frame (28 cells; one outside-mask cell is empty). Fixed heights and height-mode selection have been removed. The viewer offers visibility, extent and feature selection. `base_url` overrides the dataset directory. `m.save()` embeds hosted model URLs; gallery pages reference their adjacent dataset for self-hosted previews.
 
 Feature popups display source metadata. Generic tilesets must provide supported feature metadata for picking; the tree preset uses the `tree` instance-feature label. The source data's licence and attribution must be supplied for generic services. [Tree dataset and limitations](layers/mainz-trees/README.md).
+
+## GeoJSON CRS and object lists
+
+`GeoJson(path)` accepts WGS84 longitude/latitude coordinates by default. A GeoJSON `crs` declaration (EPSG name/URN, WKT or PROJ definition) is transformed to WGS84 before rendering and spatial queries, using pyproj. The browser replacement upload uses Proj4js; common CRS definitions are included and other EPSG definitions are resolved online. Unsupported declarations fail without replacing the current layer.
+
+The initial parking dataset is a single GeoJSON layer containing five objects. A browser upload replaces all its features and uses the filename as the layer label. Object names are read from common name fields, then ID or an automatic label. All accepted geometry is loaded onto the map; the list starts at 50 entries and Load more appends the next 50. Identically named objects retain independent selection. Browser uploads accept Polygon/MultiPolygon features, up to 5 MB and 20,000 coordinate vertices; the building downloader retains its 4 km² extent limit.
+
+## Independent WMS raster layers
+
+`WmsTileLayer(url, layers, opacity=0.8, *, name=None, attribution=None, description=None, styles="", format="image/png", transparent=True, version="1.1.1", crs="EPSG:4326", bounds=None, show=True, legend_url=None)` adds one independent raster overlay. Multiple calls accumulate layers, each with its own visibility and opacity control. `bounds` is optional and uses [west, south, east, north] in degrees; custom services have no fixed Mainz or RLP extent. Supported request CRS values are EPSG:4326 and EPSG:3857, using WMS 1.1.1. The service must allow cross-origin browser access. Add custom attribution and an optional GetLegendGraphic URL for thematic data. Calling without arguments retains the RLP DOP20 preset.
+
+See the impervious-surface example: `Impervious_Surface.ipynb` and `examples/impervious_surface.html`. This combines DOP20 aerial imagery and the Copernicus Land Monitoring Service IMD 2024 WMS at 10 m resolution. Data values are 0–100% estimated artificial sealing per cell; layer opacity is an independent display setting. The endpoint is `https://geoserver.geoville.com/geoserver/nvlcc_2024/wms`, layer `HRL_NVLCC_IMD_2024_10m`. Source: https://doi.org/10.2909/f0bcb6f0-d775-4218-bec1-13adea01ff8f .

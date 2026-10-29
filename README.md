@@ -138,12 +138,12 @@ Gallery rebuilding runs the notebook cells; the planning query may fetch OSM dat
 
 ## Hosted Mainz tree layer
 
-Basemap3D 0.4.0 adds `Tiles3D` for arbitrary hosted standard tilesets and `TreeLayer` as a preset for this project's **nine 1-km² tree tiles** (13,317 automatic candidates). No API key is required. The dataset is separate from the Python wheel.
+Basemap3D 0.4.0 adds `Tiles3D` for arbitrary hosted standard tilesets and `TreeLayer` as a preset for this project's **7 × 4 km processing frame** (28 spatial cells; 40,482 automatic candidates). No API key is required. The dataset is separate from the Python wheel.
 
 ```python
 from basemap3d import Map, TreeLayer
 m = Map(location=[49.99892, 8.27412], zoom_start=16)
-TreeLayer(variant="uniform").add_to(m)
+TreeLayer().add_to(m)
 m
 ```
 
@@ -151,7 +151,7 @@ The viewer can switch to estimated height, hide the layer, fit its extent and sh
 
 [German case study](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/trees.html) · [Tree notebook](Mainz_Trees_3D.ipynb) · [Open in Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_Trees_3D.ipynb) · [Layer documentation](docs/layers/mainz-trees/README.md)
 
-**Uniform endpoint:** `https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset.json`
+**Estimated-height endpoint:** `https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset.json`
 
 **Estimated endpoint:** `https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset-estimated.json`
 

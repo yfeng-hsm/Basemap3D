@@ -9,7 +9,7 @@ description = "A Folium-style Python wrapper for basemap.de 3D maps and thematic
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
-dependencies = ["shapely>=2,<3"]
+dependencies = ["shapely>=2,<3", "pyproj>=3.6,<4"]
 
 [project.optional-dependencies]
 notebook = ["jupyterlab>=4,<5", "ipython>=8,<10"]

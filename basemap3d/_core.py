@@ -85,24 +85,55 @@ class Map:
 
 
 class WmsTileLayer:
-    """Add the course's RLP DOP20 WMS raster overlay on top of the basemap."""
+    """Add an independently controlled WMS raster overlay.
+
+    The default is RLP DOP20 imagery. Custom services supply their own layer
+    name, attribution and optional geographic bounds (west, south, east, north).
+    Services must support WMS 1.1.1 with EPSG:4326 or EPSG:3857 and browser CORS.
+    """
 
     def __init__(self, url="https://geo4.service24.rlp.de/wms/rp_dop20.fcgi",
-                 layers="rp_dop20", opacity=0.8):
-        if not url.startswith("https://") or not layers:
-            raise ValueError("Provide an HTTPS WMS URL and a non-empty layer name.")
-        if not 0 <= opacity <= 1:
+                 layers="rp_dop20", opacity=0.8, *, name=None, attribution=None,
+                 description=None, styles="", format="image/png", transparent=True,
+                 version="1.1.1", crs="EPSG:4326", bounds=None, show=True,
+                 legend_url=None):
+        from urllib.parse import urlsplit
+        parsed = urlsplit(str(url))
+        if parsed.scheme != "https" or not parsed.netloc or parsed.username or parsed.password or not layers:
+            raise ValueError("Provide an HTTPS WMS URL without credentials and a non-empty layer name.")
+        if not math.isfinite(opacity) or not 0 <= opacity <= 1:
             raise ValueError("opacity must be between 0 and 1.")
-        self.options = dict(raster_url=url, raster_layer=layers, raster_opacity=opacity,
-                            basemap="aerial", has_raster=True)
+        if version != "1.1.1" or crs not in ("EPSG:4326", "EPSG:3857"):
+            raise ValueError("Use WMS 1.1.1 with crs='EPSG:4326' or 'EPSG:3857'.")
+        if bounds is not None:
+            if (len(bounds) != 4 or not all(math.isfinite(v) for v in bounds) or
+                not -180 <= bounds[0] < bounds[2] <= 180 or
+                not -90 <= bounds[1] < bounds[3] <= 90):
+                raise ValueError("bounds must be [west, south, east, north] in geographic degrees.")
+        if legend_url and not str(legend_url).startswith("https://"):
+            raise ValueError("legend_url must use HTTPS.")
+        default = url == "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi" and layers == "rp_dop20"
+        self.options = dict(url=str(url), layers=str(layers), opacity=opacity,
+                            name=str(name or ("Luftbild" if default else layers)),
+                            attribution=str(attribution if attribution is not None else
+                                ("©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0" if default else "")),
+                            description=str(description if description is not None else
+                                ("DOP20-Luftbild · LVermGeo Rheinland-Pfalz." if default else "WMS-Rasterlayer")),
+                            styles=str(styles), format=str(format), transparent=bool(transparent),
+                            version=version, crs=crs, bounds=list(bounds) if bounds else None,
+                            show=bool(show), legend_url=legend_url)
 
     def add_to(self, m):
-        m._update(2, **self.options)
+        layers=deepcopy(m._config.get("raster_layers", []))
+        layers.append(deepcopy(self.options))
+        m._update(2, raster_layers=layers, has_raster=True,
+                  raster_url=self.options["url"], raster_layer=self.options["layers"],
+                  raster_opacity=self.options["opacity"], basemap="aerial")
         return self
 
 
 class GeoJson:
-    """Add a local WGS84 polygon file. GeoJSON uses [longitude, latitude]."""
+    """Add polygons in WGS84, or transform a GeoJSON-declared CRS to WGS84."""
 
     def __init__(self, data, *, fill_opacity=0.25, popup=False):
         if not 0 <= fill_opacity <= 1:
@@ -112,7 +143,7 @@ class GeoJson:
         self.popup = bool(popup)
 
     def add_to(self, m):
-        m._update(3, vector_file=self.path, has_vector=True, opacity=self.opacity,
+        m._update(3, vector_file=self.path, vector_layer_name=("Parkplätze · GeoJSON" if Path(self.path).name == "parking.geojson" else Path(self.path).name), has_vector=True, opacity=self.opacity,
                   popup_enabled=self.popup or m._config["popup_enabled"])
         return self
 
@@ -199,24 +230,18 @@ class Tiles3D:
 
 
 class TreeLayer(Tiles3D):
-    """Mainz Stadtmitte preset: nine 1-km tiles, uniform or estimated tree height.
+    """Mainz estimated-height trees: 7 × 4 km, 28 grid cells.
 
     Automatically detected candidates, not a verified municipal tree inventory.
-    The model bases are fixed to basemap.de DGM5 terrain, not clamped at runtime.
+    Model bases are fixed to basemap.de DGM5 terrain. Fixed heights are removed.
     """
 
     BASE_URL="https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees"
     ATTRIBUTION="©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL"
 
-    def __init__(self, *, variant="uniform", show=True, maximum_screen_space_error=12,
-                 base_url=None):
-        if variant not in ("uniform", "estimated"):
-            raise ValueError("variant must be 'uniform' or 'estimated'.")
+    def __init__(self, *, show=True, maximum_screen_space_error=12, base_url=None):
         base=(self.BASE_URL if base_url is None else str(base_url)).rstrip("/")
-        urls={"uniform":base+"/tileset.json", "estimated":base+"/tileset-estimated.json"}
-        super().__init__(urls[variant], name="Bäume · Mainz Stadtmitte", show=show,
+        super().__init__(base+"/tileset-estimated.json", name="3D Bäume", show=show,
                          maximum_screen_space_error=maximum_screen_space_error,
                          attribution=self.ATTRIBUTION, popup=True, feature_id_label="tree",
                          require_terrain=True)
-        self.options.update(variants=urls, variant=variant,
-                            note="13.317 Kandidaten · 9 × 1 km² · 29 Höhenwerte über 30 m bitte prüfen.")

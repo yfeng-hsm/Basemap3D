@@ -14,3 +14,5 @@ The MIT licence in `LICENSE` applies to the original wrapper, documentation and 
 ## Mainz Stadtmitte tree candidates
 
 The hosted dataset in `docs/layers/mainz-trees/` was imported unchanged from the earlier tree-generation project, with both height variants and all nine spatial tiles. It contains 13,317 unverified candidates; 29 estimates above 30 m are flagged. It is not a municipal tree inventory. Credits: ©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL (boundary/building masks). Source rasters date from 2023/2024. Original data terms remain applicable alongside the wrapper’s MIT licence. See the [dataset README](docs/layers/mainz-trees/README.md) for metadata, transformations, source URLs/hashes and stable endpoints.
+
+Browser CRS transformations load Proj4js 2.22.0 (MIT) from jsDelivr when needed. Project: https://github.com/proj4js/proj4js . Additional EPSG definitions may be retrieved from epsg.io. Python CRS transformations use pyproj (MIT).
