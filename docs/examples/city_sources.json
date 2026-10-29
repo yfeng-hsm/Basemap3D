@@ -58,5 +58,53 @@
     "url": "https://www.daten-hamburg.de/gdi3d/datasource-data/LoD3_tex20cm/tileset.json",
     "credit": "Freie und Hansestadt Hamburg · Landesbetrieb Geoinformation und Vermessung · dl-de/by-2-0",
     "note": "Same LoD3.0-HH service, Harburg viewpoint. DL-DE/BY-2.0."
+  },
+  {
+    "id": "potsdam-mesh",
+    "kind": "mesh",
+    "city": "Potsdam",
+    "location": [
+      52.399,
+      13.057
+    ],
+    "url": "https://isk.geobasis-bb.de/geodienste/lgb/3d_sentinel/3dmeshes/potsdam10d/3d_tiles/tileset.json",
+    "credit": "© GeoBasis-DE/LGB · dl-de/by-2-0",
+    "note": "Photogrammetric mesh from the official Brandenburg 3D Tiles service. DL-DE/BY-2.0. Acquisition dates vary by survey block."
+  },
+  {
+    "id": "cottbus-mesh",
+    "kind": "mesh",
+    "city": "Cottbus",
+    "location": [
+      51.76,
+      14.334
+    ],
+    "url": "https://isk.geobasis-bb.de/geodienste/lgb/3d_sentinel/3dmeshes/cottbus20d/3d_tiles/tileset.json",
+    "credit": "© GeoBasis-DE/LGB · dl-de/by-2-0",
+    "note": "Photogrammetric mesh from the official Brandenburg 3D Tiles service. DL-DE/BY-2.0. Acquisition dates vary by survey block."
+  },
+  {
+    "id": "hamburg-lod3-plain",
+    "kind": "lod3",
+    "city": "Hamburg · Untextured LoD3",
+    "location": [
+      53.55,
+      9.995
+    ],
+    "url": "https://www.daten-hamburg.de/gdi3d/datasource-data/LoD3_untexturiert/tileset.json",
+    "credit": "Freie und Hansestadt Hamburg · Landesbetrieb Geoinformation und Vermessung · dl-de/by-2-0",
+    "note": "Official untextured LoD3.0-HH, for comparing detailed geometry with the textured service. DL-DE/BY-2.0."
+  },
+  {
+    "id": "koblenz-lod3",
+    "kind": "lod3",
+    "city": "Koblenz · Detailed models",
+    "location": [
+      50.36,
+      7.6
+    ],
+    "url": "https://dz.koblenz.de/assets/tileset_lod3_3d/tileset.json",
+    "credit": "Stadt Koblenz · GeoPortal Koblenz",
+    "note": "Selected detailed models from the official viewer layer labelled LoD3; not a complete citywide LoD3 dataset. Third-party republication permission must be confirmed."
   }
 ]
