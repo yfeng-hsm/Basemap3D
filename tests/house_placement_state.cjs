@@ -37,7 +37,7 @@ el('confirm').onclick();assert([...entities].every(e=>e.polygon.material.color!=
 // Switching back to a building must not recolor the confirmed grass.
 templateButtons[0].onclick();assert.equal([...entities][0].polygon.material.color,'#69994d');
 el('undo').onclick();assert.equal(entities.size,0);
-el('scale').value='200';el('larger').onclick();assert.equal(el('scale').value,'200');
-el('scale').value='50';el('smaller').onclick();assert.equal(el('scale').value,'50');
+el('scale').value='500';el('larger').onclick();assert.equal(el('scale').value,'500');
+el('scale').value='80';el('smaller').onclick();assert.equal(el('scale').value,'80');
 context.setupHousePlacement(viewer,false);el('start').onclick();assert.equal(viewer.placeHouseAt({}),false);
 console.log('Placement state checks passed: pictured building/grass picker, grass terrain draping and preserved colors, scale bounds, scale-before-rotation geometry, confirm, cancel, undo, missed ground and unavailable terrain.');

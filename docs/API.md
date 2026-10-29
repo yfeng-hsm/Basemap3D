@@ -146,6 +146,6 @@ HousePlacement().add_to(m)
 m
 ```
 
-`HousePlacement()` adds flat-roof (16 × 12 × 9 m), gable-roof (12 × 9 m, 6 m walls + 3 m roof) hip-roof (14 × 10 m, 6 m walls + 3 m roof) templates, and a green grass patch (12 × 8 m, tufts up to 0.45 m). Buildings are yellow; the grass patch follows terrain, with schematic low tufts. Choose a template, click **Choose location**, then click open ground to preview it. Adjust uniform scale (50–200%) before rotation, then confirm, cancel or undo the last placed building. Click Choose location again to move a preview.
+`HousePlacement()` adds flat-roof (16 × 12 × 9 m), gable-roof (12 × 9 m, 6 m walls + 3 m roof) hip-roof (14 × 10 m, 6 m walls + 3 m roof) templates, and a green grass patch (12 × 8 m, tufts up to 0.45 m). Buildings are yellow; the grass patch follows terrain, with schematic low tufts. Choose a template, click **Choose location**, then click open ground to preview it. Adjust uniform scale (80–500%) before rotation, then confirm, cancel or undo the last placed building. Click Choose location again to move a preview.
 
 Positions use the currently rendered terrain surface, with local east/north dimensions in metres. Existing buildings and trees remain visible. This is a schematic placement exercise with no collision, ownership or planning checks. Positions are not persisted when the page reloads and are not written back into Python or exported HTML. Terrain must initialize successfully to enable placement.

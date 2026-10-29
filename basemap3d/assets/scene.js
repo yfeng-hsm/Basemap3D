@@ -368,7 +368,7 @@ function setupHousePlacement(viewer, terrainEnabled){
  };});
  el('template').onchange=draw;
  el('scale').oninput=draw;
- const resize=step=>{el('scale').value=String(Math.max(50,Math.min(200,Number(el('scale').value)+step)));draw();};
+ const resize=step=>{el('scale').value=String(Math.max(80,Math.min(500,Number(el('scale').value)+step)));draw();};
  el('smaller').onclick=()=>resize(-5);el('larger').onclick=()=>resize(5);
  el('angle').oninput=()=>{el('angle-value').textContent=el('angle').value+'°';draw();};
  el('confirm').onclick=()=>{
