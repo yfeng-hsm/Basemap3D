@@ -17,9 +17,9 @@ Erstellen Sie ein **eigenes Colab-Notebook**. Übernehmen Sie bei Bedarf die Ins
 
 - Ergänzen Sie `HousePlacement` und `SunShadows`. Platzieren Sie mindestens ein neues Haus und eine Grünfläche auf einer freien Fläche. Passen Sie Größe und Ausrichtung an.
 
-- Vergleichen Sie die Schatten zu zwei Tageszeiten am selben Datum. Dokumentieren Sie die Szene mit Screenshots.
+- Vergleichen Sie die Schatten zu zwei Tageszeiten am selben Datum.
 
-Nutzen Sie die [API-Dokumentation](https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/docs/API.md) und den [Stadtkatalog mit Mesh-URLs und Standorten](https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/docs/examples/city_sources.json). Ein fertiges Trier-Notebook ist für diese Aufgabe nicht vorgesehen.
+Orientieren Sie sich an den [Examples · Mesh models](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/examples/#mesh). Wählen Sie dort Trier aus und verwenden Sie die Beispiele als Grundlage für Ihren eigenen Szenencode.
 
 ## 3 · Auf Koblenz übertragen und vergleichen (Pflicht)
 
@@ -27,16 +27,16 @@ Passen Sie Ihren eigenen Code für das **Stadtmesh von Koblenz** an. Wiederholen
 
 - Welche Unterschiede beobachten Sie? Achten Sie auf schwebende oder versunkene Objekte, durchdringende Oberflächen und die Sichtbarkeit der Schatten.
 
-- Untersuchen Sie anhand des [Renderer-Codes](https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/basemap3d/assets/scene.js), welche Oberfläche für die Platzierung verwendet wird. Erklären Sie mögliche Ursachen für die Unterschiede zwischen beiden Städten.
+- Erklären Sie mögliche Ursachen für die Unterschiede zwischen beiden Städten. Berücksichtigen Sie dabei das Zusammenspiel von Gelände und Mesh.
 
-- Trennen Sie **Beobachtungen, durch den Code belegte Aussagen und noch ungeprüfte Vermutungen**. Falls Sie keinen Unterschied erkennen, dokumentieren Sie auch dieses Ergebnis.
+- Unterscheiden Sie zwischen Ihren Beobachtungen und möglichen Erklärungen. Falls Sie keinen Unterschied erkennen, berichten Sie auch dieses Ergebnis.
 
 ## 4 · Das Python-Paket mit KI erweitern (Optional)
 
 Entwickeln Sie Basemap3D mithilfe eines KI-Assistenten weiter. Wählen Sie einen Anwendungsfall und ergänzen Sie passende **geometrische Objekte**, etwa Bäume, Bänke, Überdachungen oder Zylinder und Quader.
 
-Die Erweiterung soll über die Python-Schnittstelle nutzbar sein und die interaktive Platzierung unterstützen. Ermöglichen Sie passende Einstellungen für Größe, Höhe, Farbe oder Ausrichtung. Prüfen Sie den KI-generierten Code und testen Sie die Erweiterung. Dokumentieren Sie Ihren eigenen Beitrag, die KI-Unterstützung und bekannte Grenzen.
+Die Erweiterung soll über die Python-Schnittstelle nutzbar sein und die interaktive Platzierung unterstützen. Ermöglichen Sie passende Einstellungen für Größe, Höhe, Farbe oder Ausrichtung. Prüfen Sie den KI-generierten Code und testen Sie die Erweiterung. Erläutern Sie bei der Demonstration Ihren eigenen Beitrag, die KI-Unterstützung und bekannte Grenzen.
 
-**Abgabe:** Ihr ausführbares Notebook, je zwei Screenshots aus Trier und Koblenz sowie eine kurze Erklärung der Unterschiede. Optional: geänderte Paketdateien, ein Python-Anwendungsbeispiel und ein Screenshot der Erweiterung.
+**Abschluss:** Wenn Sie die Pflichtaufgaben abgeschlossen haben, melden Sie sich per Handzeichen. Zeigen Sie dem Dozenten Ihre Szenen in Trier und Koblenz und erläutern Sie kurz die beobachteten Unterschiede. Falls Sie Aufgabe 4 bearbeitet haben, führen Sie auch Ihre Erweiterung vor. Eine Datei-Abgabe ist nicht erforderlich.
 
 **Hinweise:** Platzierte Objekte bleiben derzeit nur in der laufenden Kartensitzung erhalten; sie werden nicht im Notebook oder HTML-Export gespeichert. Schatten in Mesh-Texturen bleiben unverändert. Die Darstellung dient der qualitativen Untersuchung, nicht einer verbindlichen Planungsprüfung. Datenquellen im Viewer beibehalten.
