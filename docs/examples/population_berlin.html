@@ -368,7 +368,7 @@ async function setupTiles3D(viewer, terrainEnabled){
     const settings={maximumScreenSpaceError:option.maximum_screen_space_error};
     if(option.feature_id_label)settings.instanceFeatureIdLabel=option.feature_id_label;
     const next=await Cesium.Cesium3DTileset.fromUrl(url,settings);
-    next.show=visible.checked;next.shadows=config.sun_enabled?Cesium.ShadowMode.CAST_ONLY:Cesium.ShadowMode.DISABLED;
+    next.show=visible.checked;next.shadows=config.sun_enabled?(option.feature_id_label==='tree'?Cesium.ShadowMode.CAST_ONLY:Cesium.ShadowMode.ENABLED):Cesium.ShadowMode.DISABLED;
     viewer.scene.primitives.add(next);
     if(current)viewer.scene.primitives.remove(current);
     current=next;fit.disabled=false;state.textContent='';

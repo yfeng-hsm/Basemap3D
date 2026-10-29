@@ -118,6 +118,8 @@ Tiles3D(url, name="3D Tiles", show=True, maximum_screen_space_error=12,
 TreeLayer(show=True, maximum_screen_space_error=12, base_url=None)
 ```
 
+When sun shadows are enabled, generic hosted tilesets both cast and receive dynamic shadows. The schematic tree preset retains cast-only shadows. Shadows baked into mesh textures remain unchanged. The default LoD2 layer retains cast-only shadows to avoid thin-surface artefacts.
+
 Both support `.add_to(m)` and can coexist with other map layers. Additions accumulate without changing previous map copies. `Tiles3D` takes an HTTP(S) root tileset URL, preserves the tileset transforms and streams relative content URLs in the browser. It does not upload or reproject local models. Use `feature_id_label` when the source defines labelled instance features. `require_terrain=True` prevents loading if the scene cannot initialize its basemap.de DGM5 terrain.
 
 `TreeLayer` loads estimated-height trees for the 7 × 4 km Mainz frame (28 cells; one outside-mask cell is empty). Fixed heights and height-mode selection have been removed. The viewer offers visibility, extent and feature selection. `base_url` overrides the dataset directory. `m.save()` embeds hosted model URLs; gallery pages reference their adjacent dataset for self-hosted previews.
@@ -134,7 +136,7 @@ The initial parking dataset is a single GeoJSON layer containing five objects. A
 
 `WmsTileLayer(url, layers, opacity=0.8, *, name=None, attribution=None, description=None, styles="", format="image/png", transparent=True, version="1.1.1", crs="EPSG:4326", bounds=None, show=True, legend_url=None)` adds one independent raster overlay. Multiple calls accumulate layers, each with its own visibility and opacity control. `bounds` is optional and uses [west, south, east, north] in degrees; custom services have no fixed Mainz or RLP extent. Supported request CRS values are EPSG:4326 and EPSG:3857, using WMS 1.1.1. The service must allow cross-origin browser access. Add custom attribution and an optional GetLegendGraphic URL for thematic data. Calling without arguments retains the RLP DOP20 preset.
 
-See the impervious-surface example: `Impervious_Surface.ipynb` and `examples/impervious_surface.html`. This combines DOP20 aerial imagery and the Copernicus Land Monitoring Service IMD 2024 WMS at 10 m resolution. Data values are 0–100% estimated artificial sealing per cell; layer opacity is an independent display setting. The endpoint is `https://geoserver.geoville.com/geoserver/nvlcc_2024/wms`, layer `HRL_NVLCC_IMD_2024_10m`. Source: https://doi.org/10.2909/f0bcb6f0-d775-4218-bec1-13adea01ff8f .
+See the impervious-surface example: `../notebooks/Impervious_Surface.ipynb` and `examples/impervious_surface.html`. This combines DOP20 aerial imagery and the Copernicus Land Monitoring Service IMD 2024 WMS at 10 m resolution. Data values are 0–100% estimated artificial sealing per cell; layer opacity is an independent display setting. The endpoint is `https://geoserver.geoville.com/geoserver/nvlcc_2024/wms`, layer `HRL_NVLCC_IMD_2024_10m`. Source: https://doi.org/10.2909/f0bcb6f0-d775-4218-bec1-13adea01ff8f .
 
 ## Interactive building placement
 

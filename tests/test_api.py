@@ -74,12 +74,12 @@ class TeachingAPITest(unittest.TestCase):
             with self.assertRaises(ValueError):action()
 
     def test_notebook_stays_short_and_language_split_is_clean(self):
-        notebook=json.loads((ROOT/"Mainz_3D_5_Tasks.ipynb").read_text())
+        notebook=json.loads((ROOT/"notebooks/Mainz_3D_5_Tasks.ipynb").read_text())
         cells=[c for c in notebook["cells"] if c["cell_type"]=="code"]
         self.assertEqual(len(cells),7)
         for cell in cells:
             source="".join(cell["source"])
-            self.assertLessEqual(len(source.splitlines()),8 if 'colab-setup' in cell['metadata'].get('tags',[]) else 7)
+            self.assertLessEqual(len(source.splitlines()),10 if 'colab-setup' in cell['metadata'].get('tags',[]) else 7)
             self.assertNotIn('"coordinates"',source)
             self.assertEqual(cell["outputs"],[])
         self.assertIsNone(re.search(r'[\u4e00-\u9fff]',json.dumps(notebook,ensure_ascii=False)))

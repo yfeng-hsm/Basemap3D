@@ -41,7 +41,7 @@ The exported HTML streams its online layers when opened; it does not download th
 | Photorealistic city meshes | `Tiles3D(url)` | Koblenz, Trier, Hamburg, Potsdam, Cottbus, Nürnberg, Wuppertal |
 | Detailed building models | `Tiles3D(url)` | Hamburg LoD3; selected detailed models in Koblenz |
 | Background maps, terrain and LoD2 buildings | `Map(...)` | Germany-wide defaults from basemap.de |
-| Orthophotos and other WMS layers | `RasterLayer(...)` | Imagery and thematic overlays |
+| Orthophotos and other WMS layers | `WmsTileLayer(...)` | Imagery and thematic overlays |
 | Your own polygons and attributes | `GeoJson(...)` | Study areas and planning proposals |
 | Buildings around your polygons | `NearbyBuildings(...)` | Interactive distance selection using OSM footprints |
 | Schematic 3D trees | `TreeLayer()` | Hosted Mainz tree candidates |
@@ -57,10 +57,15 @@ Open a notebook in Google Colab and run its setup cell first, followed by the re
 
 | Notebook | Contents | Open |
 |---|---|---|
-| [Modules](Mainz_Modules.ipynb) | Build up a map layer by layer | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_Modules.ipynb) |
-| [Planning lab](Mainz_3D_5_Tasks.ipynb) | Five exercises with imagery, polygons, nearby buildings and shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_3D_5_Tasks.ipynb) |
-| [Trees](Mainz_Trees_3D.ipynb) | Mainz trees and shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_Trees_3D.ipynb) |
-| [Population](Population_3D_Columns.ipynb) | Berlin population as 3D columns | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Population_3D_Columns.ipynb) |
+| [Modules](notebooks/Mainz_Modules.ipynb) | Build up a map layer by layer | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Mainz_Modules.ipynb) |
+| [Planning lab](notebooks/Mainz_3D_5_Tasks.ipynb) | Five exercises with imagery, polygons, nearby buildings and shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Mainz_3D_5_Tasks.ipynb) |
+| [Trees](notebooks/Mainz_Trees_3D.ipynb) | Mainz trees and shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Mainz_Trees_3D.ipynb) |
+| [Population](notebooks/Population_3D_Columns.ipynb) | Berlin population as 3D columns | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Population_3D_Columns.ipynb) |
+| [Trier: buildings and shadows](notebooks/Trier_Shadow_Building_Preview.ipynb) | Switch Mesh / LoD2, place a building and explore shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Trier_Shadow_Building_Preview.ipynb) |
+| [Koblenz: buildings and shadows](notebooks/Koblenz_Shadow_Building_Preview.ipynb) | Alternative city preview; check terrain / mesh alignment | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Koblenz_Shadow_Building_Preview.ipynb) |
+| [Imperviousness](notebooks/Impervious_Surface.ipynb) | Combine aerial imagery and imperviousness WMS | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Impervious_Surface.ipynb) |
+
+All notebooks are collected in [`notebooks/`](notebooks/). For the updated renderer, start a fresh Colab runtime and rerun setup; an existing clone can retain the older version.
 
 The setup installs the package from this repository. Colab handles the map display through the package; no separate web server or GPU runtime is needed. See [Colab help](docs/COLAB.md).
 
@@ -122,7 +127,7 @@ If a scene is blank, check WebGL2 / hardware acceleration and access to the sele
 
 ## Development
 
-`basemap3d/` contains the Python API and viewer assets; `docs/` contains the website, examples and hosted tree tiles; `tools/` contains data-processing and gallery builders; `tests/` contains the automated checks.
+`basemap3d/` contains the Python API and viewer assets; `docs/` contains the website, examples and hosted tree tiles; `notebooks/` contains the Colab/Jupyter examples; `tools/` contains data-processing and gallery builders; `tests/` contains the automated checks.
 
 ```bash
 python -m unittest discover -s tests -v

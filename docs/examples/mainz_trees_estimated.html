@@ -52,10 +52,39 @@ input[type="checkbox"]{accent-color:#288b83;width:16px;height:16px}
 .wms-layer{margin-bottom:12px}.wms-layer>label:not(.layer-row){font-size:11px;color:#687e74}.wms-layer details{font-size:10px;color:#708078;margin:5px 0}.wms-layer details img{display:block;max-width:100%;margin-top:6px}
 
 .wms-layer details[open]{max-height:240px;overflow:auto}
+
+#house-panel{border-top:1px solid #e1e5df;padding-top:8px;margin-top:8px}
+#house-panel label{display:block;font-weight:600;margin:12px 0 4px}
+#house-panel output{float:right;color:#947224;font-weight:600}
+#house-picker{border:1px solid #d9d8c9;border-radius:9px;background:#fffdf5;margin:8px 0 14px}
+#house-picker summary{display:flex;align-items:center;justify-content:space-between;padding:4px 12px 4px 4px;cursor:pointer;list-style:none;font-size:12px}
+#house-picker summary::-webkit-details-marker{display:none}
+#house-template-current{display:flex;align-items:center;gap:8px}
+#house-template-current svg{width:75px;height:54px}
+.house-template-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:7px;border-top:1px solid #e6dfc8}
+.house-template-options button{display:flex;align-items:center;flex-direction:column;padding:4px 2px;font-size:10px;background:#fffdf6;border-color:#e6dfc8;min-width:0}
+.house-template-options button svg{width:100%;height:58px}
+.house-template-options button[aria-pressed="true"]{background:#f8edc6;border-color:#bd963d;color:#69531d}
+.house-adjust{display:flex;align-items:center;gap:8px}.house-adjust button{padding:4px 10px;font-size:18px}.house-adjust input{min-width:0}
+#house-dimensions{margin:2px 0 12px;color:#7b714e}.house-step{font-weight:600;margin:12px 0 5px}
+#house-confirm:not(:disabled){background:#e4b847;color:#403515;border-color:#b8953c}
 </style></head><body>
 <div id="scene"></div>
 <section class="panel">
 <h1 id="title"></h1><p id="stage-description"></p>
+<section id="house-panel" hidden>
+<p><strong>Place a building or grass</strong></p>
+<label>1 · Choose a template</label>
+<input id="house-template" type="hidden" value="flat">
+<details id="house-picker"><summary><span id="house-template-current"><svg viewBox="0 0 144 100" aria-hidden="true" focusable="false"><ellipse cx="72" cy="86" rx="48" ry="8" fill="#dcd8c8" opacity=".4"/><polygon points="31.2,65.7 79.2,87.7 79.2,68.7 31.2,46.7" fill="#e5b94e" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/><polygon points="112.8,72.3 79.2,87.7 79.2,68.7 112.8,53.3" fill="#cda03c" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/><polygon points="64.8,31.3 112.8,53.3 79.2,68.7 31.2,46.7" fill="#f3d581" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/></svg><span>Flat roof</span></span><span aria-hidden="true">⌄</span></summary><div class="house-template-options"><button type="button" data-house-template="flat" aria-pressed="true"><svg viewBox="0 0 144 100" aria-hidden="true" focusable="false"><ellipse cx="72" cy="86" rx="48" ry="8" fill="#dcd8c8" opacity=".4"/><polygon points="31.2,65.7 79.2,87.7 79.2,68.7 31.2,46.7" fill="#e5b94e" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/><polygon points="112.8,72.3 79.2,87.7 79.2,68.7 112.8,53.3" fill="#cda03c" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/><polygon points="64.8,31.3 112.8,53.3 79.2,68.7 31.2,46.7" fill="#f3d581" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/></svg><span>Flat roof</span></button><button type="button" data-house-template="gable" aria-pressed="false"><svg viewBox="0 0 144 100" aria-hidden="true" focusable="false"><ellipse cx="72" cy="86" rx="48" ry="8" fill="#dcd8c8" opacity=".4"/><polygon points="31.2,65.7 79.2,87.7 79.2,68.7 31.2,46.7" fill="#e5b94e" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/><polygon points="112.8,72.3 79.2,87.7 79.2,68.7 112.8,53.3" fill="#cda03c" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/><polygon points="79.2,68.7 31.2,46.7 48.0,26.7 96.0,48.7" fill="#f2cf70" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/><polygon points="112.8,53.3 79.2,68.7 96.0,48.7" fill="#dbad43" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/></svg><span>Gable roof</span></button><button type="button" data-house-template="hip" aria-pressed="false"><svg viewBox="0 0 144 100" aria-hidden="true" focusable="false"><ellipse cx="72" cy="86" rx="48" ry="8" fill="#dcd8c8" opacity=".4"/><polygon points="31.2,65.7 79.2,87.7 79.2,68.7 31.2,46.7" fill="#e5b94e" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/><polygon points="112.8,72.3 79.2,87.7 79.2,68.7 112.8,53.3" fill="#cda03c" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/><polygon points="79.2,68.7 31.2,46.7 58.8,31.6 85.2,43.7" fill="#f2cf70" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/><polygon points="112.8,53.3 79.2,68.7 85.2,43.7" fill="#dbad43" stroke="#967d43" stroke-width="1.2" stroke-linejoin="round"/></svg><span>Hip roof</span></button><button type="button" data-house-template="grass" aria-pressed="false"><svg viewBox="0 0 144 100" aria-hidden="true" focusable="false"><path d="M18 62 86 34 128 58 60 88Z" fill="#86ac65" stroke="#5d8147" stroke-width="1.2"/><path d="m36 62-3-16 9 10 4-17 3 22m15-7-4-19 11 12 3-22 4 25m13 9-1-21 9 12 6-17-2 23m-40 18-3-20 10 13 5-22 1 23" fill="#5b893e" stroke="#4f7b3c" stroke-width="1.4" stroke-linejoin="round"/></svg><span>Grass patch</span></button></div></details>
+<label for="house-scale">2 · Scale <output id="house-scale-value">100%</output></label>
+<div class="house-adjust"><button type="button" id="house-smaller" aria-label="Make model smaller">−</button><input id="house-scale" type="range" min="80" max="500" step="5" value="100"><button type="button" id="house-larger" aria-label="Make model larger">+</button></div>
+<p id="house-dimensions" class="shadow-note">16 × 12 m · height 9 m</p>
+<label for="house-angle">3 · Rotate <output id="house-angle-value">0°</output></label><input id="house-angle" type="range" min="0" max="355" step="5" value="0">
+<p class="house-step">4 · Choose a location and confirm</p>
+<div class="row"><button id="house-start">Choose location</button><button id="house-confirm" disabled>Confirm placement</button><button id="house-cancel" disabled>Cancel preview</button><button id="house-undo" disabled>Undo last</button></div>
+<p id="house-status" role="status">Choose a template, adjust scale and rotation, then choose a location on open ground. Grass is a schematic green patch with low tufts; templates are schematic; placement is not a collision or planning check. Saved HTML does not retain placed models.</p>
+</section>
 <section id="tiles3d-panel" hidden><p><strong>Additional 3D layers</strong></p><div id="tiles3d-controls"></div><p id="tiles3d-details" class="shadow-note">Click a tree to inspect its ID, model height and height source.</p></section>
 <section id="bars-panel" hidden>
 <p><strong id="bars-title"></strong></p><p id="bar-reading" class="reading"></p><div id="bar-legend"></div>
@@ -82,7 +111,7 @@ input[type="checkbox"]{accent-color:#288b83;width:16px;height:16px}
 <script>(()=>{
 const originalSceneHTML=document.documentElement.outerHTML;
 
-const config = {"task": 2, "title": "Mainz · 3D trees", "center": [8.27412, 49.99892], "heading": 25, "pitch": -45, "distance_m": 900, "use_terrain": true, "basemap": "aerial", "start_parking": 0, "opacity": 0.25, "building_color": "#eef2f3", "roof_color": "#91a8b8", "raster_url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "raster_layer": "rp_dop20", "raster_opacity": 0.7, "highlight_nearby": false, "nearby_distance_m": 75, "sun_date": "2026-10-25", "sun_hour": 13.0, "has_raster": true, "has_vector": false, "query_enabled": false, "popup_enabled": true, "sun_enabled": false, "bars_enabled": false, "buildings_enabled": true, "nearby_max_distance_m": 200, "raster_layers": [{"url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "layers": "rp_dop20", "opacity": 0.7, "name": "Aerial imagery", "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0", "description": "DOP20 aerial imagery · LVermGeo Rheinland-Pfalz.", "styles": "", "format": "image/png", "transparent": true, "version": "1.1.1", "crs": "EPSG:4326", "bounds": null, "show": true, "legend_url": null}], "tiles3d_layers": [{"url": "https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset-C20261029.json", "name": "3D trees", "show": true, "maximum_screen_space_error": 12, "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL", "popup": true, "feature_id_label": "tree", "require_terrain": true, "relative_url": "../layers/mainz-trees/tileset-C20261029.json", "dataset_label": "C_balanced centre · 54,014 candidates in total"}], "stage_description": "Raster data: imagery and opacity"};
+const config = {"task": 2, "title": "Mainz · 3D trees", "center": [8.27412, 49.99892], "heading": 25, "pitch": -45, "distance_m": 900, "use_terrain": true, "basemap": "aerial", "start_parking": 0, "opacity": 0.25, "building_color": "#eef2f3", "roof_color": "#91a8b8", "raster_url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "raster_layer": "rp_dop20", "raster_opacity": 0.7, "highlight_nearby": false, "nearby_distance_m": 75, "sun_date": "2026-10-25", "sun_hour": 13.0, "has_raster": true, "has_vector": false, "query_enabled": false, "popup_enabled": true, "sun_enabled": false, "bars_enabled": false, "buildings_enabled": true, "nearby_max_distance_m": 200, "raster_layers": [{"url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "layers": "rp_dop20", "opacity": 0.7, "name": "Aerial imagery", "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0", "description": "DOP20 aerial imagery · LVermGeo Rheinland-Pfalz.", "styles": "", "format": "image/png", "transparent": true, "version": "1.1.1", "crs": "EPSG:4326", "bounds": null, "show": true, "legend_url": null}], "tiles3d_layers": [{"url": "https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset-C20261029.json", "name": "3D trees", "show": true, "maximum_screen_space_error": 12, "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL", "popup": true, "feature_id_label": "tree", "require_terrain": true, "dataset_label": "C_balanced centre · 54,014 candidates in total", "relative_url": "../layers/mainz-trees/tileset-C20261029.json"}], "stage_description": "Raster data: imagery and opacity"};
 const geojson = {"type": "FeatureCollection", "features": []};
 geojson.features.forEach((f,i)=>{f.properties._basemap_object_index=i;});
 const buildingFootprints = {"type": "FeatureCollection", "features": []};
@@ -370,7 +399,7 @@ async function setupTiles3D(viewer, terrainEnabled){
     const settings={maximumScreenSpaceError:option.maximum_screen_space_error};
     if(option.feature_id_label)settings.instanceFeatureIdLabel=option.feature_id_label;
     const next=await Cesium.Cesium3DTileset.fromUrl(url,settings);
-    next.show=visible.checked;next.shadows=config.sun_enabled?Cesium.ShadowMode.CAST_ONLY:Cesium.ShadowMode.DISABLED;
+    next.show=visible.checked;next.shadows=config.sun_enabled?(option.feature_id_label==='tree'?Cesium.ShadowMode.CAST_ONLY:Cesium.ShadowMode.ENABLED):Cesium.ShadowMode.DISABLED;
     viewer.scene.primitives.add(next);
     if(current)viewer.scene.primitives.remove(current);
     current=next;fit.disabled=false;state.textContent='';
@@ -383,6 +412,83 @@ async function setupTiles3D(viewer, terrainEnabled){
   if(selector)selector.onchange=()=>load(option.variants[selector.value]);
   await load(option.relative_url && /^https?:$/.test(location.protocol)?new URL(option.relative_url,location.href).href:option.url);
  }));
+}
+
+
+function setupHousePlacement(viewer, terrainEnabled){
+ const panel=document.getElementById('house-panel');panel.hidden=false;
+ const el=id=>document.getElementById('house-'+id);
+ const buildingColor=Cesium.Color.fromCssColorString('#e4b847');
+ const templateButtons=panel.querySelectorAll('[data-house-template]');
+ const templates={flat:{w:16,d:12,h:9,r:0},gable:{w:12,d:9,h:6,r:3},hip:{w:14,d:10,h:6,r:3},grass:{w:12,d:8,h:.45,r:0}};
+ let choosing=false,anchor=null,preview=[],placed=[],serial=0;
+ const status=text=>{el('status').textContent=text;};
+ const remove=group=>group.forEach(entity=>viewer.entities.remove(entity));
+ function controls(){el('confirm').disabled=!anchor;el('cancel').disabled=!choosing&&!anchor;el('undo').disabled=!placed.length;el('start').textContent=choosing?'Click open ground…':'Choose location';}
+ function draw(){
+  const kind=el('template').value,t=templates[kind],a=Number(el('angle').value)*Math.PI/180,scale=Number(el('scale').value)/100;
+  el('scale-value').textContent=Math.round(scale*100)+'%';
+  el('dimensions').textContent=(t.w*scale).toFixed(1)+' × '+(t.d*scale).toFixed(1)+' m · height '+((t.h+t.r)*scale).toFixed(2)+' m';
+  remove(preview);preview=[];if(!anchor)return;
+  const frame=Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromRadians(anchor.longitude,anchor.latitude,anchor.height));
+  const point=([x,y,z])=>Cesium.Matrix4.multiplyByPoint(frame,new Cesium.Cartesian3((x*Math.cos(a)-y*Math.sin(a))*scale,(x*Math.sin(a)+y*Math.cos(a))*scale,z*scale),new Cesium.Cartesian3());
+  const x=t.w/2,y=t.d/2,h=t.h,top=[[-x,-y,h],[x,-y,h],[x,y,h],[-x,y,h]];
+  const face=(coords,color=buildingColor,options={})=>{
+   const entity=viewer.entities.add({name:kind==='grass'?'Grass preview':'Building preview',polygon:{hierarchy:coords.map(point),perPositionHeight:true,material:color.withAlpha(.78),outline:true,outlineColor:Cesium.Color.DARKSLATEGRAY,shadows:Cesium.ShadowMode.ENABLED,...options}});
+   entity._placementColor=color;preview.push(entity);
+  };
+  if(kind==='grass'){
+   const green=Cesium.Color.fromCssColorString('#69994d');
+   face([[-x,-y,0],[x,-y,0],[x,y,0],[-x,y,0]],green,{perPositionHeight:false,heightReference:Cesium.HeightReference.CLAMP_TO_GROUND,classificationType:Cesium.ClassificationType.TERRAIN,outline:false});
+   // Crossed triangular tufts show low vegetation; the patch itself follows terrain.
+   for(let row=0;row<5;row++)for(let col=0;col<7;col++){
+    const cx=-x+(col+.5)*t.w/7,cy=-y+(row+.5)*t.d/5;
+    const ground=viewer.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(point([cx,cy,0])));
+    const z=Number.isFinite(ground)?(ground-anchor.height)/scale:0;
+    const blade=Cesium.Color.fromCssColorString((row+col)%2?'#54833f':'#82ac58');
+    const height=t.h*(.7+((row*7+col)%5)*.075);
+    face([[cx-.24,cy,z],[cx+.24,cy,z],[cx+.08,cy,z+height]],blade,{outline:false});
+    face([[cx,cy-.24,z],[cx,cy+.24,z],[cx-.06,cy,z+height*.9]],blade,{outline:false});
+   }
+  }else{
+  for(let i=0;i<4;i++){const j=(i+1)%4;face([[...top[i].slice(0,2),0],[...top[j].slice(0,2),0],top[j],top[i]]);}
+  if(kind==='flat')face(top);
+  else{
+   const inset=kind==='hip'?t.w*.23:0,L=[-x+inset,0,h+t.r],R=[x-inset,0,h+t.r];
+   face([top[0],top[1],R,L]);face([top[2],top[3],L,R]);face([top[3],top[0],L]);face([top[1],top[2],R]);
+  }
+  }
+  viewer.scene.requestRender();controls();
+ }
+ viewer.placeHouseAt=position=>{
+  if(!choosing)return false;
+  const ray=viewer.camera.getPickRay(position),hit=ray&&viewer.scene.globe.pick(ray,viewer.scene);
+  if(!hit){status('No ground at this point. Click visible ground.');return true;}
+  anchor=Cesium.Cartographic.fromCartesian(hit);choosing=false;draw();status('Preview ready. Adjust scale or rotation, then confirm; choose location again to move.');return true;
+ };
+ el('start').onclick=()=>{
+  if(!terrainEnabled){status('Terrain is unavailable. Reload when the terrain service is reachable.');return;}
+  choosing=true;controls();status('Click an open space on the map to preview the selected model.');
+ };
+ templateButtons.forEach(button=>{button.onclick=()=>{
+  el('template').value=button.dataset.houseTemplate;
+  el('template-current').innerHTML=button.innerHTML;
+  templateButtons.forEach(option=>option.setAttribute('aria-pressed',String(option===button)));
+  el('picker').open=false;draw();
+ };});
+ el('template').onchange=draw;
+ el('scale').oninput=draw;
+ const resize=step=>{el('scale').value=String(Math.max(80,Math.min(500,Number(el('scale').value)+step)));draw();};
+ el('smaller').onclick=()=>resize(-5);el('larger').onclick=()=>resize(5);
+ el('angle').oninput=()=>{el('angle-value').textContent=el('angle').value+'°';draw();};
+ el('confirm').onclick=()=>{
+  if(!anchor)return;
+  serial++;const label=el('template').value==='grass'?'Grass patch':'Building';preview.forEach(entity=>{entity.name=label+' '+serial;entity.polygon.material=entity._placementColor;});
+  placed.push(preview);preview=[];anchor=null;choosing=false;controls();status('Model placed. Choose another location or undo the last placement.');viewer.scene.requestRender();
+ };
+ el('cancel').onclick=()=>{remove(preview);preview=[];anchor=null;choosing=false;controls();status('Preview cancelled.');viewer.scene.requestRender();};
+ el('undo').onclick=()=>{if(placed.length)remove(placed.pop());controls();status('Last placed model removed.');viewer.scene.requestRender();};
+ controls();draw();
 }
 
 async function main(){
@@ -524,6 +630,7 @@ async function main(){
  }
  more.onclick=appendObjects;appendObjects();
  viewer.screenSpaceEventHandler.setInputAction(click=>{
+  if(viewer.placeHouseAt && viewer.placeHouseAt(click.position))return;
   const picked=viewer.scene.pick(click.position);
   const entity=picked && picked.id;
   if((config.tiles3d_layers || []).some(layer=>layer.popup) && showTileFeature(viewer,picked))return;
@@ -569,6 +676,7 @@ async function main(){
  }catch(error){warnings.push('Building service unavailable. Polygons and base map remain visible. Check the network and reload.');console.error(error);}
  }
  await setupTiles3D(viewer,terrainEnabled);
+ if(config.house_placement_enabled)setupHousePlacement(viewer,terrainEnabled);
  go();report();viewer.scene.requestRender();
 }
 main().catch(error=>{status.textContent='Could not start the scene: '+error.message+'\nOpen the exported HTML file or check WebGL2 and hardware acceleration.';console.error(error);});

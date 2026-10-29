@@ -12,7 +12,7 @@ sys.path.insert(0,str(ROOT))
 def main():
     os.chdir(ROOT)
     namespace={}
-    for filename in ("Mainz_3D_5_Tasks.ipynb","Population_3D_Columns.ipynb","Mainz_Trees_3D.ipynb"):
+    for filename in ("notebooks/Mainz_3D_5_Tasks.ipynb","notebooks/Population_3D_Columns.ipynb","notebooks/Mainz_Trees_3D.ipynb"):
         notebook=json.loads((ROOT/filename).read_text(encoding="utf-8"))
         for cell in notebook["cells"]:
             if cell["cell_type"]=="code":

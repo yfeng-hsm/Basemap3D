@@ -44,6 +44,6 @@ Run `python -m unittest discover -s tests -v` and `python tools/build_examples.p
 
 ## Additional population case
 
-`Population_3D_Columns.ipynb` moves to Berlin to demonstrate that the wrapper is city-independent. Students add `BarLayer`, change height encoding, filter low-count cells and inspect a grid cell's date and count. Discuss equal-area source units, the difference between graphic height and physical height, quantile classification, confidentiality perturbation and the difference between a rectangular study area and an administrative city boundary.
+`../notebooks/Population_3D_Columns.ipynb` moves to Berlin to demonstrate that the wrapper is city-independent. Students add `BarLayer`, change height encoding, filter low-count cells and inspect a grid cell's date and count. Discuss equal-area source units, the difference between graphic height and physical height, quantile classification, confidentiality perturbation and the difference between a rectangular study area and an administrative city boundary.
 
 The 657-row official CSV is prepared in advance. Students do not download national data or paste arrays into the notebook. Case-study instructions and the corresponding web page remain German.
