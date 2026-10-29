@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>basemap.de · Python</title>
 <script>window.CESIUM_BASE_URL="https://cesium.com/downloads/cesiumjs/releases/1.146/Build/Cesium/";</script>
@@ -56,33 +56,33 @@ input[type="checkbox"]{accent-color:#288b83;width:16px;height:16px}
 <div id="scene"></div>
 <section class="panel">
 <h1 id="title"></h1><p id="stage-description"></p>
-<section id="tiles3d-panel" hidden><p><strong>Zusätzliche 3D-Layer</strong></p><div id="tiles3d-controls"></div><p id="tiles3d-details" class="shadow-note">Baum anklicken, um ID, Modellhöhe und Höhenquelle zu prüfen.</p></section>
+<section id="tiles3d-panel" hidden><p><strong>Additional 3D layers</strong></p><div id="tiles3d-controls"></div><p id="tiles3d-details" class="shadow-note">Click a tree to inspect its ID, model height and height source.</p></section>
 <section id="bars-panel" hidden>
 <p><strong id="bars-title"></strong></p><p id="bar-reading" class="reading"></p><div id="bar-legend"></div>
-<label for="bar-height">Höhenfaktor <output id="bar-height-value"></output></label>
-<input id="bar-height" type="range" min="0.01" max="0.32" step="0.01" value="0.08" aria-label="Höhenfaktor">
-<label for="bar-minimum">Mindestwert <output id="bar-minimum-value">0</output></label>
-<input id="bar-minimum" type="range" min="0" max="25000" step="100" value="0" aria-label="Mindestwert">
+<label for="bar-height">Height scale <output id="bar-height-value"></output></label>
+<input id="bar-height" type="range" min="0.01" max="0.32" step="0.01" value="0.08" aria-label="Height scale">
+<label for="bar-minimum">Minimum value <output id="bar-minimum-value">0</output></label>
+<input id="bar-minimum" type="range" min="0" max="25000" step="100" value="0" aria-label="Minimum value">
 <p id="bar-count" class="shadow-note"></p>
-<p class="shadow-note">Säulenhöhe ist eine thematische Skalierung, keine Gebäudehöhe. Werte beziehen sich auf den Zensus-Stichtag.</p>
-</section><div class="row" data-min-task="2"><button id="aerial" aria-pressed="true">Luftbild · DOP20</button><button id="map" aria-pressed="false">Basiskarte</button></div>
-<section data-min-task="2"><label for="raster-opacity">Luftbild-Deckkraft <output id="raster-value">80%</output></label><input id="raster-opacity" type="range" min="0" max="100" step="5" value="80" aria-label="Luftbild-Deckkraft"></section><div class="row"><button id="overview" disabled>Alle Flächen</button><button id="top" disabled>Draufsicht</button><button id="toggle" disabled>Gebäude ausblenden</button></div>
-<section data-min-task="5"><p><label for="sun-date">Datum </label><input id="sun-date" type="date" aria-label="Datum" value="2026-10-25" min="1900-01-01" max="2100-12-31"></p>
-<label for="sun-time">Uhrzeit <output id="sun-value" for="sun-time">13:00</output></label>
-<input id="sun-time" type="range" min="240" max="1320" step="15" value="780" aria-label="Uhrzeit">
-<p class="shadow-note">04:00 — 22:00 · Ortszeit Deutschland (inkl. Sommerzeit)<br>Modellschatten folgen der Sonne; Schatten im Luftbild bleiben unverändert.</p>
-</section><p class="hint">Ziehen: verschieben · Mausrad: zoomen · Strg + Ziehen: neigen / drehen<br>Fläche auswählen; Quellenangaben bei Screenshots beibehalten.</p>
-<section data-min-task="3"><p><label><input type="checkbox" id="fill" checked> Flächenfüllung anzeigen</label></p>
-</section><section data-min-task="4"><p><label><input type="checkbox" id="nearby-toggle" disabled> Gebäude im Umfeld aller Flächen hervorheben</label></p>
-<label for="nearby-distance">Suchabstand <output id="nearby-value">75 m</output></label>
-<input id="nearby-distance" type="range" min="0" max="200" step="5" value="75" aria-label="Suchabstand" disabled>
-<p id="nearby-count" class="shadow-note">Auswahl nach dem kürzesten Abstand zu allen Parkplatzflächen.</p>
-</section><section data-min-task="3"><div id="legend"></div><p id="details">Parkplatznamen anklicken. OSM-Flächen, keine Flurstücksgrenzen.</p><p><a id="source-link" target="_blank" rel="noopener">Parkplatz in OpenStreetMap öffnen</a></p></section><p id="status">3D-Szene wird gestartet …</p></section>
-<div class="credit">© GeoBasis-DE/BKG 2026 · basemap.de · <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors · ODbL</a><br><span id="tiles3d-credit"></span><span id="bar-credit"></span><span id="imagery-credit"></span>Bearbeitung: thematische Darstellung und Szenenlayout</div>
+<p class="shadow-note">Column heights use a thematic scale, not building height. Values refer to the census reference date.</p>
+</section><div class="row" data-min-task="2"><button id="aerial" aria-pressed="true">Aerial imagery · DOP20</button><button id="map" aria-pressed="false">Base map</button></div>
+<section data-min-task="2"><label for="raster-opacity">Imagery opacity <output id="raster-value">80%</output></label><input id="raster-opacity" type="range" min="0" max="100" step="5" value="80" aria-label="Imagery opacity"></section><div class="row"><button id="overview" disabled>All polygons</button><button id="top" disabled>Top view</button><button id="toggle" disabled>Hide buildings</button></div>
+<section data-min-task="5"><p><label for="sun-date">Date </label><input id="sun-date" type="date" aria-label="Date" value="2026-10-25" min="1900-01-01" max="2100-12-31"></p>
+<label for="sun-time">Time <output id="sun-value" for="sun-time">13:00</output></label>
+<input id="sun-time" type="range" min="240" max="1320" step="15" value="780" aria-label="Time">
+<p class="shadow-note">04:00 — 22:00 · German local time (including daylight saving)<br>Model shadows follow the sun; shadows in aerial imagery remain unchanged.</p>
+</section><p class="hint">Drag to pan · Scroll to zoom · Ctrl + drag to tilt / rotate<br>Select a polygon; retain data credits in screenshots.</p>
+<section data-min-task="3"><p><label><input type="checkbox" id="fill" checked> Show polygon fill</label></p>
+</section><section data-min-task="4"><p><label><input type="checkbox" id="nearby-toggle" disabled> Highlight buildings near all polygons</label></p>
+<label for="nearby-distance">Search distance <output id="nearby-value">75 m</output></label>
+<input id="nearby-distance" type="range" min="0" max="200" step="5" value="75" aria-label="Search distance" disabled>
+<p id="nearby-count" class="shadow-note">Selection uses the shortest distance to all parking polygons.</p>
+</section><section data-min-task="3"><div id="legend"></div><p id="details">Click a parking name. OSM polygons are not cadastral boundaries.</p><p><a id="source-link" target="_blank" rel="noopener">Open parking in OpenStreetMap</a></p></section><p id="status">Starting the 3D scene …</p></section>
+<div class="credit">© GeoBasis-DE/BKG 2026 · basemap.de · <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors · ODbL</a><br><span id="tiles3d-credit"></span><span id="bar-credit"></span><span id="imagery-credit"></span>Adaptation: thematic visualization and scene layout</div>
 <script>(()=>{
 const originalSceneHTML=document.documentElement.outerHTML;
 
-const config = {"task": 5, "title": "Mainz · 3D Bäume", "center": [8.27412, 49.99892], "heading": 25, "pitch": -45, "distance_m": 900, "use_terrain": true, "basemap": "aerial", "start_parking": 0, "opacity": 0.25, "building_color": "#eef2f3", "roof_color": "#91a8b8", "raster_url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "raster_layer": "rp_dop20", "raster_opacity": 0.7, "highlight_nearby": false, "nearby_distance_m": 75, "sun_date": "2026-06-21", "sun_hour": 17, "has_raster": true, "has_vector": false, "query_enabled": false, "popup_enabled": true, "sun_enabled": true, "bars_enabled": false, "buildings_enabled": true, "nearby_max_distance_m": 200, "raster_layers": [{"url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "layers": "rp_dop20", "opacity": 0.7, "name": "Luftbild", "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0", "description": "DOP20-Luftbild · LVermGeo Rheinland-Pfalz.", "styles": "", "format": "image/png", "transparent": true, "version": "1.1.1", "crs": "EPSG:4326", "bounds": null, "show": true, "legend_url": null}], "tiles3d_layers": [{"url": "https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset-estimated.json", "name": "3D Bäume", "show": true, "maximum_screen_space_error": 12, "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL", "popup": true, "feature_id_label": "tree", "require_terrain": true, "relative_url": "../layers/mainz-trees/tileset-estimated.json"}], "stage_description": "Sonnenstand und Gebäudeschatten"};
+const config = {"task": 5, "title": "Mainz · 3D trees", "center": [8.27412, 49.99892], "heading": 25, "pitch": -45, "distance_m": 900, "use_terrain": true, "basemap": "aerial", "start_parking": 0, "opacity": 0.25, "building_color": "#eef2f3", "roof_color": "#91a8b8", "raster_url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "raster_layer": "rp_dop20", "raster_opacity": 0.7, "highlight_nearby": false, "nearby_distance_m": 75, "sun_date": "2026-06-21", "sun_hour": 17, "has_raster": true, "has_vector": false, "query_enabled": false, "popup_enabled": true, "sun_enabled": true, "bars_enabled": false, "buildings_enabled": true, "nearby_max_distance_m": 200, "raster_layers": [{"url": "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi", "layers": "rp_dop20", "opacity": 0.7, "name": "Aerial imagery", "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0", "description": "DOP20 aerial imagery · LVermGeo Rheinland-Pfalz.", "styles": "", "format": "image/png", "transparent": true, "version": "1.1.1", "crs": "EPSG:4326", "bounds": null, "show": true, "legend_url": null}], "tiles3d_layers": [{"url": "https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset-estimated.json", "name": "3D trees", "show": true, "maximum_screen_space_error": 12, "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL", "popup": true, "feature_id_label": "tree", "require_terrain": true, "relative_url": "../layers/mainz-trees/tileset-estimated.json"}], "stage_description": "Sun position and building shadows"};
 const geojson = {"type": "FeatureCollection", "features": []};
 geojson.features.forEach((f,i)=>{f.properties._basemap_object_index=i;});
 const buildingFootprints = {"type": "FeatureCollection", "features": []};
@@ -92,20 +92,20 @@ document.getElementById('title').textContent = config.title;
 document.title = config.title;
 const available={2:config.has_raster,3:config.has_vector,4:config.query_enabled,5:config.sun_enabled};
 document.querySelectorAll('[data-min-task]').forEach(node=>{node.hidden=!available[Number(node.dataset.minTask)];});
-document.getElementById('stage-description').textContent=(config.tiles3d_layers?.length && !config.has_vector && !config.bars_enabled)?'Gehostete 3D-Layer · Gelände und Stadtmodell':config.stage_description;
-if(!config.has_vector)document.getElementById('overview').textContent=config.bars_enabled?'3D-Säulen':'Gesamtansicht';
-if(config.bars_enabled)document.getElementById('top').textContent='2D-Verteilung';
-if(!config.has_vector)document.querySelector('.hint').textContent='Ziehen: verschieben · Mausrad: zoomen · Strg + Ziehen: neigen / drehen';
+document.getElementById('stage-description').textContent=(config.tiles3d_layers?.length && !config.has_vector && !config.bars_enabled)?'Hosted 3D layers · Terrain and city model':config.stage_description;
+if(!config.has_vector)document.getElementById('overview').textContent=config.bars_enabled?'3D columns':'Overview';
+if(config.bars_enabled)document.getElementById('top').textContent='2D distribution';
+if(!config.has_vector)document.querySelector('.hint').textContent='Drag to pan · Scroll to zoom · Ctrl + drag to tilt / rotate';
 
 // Controls are grouped by capability, independently of teaching-task order.
 const panel=document.querySelector('.panel');
 document.getElementById('stage-description').hidden=true;
 const group=(title)=>{const section=document.createElement('section');section.className='control-group';const h=document.createElement('h2');h.textContent=title;section.append(h);panel.append(section);return section;};
-const layersGroup=group('Layer');
+const layersGroup=group('Layers');
 const buildingRow=document.createElement('label');buildingRow.className='layer-row';
 const buildingCheck=document.createElement('input');buildingCheck.type='checkbox';buildingCheck.checked=config.buildings_enabled;buildingCheck.disabled=true;
-buildingRow.append(buildingCheck,document.createTextNode(' 3D-Gebäude'));buildingRow.hidden=!config.buildings_enabled;layersGroup.append(buildingRow);
-const buildingHint=document.createElement('p');buildingHint.className='layer-description';buildingHint.hidden=!config.buildings_enabled;buildingHint.textContent='basemap.de · LoD2-Gebäudemodelle.';layersGroup.append(buildingHint);
+buildingRow.append(buildingCheck,document.createTextNode(' 3D buildings'));buildingRow.hidden=!config.buildings_enabled;layersGroup.append(buildingRow);
+const buildingHint=document.createElement('p');buildingHint.className='layer-description';buildingHint.hidden=!config.buildings_enabled;buildingHint.textContent='basemap.de · LoD2 building models.';layersGroup.append(buildingHint);
 const tilesPanel=document.getElementById('tiles3d-panel');layersGroup.append(tilesPanel);tilesPanel.querySelector('p').hidden=true;
 document.getElementById('tiles3d-details').hidden=true;
 const wmsControls=document.createElement('div');wmsControls.id='wms-controls';layersGroup.append(wmsControls);
@@ -114,11 +114,11 @@ document.getElementById('aerial').parentElement.hidden=true;
 const fillSection=document.getElementById('fill').closest('section');layersGroup.append(fillSection);
 setupPolygonUpload();
 const sunSection=document.getElementById('sun-date').closest('section');sunSection.classList.add('control-group');
-const sunHeading=document.createElement('h2');sunHeading.textContent='Licht & Schatten';sunSection.prepend(sunHeading);
+const sunHeading=document.createElement('h2');sunHeading.textContent='Light & shadows';sunSection.prepend(sunHeading);
 const sunRow=document.createElement('label');sunRow.className='layer-row';
 const sunCheck=document.createElement('input');sunCheck.type='checkbox';sunCheck.checked=true;
-sunRow.append(sunCheck,document.createTextNode(' Schatten anzeigen'));sunHeading.after(sunRow);panel.append(sunSection);
-const viewGroup=group('Ansicht');viewGroup.append(document.getElementById('overview').parentElement);
+sunRow.append(sunCheck,document.createTextNode(' Show shadows'));sunHeading.after(sunRow);panel.append(sunSection);
+const viewGroup=group('View');viewGroup.append(document.getElementById('overview').parentElement);
 document.getElementById('toggle').hidden=true;
 const querySection=document.getElementById('nearby-toggle').closest('section');panel.append(querySection);
 const legendSection=document.getElementById('legend').closest('section');fillSection.append(legendSection);
@@ -186,7 +186,7 @@ function setupNearbyHighlight(viewer,buildings){
   output.textContent=distance+' m';
   if(!toggle.checked){
    if(layer)layer.show=false;
-   count.textContent='Deaktiviert. Die Auswahl gilt gleichzeitig für alle '+geojson.features.length+' Flächen.';
+   count.textContent='Disabled. The selection applies to all '+geojson.features.length+' Polygons.';
    viewer.scene.requestRender();return;
   }
   const selected=candidates.filter(x=>x.distance<=distance+1e-7);
@@ -205,7 +205,7 @@ function setupNearbyHighlight(viewer,buildings){
    lastDistance=distance;
   }
   if(layer)layer.show=true;
-  count.textContent='Alle '+geojson.features.length+' Flächen: '+selected.length+' OSM-Gebäudeumrisse ausgewählt. '+config.query_source_label+'.';
+  count.textContent='All '+geojson.features.length+' Polygons: '+selected.length+' OSM building footprints selected. '+config.query_source_label+'.';
   viewer.scene.requestRender();
  }
  toggle.disabled=false;slider.disabled=false;
@@ -222,7 +222,7 @@ function setupNearbyHighlight(viewer,buildings){
 function setupBars(viewer){
  document.getElementById('bars-panel').hidden=false;
  document.getElementById('bars-title').textContent=config.bar_legend_title;
- document.getElementById('bar-reading').textContent='Dunkler und höher = mehr '+config.bar_unit+'. Die Draufsicht zeigt das räumliche Muster ohne Überdeckung.';
+ document.getElementById('bar-reading').textContent='Darker and taller = more '+config.bar_unit+'. The top view shows spatial patterns without overlap.';
  document.getElementById('bar-credit').textContent=config.bar_attribution+' · ';
  const heightSlider=document.getElementById('bar-height');
  const minimumSlider=document.getElementById('bar-minimum');
@@ -236,10 +236,10 @@ function setupBars(viewer){
  minimumSlider.step=String(Math.max(1,Math.round(maximum/250)));
  const breaks=[...new Set([0.2,0.4,0.6,0.8].map(q=>values[Math.floor(q*(values.length-1))]))];
  const palette=['#c6dbef','#6baed6','#4292c6','#2171b5','#08306b'];
- const format=n=>n.toLocaleString('de-DE',{maximumFractionDigits:2});
+ const format=n=>n.toLocaleString('en-GB',{maximumFractionDigits:2});
  const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const colorFor=value=>palette[Math.min(palette.length-1,breaks.filter(v=>value>v).length)];
- const dataset=new Cesium.CustomDataSource('Thematische Säulen');
+ const dataset=new Cesium.CustomDataSource('Thematic columns');
  viewer.dataSources.add(dataset);
  const columns=barRows.map(row=>{
   const height=Math.max(0.1,row.value*config.bar_height_scale);
@@ -252,10 +252,10 @@ function setupBars(viewer){
     material:Cesium.Color.fromCssColorString(colorFor(row.value)).withAlpha(config.bar_opacity),
     outline:false,shadows:Cesium.ShadowMode.DISABLED},
    description:'<table class="cesium-infoBox-defaultTable"><tbody>'+
-    '<tr><th>Gitterzelle</th><td>'+escape(row.name)+'</td></tr>'+
+    '<tr><th>Grid cell</th><td>'+escape(row.name)+'</td></tr>'+
     '<tr><th>'+escape(config.bar_legend_title)+'</th><td>'+format(row.value)+' '+escape(config.bar_unit)+'</td></tr>'+
-    '<tr><th>Stichtag</th><td>'+escape(row.reference_date || 'Siehe Datenquelle')+'</td></tr>'+
-    '<tr><th>Darstellung</th><td>Thematische Säule, keine Gebäudehöhe.</td></tr></tbody></table>'
+    '<tr><th>Reference date</th><td>'+escape(row.reference_date || 'See data source')+'</td></tr>'+
+    '<tr><th>Display</th><td>Thematic column, not building height.</td></tr></tbody></table>'
   });
  });
  const legend=document.getElementById('bar-legend');
@@ -276,9 +276,9 @@ function setupBars(viewer){
    entity.position=Cesium.Cartesian3.fromDegrees(row.longitude,row.latitude,height/2);
    entity.box.dimensions=new Cesium.Cartesian3(config.bar_width_m,config.bar_width_m,height);
   });
-  document.getElementById('bar-height-value').textContent=format(factor)+' m / Einheit';
+  document.getElementById('bar-height-value').textContent=format(factor)+' m / unit';
   document.getElementById('bar-minimum-value').textContent=format(minimum)+' '+config.bar_unit;
-  document.getElementById('bar-count').textContent=shown+' von '+barRows.length+' Säulen sichtbar. Farben: feste Quantilklassen des geladenen Datensatzes.';
+  document.getElementById('bar-count').textContent=shown+' of '+barRows.length+' columns visible. Colors use fixed quantile classes for the loaded dataset.';
   viewer.scene.requestRender();
  }
  heightSlider.addEventListener('input',update);
@@ -290,17 +290,17 @@ function showTileFeature(viewer, picked){
  if(!picked || typeof picked.getPropertyIds!=='function')return false;
  const esc=value=>String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const tree=picked.getProperty('tree_id');
- const labels={tree_id:'Baum-ID',model_height_m:'Modellhöhe (m)',source_height_m:'Geschätzte Baumhöhe (m)',ground_height_m:'Geländehöhe DGM5 (m)',needs_review:'Prüfung empfohlen'};
+ const labels={tree_id:'Tree ID',model_height_m:'Model height (m)',source_height_m:'Estimated tree height (m)',ground_height_m:'DGM5 ground height (m)',needs_review:'Review recommended'};
  const ids=tree?Object.keys(labels):picked.getPropertyIds().slice(0,30);
  const rows=ids.map(id=>{let value=picked.getProperty(id);if(value===undefined)return '';
-  if(typeof value==='number')value=value.toLocaleString('de-DE',{maximumFractionDigits:2});
+  if(typeof value==='number')value=value.toLocaleString('en-GB',{maximumFractionDigits:2});
   if(id==='needs_review')value=Boolean(picked.getProperty(id));
   if(typeof value==='boolean')value=value?'Ja':'Nein';
   return '<tr><th>'+esc(labels[id] || id)+'</th><td>'+esc(value)+'</td></tr>';
  }).join('');
- const name=tree?'Baum '+tree:'3D-Objekt';
- viewer.selectedEntity=new Cesium.Entity({name,description:'<table class="cesium-infoBox-defaultTable"><tbody>'+rows+'</tbody></table>'+(tree?'<p>Automatisch erkannter Kandidat; schematisches Modell, keine bestätigte Baumaufnahme.</p>':'')});
- document.getElementById('tiles3d-details').textContent=tree?name+' · Modellhöhe '+Number(picked.getProperty('model_height_m')).toLocaleString('de-DE',{maximumFractionDigits:2})+' m · '+(picked.getProperty('needs_review')?'Bitte manuell prüfen.':'Automatischer Kandidat.'):name;
+ const name=tree?'Tree '+tree:'3D object';
+ viewer.selectedEntity=new Cesium.Entity({name,description:'<table class="cesium-infoBox-defaultTable"><tbody>'+rows+'</tbody></table>'+(tree?'<p>Automatically detected candidate; schematic model, not a verified tree inventory.</p>':'')});
+ document.getElementById('tiles3d-details').textContent=tree?name+' · Model height '+Number(picked.getProperty('model_height_m')).toLocaleString('en-GB',{maximumFractionDigits:2})+' m · '+(picked.getProperty('needs_review')?'Manual review recommended.':'Automatically detected candidate.'):name;
  return true;
 }
 
@@ -313,10 +313,10 @@ function setupWmsLayers(viewer){
   const check=document.createElement('input');check.type='checkbox';check.checked=option.show!==false;
   label.append(check,document.createTextNode(' '+option.name));box.append(label);
   if(option.description){const note=document.createElement('p');note.className='layer-description';note.textContent=option.description;box.append(note);}
-  const opacityLabel=document.createElement('label');opacityLabel.htmlFor='wms-opacity-'+index;opacityLabel.textContent='Deckkraft ';
+  const opacityLabel=document.createElement('label');opacityLabel.htmlFor='wms-opacity-'+index;opacityLabel.textContent='Opacity ';
   const output=document.createElement('output');opacityLabel.append(output);box.append(opacityLabel);
-  const slider=document.createElement('input');slider.type='range';slider.id='wms-opacity-'+index;slider.min='0';slider.max='100';slider.step='1';slider.value=String(Math.round(option.opacity*100));slider.setAttribute('aria-label',option.name+' · Deckkraft');box.append(slider);
-  if(option.legend_url){const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent='Legende';const image=document.createElement('img');image.alt=option.name+' · Legende';image.src=option.legend_url;details.append(summary,image);box.append(details);}
+  const slider=document.createElement('input');slider.type='range';slider.id='wms-opacity-'+index;slider.min='0';slider.max='100';slider.step='1';slider.value=String(Math.round(option.opacity*100));slider.setAttribute('aria-label',option.name+' · Opacity');box.append(slider);
+  if(option.legend_url){const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent='Legend';const image=document.createElement('img');image.alt=option.name+' · Legend';image.src=option.legend_url;details.append(summary,image);box.append(details);}
   wmsControls.append(box);
   const parameters={version:option.version||'1.1.1',format:option.format||'image/png',transparent:option.transparent!==false,styles:option.styles||''};
   const settings={url:option.url,layers:option.layers,parameters,credit:option.attribution||'',enablePickFeatures:false,
@@ -327,7 +327,7 @@ function setupWmsLayers(viewer){
   if(option.attribution)credits.add(option.attribution);
   check.onchange=()=>{layer.show=check.checked;viewer.scene.requestRender();};
   slider.oninput=()=>{layer.alpha=Number(slider.value)/100;output.textContent=slider.value+'%';viewer.scene.requestRender();};slider.oninput();
-  let failed=false;provider.errorEvent.addEventListener(()=>{if(!failed){failed=true;warnings.push(option.name+': Rasterkacheln konnten nicht geladen werden. Dienst und Ausschnitt prüfen.');report();}});
+  let failed=false;provider.errorEvent.addEventListener(()=>{if(!failed){failed=true;warnings.push(option.name+': Raster tiles failed to load. Check the service and extent.');report();}});
  }
  document.getElementById('imagery-credit').textContent=credits.size?[...credits].join(' · ')+' · ':'';
 }
@@ -345,27 +345,27 @@ async function setupTiles3D(viewer, terrainEnabled){
   box.className='layer-entry';label.className='layer-row';
   let selector;
   if(option.variants){
-   selector=document.createElement('select');selector.setAttribute('aria-label',option.name+' · Höhenmodus');
+   selector=document.createElement('select');selector.setAttribute('aria-label',option.name+' · Height mode');
    for(const [value,url] of Object.entries(option.variants)){
-    const item=document.createElement('option');item.value=value;item.textContent=value==='uniform'?'Einheitliche Höhe · 15 m':'Geschätzte Baumhöhe';selector.append(item);
+    const item=document.createElement('option');item.value=value;item.textContent=value==='uniform'?'Uniform height · 15 m':'Estimated tree height';selector.append(item);
    }
    selector.value=option.variant;box.append(selector);
   }
-  const fit=document.createElement('button');fit.textContent='⌖';fit.title='Zum Layer';fit.setAttribute('aria-label',option.name+' · Zum Layer');fit.className='layer-fit';fit.disabled=true;const layerHeader=document.createElement('div');layerHeader.className='layer-header';label.replaceWith(layerHeader);layerHeader.append(label,fit);
+  const fit=document.createElement('button');fit.textContent='⌖';fit.title='Zoom to layer';fit.setAttribute('aria-label',option.name+' · Zoom to layer');fit.className='layer-fit';fit.disabled=true;const layerHeader=document.createElement('div');layerHeader.className='layer-header';label.replaceWith(layerHeader);layerHeader.append(label,fit);
   if(option.feature_id_label==='tree'){
-   const hint=document.createElement('p');hint.className='layer-description';hint.textContent='Automatisch geschätzte Bäume und Höhen. Keine präzise Vermessung.';layerHeader.after(hint);
+   const hint=document.createElement('p');hint.className='layer-description';hint.textContent='Estimated trees and heights for visualization; not a precise survey.';layerHeader.after(hint);
   }
-  const state=document.createElement('p');state.className='shadow-note';state.textContent='Layer wird geladen …';box.append(state);
+  const state=document.createElement('p');state.className='shadow-note';state.textContent='Loading layer …';box.append(state);
   document.getElementById('tiles3d-controls').append(box);
   if(option.require_terrain && !terrainEnabled){
-   state.textContent='Nicht geladen: Dieser Layer benötigt basemap.de DGM5-Gelände. Verbindung prüfen und neu laden.';
+   state.textContent='This layer requires basemap.de DGM5 terrain. Check the connection and reload.';
    visible.disabled=true;if(selector)selector.disabled=true;return;
   }
   let current=null;
   visible.onchange=()=>{if(current)current.show=visible.checked;viewer.scene.requestRender();};
   fit.onclick=()=>{if(current)viewer.camera.flyToBoundingSphere(current.boundingSphere,{duration:0.8,offset:new Cesium.HeadingPitchRange(Cesium.Math.toRadians(25),Cesium.Math.toRadians(-45),0)});};
   async function load(url){
-   if(selector)selector.disabled=true;state.textContent='Layer wird geladen …';
+   if(selector)selector.disabled=true;state.textContent='Loading layer …';
    try{
     const settings={maximumScreenSpaceError:option.maximum_screen_space_error};
     if(option.feature_id_label)settings.instanceFeatureIdLabel=option.feature_id_label;
@@ -375,9 +375,9 @@ async function setupTiles3D(viewer, terrainEnabled){
     if(current)viewer.scene.primitives.remove(current);
     current=next;fit.disabled=false;state.textContent='';
     next.allTilesLoaded.addEventListener(()=>{state.textContent='';});
-    next.tileFailed.addEventListener(()=>{state.textContent='Eine Kachel fehlt. Netzwerk prüfen und neu laden.';});
+    next.tileFailed.addEventListener(()=>{state.textContent='A tile is missing. Check the network and reload.';});
     viewer.scene.requestRender();
-   }catch(error){state.textContent='Layer konnte nicht geladen werden: '+error.message;}
+   }catch(error){state.textContent='Could not load layer: '+error.message;}
    finally{if(selector)selector.disabled=false;}
   }
   if(selector)selector.onchange=()=>load(option.variants[selector.value]);
@@ -386,7 +386,7 @@ async function setupTiles3D(viewer, terrainEnabled){
 }
 
 async function main(){
- if(typeof Cesium==='undefined') throw new Error('CesiumJS konnte nicht geladen werden. Internetverbindung und CDN-Zugriff prüfen.');
+ if(typeof Cesium==='undefined') throw new Error('Could not load CesiumJS. Check internet access and CDN availability.');
  Cesium.Ion.defaultAccessToken = '';
  if(config.bars_enabled)document.body.classList.add('population-mode');
  const viewer = new Cesium.Viewer('scene', {
@@ -435,7 +435,7 @@ async function main(){
  viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#e9f1f5');
  viewer.scene.globe.depthTestAgainstTerrain = false;
  viewer.scene.postProcessStages.fxaa.enabled = true;
- viewer.creditDisplay.addStaticCredit(new Cesium.Credit('© GeoBasis-DE/BKG 2026 · basemap.de | Bearbeitung: Farben und Lehrbeispiele',true));
+ viewer.creditDisplay.addStaticCredit(new Cesium.Credit('© GeoBasis-DE/BKG 2026 · basemap.de | Adaptation: colors and teaching examples',true));
  if(config.bars_enabled)setupBars(viewer);
  const mapLayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
   url:'https://sgx.geodatenzentrum.de/wms_basemapde',layers:'de_basemapde_web_raster_farbe',
@@ -445,7 +445,7 @@ async function main(){
  setupWmsLayers(viewer);
  let mapFailed=false;
  mapLayer.imageryProvider.errorEvent.addEventListener(()=>{
-  if(!mapFailed){mapFailed=true;warnings.push('Basiskartenkacheln konnten nicht geladen werden. Netzwerk prüfen.');report();}
+  if(!mapFailed){mapFailed=true;warnings.push('Base map tiles failed to load. Check the network.');report();}
  });
 
 // Implementation detail for the teaching renderer.
@@ -460,7 +460,7 @@ async function main(){
   entity.name=props.name;
   const esc=value=>String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   entity.description='<table class="cesium-infoBox-defaultTable"><tbody>'+[
-   ['Name',props.name],['OSM ID',props.osm_id || 'Eigene Daten'],['Zugang (OSM)',props.access || 'Keine Angabe'],['Beschreibung',props.note || 'Eigene Fläche']
+   ['Name',props.name],['OSM ID',props.osm_id || 'User data'],['Access (OSM)',props.access || 'Not specified'],['Description',props.note || 'User polygon']
   ].map(([key,value])=>'<tr><th>'+esc(key)+'</th><td>'+esc(value)+'</td></tr>').join('')+'</tbody></table>';
  }
  for(const feature of geojson.features){
@@ -488,7 +488,7 @@ async function main(){
   viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);viewer.scene.requestRender();
  }
  function showDetails(feature){
-  document.getElementById('details').textContent=feature.properties.name+': '+(feature.properties.note || 'Eigene Fläche');
+  document.getElementById('details').textContent=feature.properties.name+': '+(feature.properties.note || 'User polygon');
   const link=document.getElementById('source-link');
   const url=feature.properties.osm_url || '';
   link.hidden=!/^https:\/\/www\.openstreetmap\.org\/way\/\d+$/.test(url);
@@ -520,7 +520,7 @@ async function main(){
    const button=document.createElement('button');button.textContent=f.properties.name;button.title=f.properties.name;button.onclick=()=>focusFeature(f);
    row.append(dot,button);legend.append(row);
   }
-  shown=end;objectSummary.textContent=shown+' / '+geojson.features.length+' Objekte';more.hidden=shown>=geojson.features.length;
+  shown=end;objectSummary.textContent=shown+' / '+geojson.features.length+' objects';more.hidden=shown>=geojson.features.length;
  }
  more.onclick=appendObjects;appendObjects();
  viewer.screenSpaceEventHandler.setInputAction(click=>{
@@ -537,13 +537,13 @@ async function main(){
 
  let terrainEnabled=false;
  if(config.use_terrain){
-  status.textContent='Flächen bereit; DGM5-Gelände wird geladen …';
+  status.textContent='Polygons ready; loading DGM5 terrain …';
   try{
    viewer.terrainProvider=await Cesium.CesiumTerrainProvider.fromUrl('https://sgx.geodatenzentrum.de/gdz_basemapde_3d_gelaende/dgm5_4326_mesh/');
    terrainEnabled=true;
    let failed=false;
-   viewer.terrainProvider.errorEvent.addEventListener(()=>{if(!failed){failed=true;warnings.push('Einige Geländekacheln fehlen. Internetverbindung prüfen.');report();}});
-  }catch(error){warnings.push('Gelände nicht verfügbar: flache Darstellung mit passender Gebäudevariante.');}
+   viewer.terrainProvider.errorEvent.addEventListener(()=>{if(!failed){failed=true;warnings.push('Some terrain tiles are missing. Check the internet connection.');report();}});
+  }catch(error){warnings.push('Terrain unavailable: using a flat view and matching building variant.');}
  }
  if(config.buildings_enabled){
  try{
@@ -561,39 +561,39 @@ async function main(){
   viewer.scene.primitives.add(buildings);
   if(config.query_enabled)setupNearbyHighlight(viewer,buildings);
   let failed=false;
-  buildings.tileFailed.addEventListener(()=>{if(!failed){failed=true;warnings.push('Einige Gebäudekacheln fehlen. Netzwerk prüfen und neu laden.');report();}});
+  buildings.tileFailed.addEventListener(()=>{if(!failed){failed=true;warnings.push('Some building tiles are missing. Check the network and reload.');report();}});
   const toggle=document.getElementById('toggle');toggle.disabled=false;
-  toggle.onclick=()=>{buildings.show=!buildings.show;toggle.textContent=buildings.show?'Gebäude ausblenden':'Gebäude einblenden';viewer.scene.requestRender();};
+  toggle.onclick=()=>{buildings.show=!buildings.show;toggle.textContent=buildings.show?'Hide buildings':'Show buildings';viewer.scene.requestRender();};
   buildingCheck.disabled=false;buildingCheck.onchange=()=>{buildings.show=buildingCheck.checked;viewer.scene.requestRender();};
   window.buildings=buildings;
- }catch(error){warnings.push('Gebäudedienst nicht verfügbar. Flächen und Karte bleiben sichtbar. Netzwerk prüfen und neu laden.');console.error(error);}
+ }catch(error){warnings.push('Building service unavailable. Polygons and base map remain visible. Check the network and reload.');console.error(error);}
  }
  await setupTiles3D(viewer,terrainEnabled);
  go();report();viewer.scene.requestRender();
 }
-main().catch(error=>{status.textContent='Szene konnte nicht gestartet werden: '+error.message+'\nDie exportierte HTML-Datei öffnen oder WebGL2 / Hardwarebeschleunigung prüfen.';console.error(error);});
+main().catch(error=>{status.textContent='Could not start the scene: '+error.message+'\nOpen the exported HTML file or check WebGL2 and hardware acceleration.';console.error(error);});
 // Browser-local GeoJSON replacement; query data is refreshed for the new extent.
 function validateUploadedPolygons(data){
  if(data.type==='Feature')data={type:'FeatureCollection',features:[data]};
- if(data.type!=='FeatureCollection'||!Array.isArray(data.features)||!data.features.length)throw Error('Eine nicht leere FeatureCollection mit Polygonen ist erforderlich.');
+ if(data.type!=='FeatureCollection'||!Array.isArray(data.features)||!data.features.length)throw Error('A nonempty FeatureCollection of polygons is required.');
 
  const palette=['#ff7b54','#21cbb8','#c3a1ff','#ffd35c','#56b6ff'];
  data.features.forEach((f,i)=>{
-  if(!f||f.type!=='Feature'||!['Polygon','MultiPolygon'].includes(f.geometry?.type))throw Error('Nur Polygon und MultiPolygon werden unterstützt.');
+  if(!f||f.type!=='Feature'||!['Polygon','MultiPolygon'].includes(f.geometry?.type))throw Error('Only Polygon and MultiPolygon are supported.');
   const polygons=f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates;
-  if(!Array.isArray(polygons)||!polygons.length)throw Error('Leere Geometrie.');
+  if(!Array.isArray(polygons)||!polygons.length)throw Error('Empty geometry.');
   for(const poly of polygons){
-   if(!Array.isArray(poly)||!poly.length)throw Error('Leeres Polygon.');
+   if(!Array.isArray(poly)||!poly.length)throw Error('Empty polygon.');
    for(const ring of poly){
-    if(!Array.isArray(ring)||ring.length<4)throw Error('Ein Ring benötigt mindestens vier Koordinaten.');
-    for(const p of ring)if(!Array.isArray(p)||p.length<2||!p.every(Number.isFinite)||Math.abs(p[0])>180||Math.abs(p[1])>90)throw Error('WGS84-Koordinaten [Längengrad, Breitengrad] innerhalb ±90° Breite erforderlich.');
-    if(ring[0][0]!==ring[ring.length-1][0]||ring[0][1]!==ring[ring.length-1][1])throw Error('Polygonringe müssen geschlossen sein.');
+    if(!Array.isArray(ring)||ring.length<4)throw Error('A ring requires at least four coordinates.');
+    for(const p of ring)if(!Array.isArray(p)||p.length<2||!p.every(Number.isFinite)||Math.abs(p[0])>180||Math.abs(p[1])>90)throw Error('WGS84 coordinates [longitude, latitude] within ±90 degrees latitude are required.');
+    if(ring[0][0]!==ring[ring.length-1][0]||ring[0][1]!==ring[ring.length-1][1])throw Error('Polygon rings must be closed.');
    }
   }
-  const props=f.properties||{};f.properties={...props,name:String(props.name??props.Name??props.NAME??props.Bezeichnung??props.bezeichnung??props.title??props.label??props.id??f.id??('Objekt '+(i+1))),_basemap_object_index:i,note:String(props.note||''),color:palette[i%palette.length]};
+  const props=f.properties||{};f.properties={...props,name:String(props.name??props.Name??props.NAME??props.Bezeichnung??props.bezeichnung??props.title??props.label??props.id??f.id??('Object '+(i+1))),_basemap_object_index:i,note:String(props.note||''),color:palette[i%palette.length]};
   f.id='object-'+i;
  });
- if(data.features.flatMap(f=>coordinatePairs(f.geometry.coordinates)).length>20000)throw Error('Bitte die Geometrie vereinfachen (max. 20.000 Punkte).');
+ if(data.features.flatMap(f=>coordinatePairs(f.geometry.coordinates)).length>20000)throw Error('Simplify the geometry (maximum 20,000 points).');
  return data;
 }
 function osmBuildingFeatures(elements){
@@ -604,20 +604,20 @@ function osmBuildingFeatures(elements){
   const pending=parts.map(p=>p.slice()),result=[];
   while(pending.length){let ring=pending.pop();while(ring[0]!==ring[ring.length-1]){
    const i=pending.findIndex(p=>p[0]===ring[0]||p[p.length-1]===ring[0]||p[0]===ring[ring.length-1]||p[p.length-1]===ring[ring.length-1]);
-   if(i<0)throw Error('Unvollständige OSM-Gebäuderelation. Bitte einen kleineren Ausschnitt versuchen.');
+   if(i<0)throw Error('Incomplete OSM building relation. Try a smaller extent.');
    let part=pending.splice(i,1)[0];
    if(ring[ring.length-1]===part[0])ring.push(...part.slice(1));
    else if(ring[ring.length-1]===part[part.length-1])ring.push(...part.reverse().slice(1));
    else if(ring[0]===part[part.length-1])ring=part.slice(0,-1).concat(ring);
    else ring=part.reverse().slice(0,-1).concat(ring);
   }
-  if(ring.length>=4){if(!ring.every(id=>nodes.has(id)))throw Error('OSM-Gebäude unvollständig geladen.');result.push(ring.map(id=>nodes.get(id)));}}
+  if(ring.length>=4){if(!ring.every(id=>nodes.has(id)))throw Error('OSM buildings were not fully loaded.');result.push(ring.map(id=>nodes.get(id)));}}
   return result;
  }
  for(const rel of elements.filter(e=>e.type==='relation'&&e.tags?.type==='multipolygon'&&e.tags?.building&&e.tags.building!=='no')){
   const outer=[],inner=[];
   for(const m of rel.members||[])if(m.type==='way'){
-   if(!ways.has(m.ref))throw Error('OSM-Relation reicht über den Ausschnitt hinaus. Bitte erneut versuchen.');
+   if(!ways.has(m.ref))throw Error('OSM relation extends beyond the extent. Please retry.');
    (m.role==='inner'?inner:outer).push(ways.get(m.ref).nodes);members.add(m.ref);
   }
   const shells=rings(outer),holes=rings(inner);
@@ -630,20 +630,20 @@ function osmBuildingFeatures(elements){
 }
 async function uploadedBuildings(polygons){
  const pts=polygons.features.flatMap(f=>coordinatePairs(f.geometry.coordinates));
- if(pts.some(p=>Math.abs(p[1])>85))throw Error('Die Gebäudeabfrage unterstützt Breitengrade bis ±85°.');
+ if(pts.some(p=>Math.abs(p[1])>85))throw Error('Building queries support latitudes up to ±85 degrees.');
  const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),lat=(Math.min(...ys)+Math.max(...ys))/2;
  const dy=(config.nearby_max_distance_m+100)/111320,dx=dy/Math.cos(lat*Math.PI/180);
  const box=[Math.min(...xs)-dx,Math.min(...ys)-dy,Math.max(...xs)+dx,Math.max(...ys)+dy];
- if((box[2]-box[0])*111320*Math.cos(lat*Math.PI/180)*(box[3]-box[1])*111320>4000000)throw Error('Für die automatische Abfrage bitte einen Ausschnitt bis 4 km² verwenden.');
+ if((box[2]-box[0])*111320*Math.cos(lat*Math.PI/180)*(box[3]-box[1])*111320>4000000)throw Error('Use an extent up to 4 square kilometers for automatic queries.');
  const response=await fetch('https://api.openstreetmap.org/api/0.6/map.json?bbox='+box.join(','),{signal:AbortSignal.timeout(45000)});
- if(!response.ok)throw Error('OSM-Gebäude konnten nicht geladen werden ('+response.status+'). Die bisherigen Flächen bleiben erhalten.');
+ if(!response.ok)throw Error('Could not load OSM buildings ('+response.status+'). The existing polygons are retained.');
  const payload=await response.json();
  const all=new Map(payload.elements.map(e=>[e.type+'/'+e.id,e]));
  const incomplete=payload.elements.filter(e=>e.type==='relation'&&e.tags?.type==='multipolygon'&&e.tags?.building&&e.tags.building!=='no'&&(e.members||[]).some(m=>m.type==='way'&&!all.has('way/'+m.ref)));
- if(incomplete.length>8)throw Error('Zu viele komplexe Gebäuderelationen. Bitte einen kleineren Ausschnitt wählen.');
+ if(incomplete.length>8)throw Error('Too many complex building relations. Choose a smaller extent.');
  await Promise.all(incomplete.map(async rel=>{
   const full=await fetch('https://api.openstreetmap.org/api/0.6/relation/'+rel.id+'/full.json',{signal:AbortSignal.timeout(30000)});
-  if(!full.ok)throw Error('Gebäuderelation konnte nicht vollständig geladen werden.');
+  if(!full.ok)throw Error('Could not fully load the building relation.');
   for(const item of (await full.json()).elements)all.set(item.type+'/'+item.id,item);
  }));
  return osmBuildingFeatures([...all.values()]);
@@ -651,27 +651,27 @@ async function uploadedBuildings(polygons){
 function setupPolygonUpload(){
  if(!config.has_vector)return;
  const section=document.getElementById('fill').closest('section');
- const layerTitle=document.createElement('div');layerTitle.className='vector-layer-title';layerTitle.textContent=config.vector_layer_name||'Parkplätze · GeoJSON';section.prepend(layerTitle);
- const input=document.createElement('input');input.type='file';input.accept='.geojson,.json,application/geo+json,application/json';input.id='polygon-upload';input.setAttribute('aria-label','GeoJSON-Flächen ersetzen');
- const label=document.createElement('label');label.className='upload-label';label.textContent='GeoJSON ersetzen';label.htmlFor=input.id;
- const note=document.createElement('p');note.className='layer-description';note.style.marginLeft='0';note.textContent=config.query_enabled?'Ersetzt alle Flächen. Der neue Ausschnitt wird zum Laden der Gebäude an OpenStreetMap gesendet (bis 4 km²).':'Ersetzt alle Flächen · WGS84 oder deklariertes CRS.';
+ const layerTitle=document.createElement('div');layerTitle.className='vector-layer-title';layerTitle.textContent=config.vector_layer_name||'Parking areas · GeoJSON';section.prepend(layerTitle);
+ const input=document.createElement('input');input.type='file';input.accept='.geojson,.json,application/geo+json,application/json';input.id='polygon-upload';input.setAttribute('aria-label','Replace GeoJSON polygons');
+ const label=document.createElement('label');label.className='upload-label';label.textContent='Replace GeoJSON';label.htmlFor=input.id;
+ const note=document.createElement('p');note.className='layer-description';note.style.marginLeft='0';note.textContent=config.query_enabled?'Replaces all polygons. The new extent is sent to OpenStreetMap to load buildings (up to 4 square kilometers).':'Replaces all polygons · WGS84 or a declared CRS.';
  const message=document.createElement('p');message.className='upload-message';message.setAttribute('role','status');
  section.append(label,input,note,message);
  input.onchange=async()=>{
   const file=input.files[0];if(!file)return;input.disabled=true;
   try{
-   if(file.size>5000000)throw Error('Datei zu groß (max. 5 MB).');
-   message.textContent='Koordinatensystem wird geprüft …';
+   if(file.size>5000000)throw Error('File too large (maximum 5 MB).');
+   message.textContent='Checking coordinate system …';
    const polygons=validateUploadedPolygons(await normalizeUploadedCRS(JSON.parse(await file.text())));
-   message.textContent=config.query_enabled?'Neue OSM-Gebäude werden geladen …':'Flächen werden ersetzt …';
+   message.textContent=config.query_enabled?'Loading new OSM buildings …':'Replacing polygons …';
    const footprints=config.query_enabled?await uploadedBuildings(polygons):{type:'FeatureCollection',features:[]};
-   const nextConfig={...config,vector_layer_name:file.name,start_parking:0,query_source_label:'OSM für hochgeladene Flächen',nearby_distance_m:Number(document.getElementById('nearby-distance').value)||config.nearby_distance_m};
+   const nextConfig={...config,vector_layer_name:file.name,start_parking:0,query_source_label:'OSM for uploaded polygons',nearby_distance_m:Number(document.getElementById('nearby-distance').value)||config.nearby_distance_m};
    const safe=value=>JSON.stringify(value).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026');
    const page=originalSceneHTML.replace(/^const config = .*;$/m,()=> 'const config = '+safe(nextConfig)+';').replace(/^const geojson = .*;$/m,()=> 'const geojson = '+safe(polygons)+';').replace(/^const buildingFootprints = .*;$/m,()=> 'const buildingFootprints = '+safe(footprints)+';');
    // Rebuild the scene to reset features, outlines, distances, legend and popups together.
    if(window.viewer&&!window.viewer.isDestroyed())window.viewer.destroy();
    document.open();document.write('<!doctype html>'+page);document.close();
-  }catch(error){message.textContent='Nicht ersetzt: '+error.message;input.disabled=false;input.value='';}
+  }catch(error){message.textContent='Not replaced: '+error.message;input.disabled=false;input.value='';}
  };
 }
 
@@ -679,13 +679,13 @@ async function normalizeUploadedCRS(data){
  const declaration=data.crs;
  const properties=declaration?.properties||{};
  const raw=typeof declaration==='string'?declaration:properties.name||properties.href||(properties.code?'EPSG:'+properties.code:null)||properties.proj4||properties.wkt;
- if(declaration&&!raw)throw Error('Die CRS-Angabe konnte nicht gelesen werden. Bitte EPSG-Code oder WKT/PROJ-Definition angeben.');
+ if(declaration&&!raw)throw Error('Could not read the CRS. Provide an EPSG code or a WKT/PROJ definition.');
  let source=raw||'EPSG:4326';
  if(/CRS:?84$/i.test(source)||/^WGS\s?84$/i.test(source))source='EPSG:4326';
  const epsg=String(source).match(/EPSG.*?(\d+)$/i);if(epsg)source='EPSG:'+epsg[1];
  if(source!=='EPSG:4326'){
   if(!window.proj4){
-   await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/proj4@2.22.0/dist/proj4.js';script.onload=resolve;script.onerror=()=>reject(Error('Koordinatentransformation konnte nicht geladen werden.'));document.head.append(script);});
+   await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/proj4@2.22.0/dist/proj4.js';script.onload=resolve;script.onerror=()=>reject(Error('Could not load coordinate transformation.'));document.head.append(script);});
   }
   const common={
    'EPSG:25832':'+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs',
@@ -695,22 +695,22 @@ async function normalizeUploadedCRS(data){
   for(const [key,value] of Object.entries(common))proj4.defs(key,value);
   if(source.startsWith('EPSG:')&&!proj4.defs(source)){
    const response=await fetch('https://epsg.io/'+source.slice(5)+'.proj4',{signal:AbortSignal.timeout(15000)});
-   if(!response.ok)throw Error('Unbekanntes Koordinatensystem '+source+'.');
-   const definition=(await response.text()).trim();if(!definition.startsWith('+proj='))throw Error('Keine verwendbare Projektion für '+source+'.');
+   if(!response.ok)throw Error('Unknown coordinate system '+source+'.');
+   const definition=(await response.text()).trim();if(!definition.startsWith('+proj='))throw Error('No usable projection for '+source+'.');
    proj4.defs(source,definition);
   }
-  let transform;try{transform=proj4(source,'EPSG:4326');}catch{throw Error('Das deklarierte Koordinatensystem wird nicht unterstützt: '+source);}
+  let transform;try{transform=proj4(source,'EPSG:4326');}catch{throw Error('Unsupported declared coordinate system: '+source);}
   function coordinates(value){
-   if(!Array.isArray(value)||!value.length)throw Error('Ungültige Koordinaten.');
+   if(!Array.isArray(value)||!value.length)throw Error('Invalid coordinates.');
    if(typeof value[0]==='number'){
-    if(value.length<2||!value.every(Number.isFinite))throw Error('Ungültige Koordinaten.');
+    if(value.length<2||!value.every(Number.isFinite))throw Error('Invalid coordinates.');
     const xy=transform.forward(value.slice(0,2));return [...xy,...value.slice(2)];
    }
    return value.map(coordinates);
   }
   const features=data.type==='Feature'?[data]:data.features;
-  if(!Array.isArray(features))throw Error('FeatureCollection oder Feature erforderlich.');
-  for(const feature of features){if(!feature.geometry)throw Error('Geometrie fehlt.');feature.geometry.coordinates=coordinates(feature.geometry.coordinates);delete feature.bbox;}
+  if(!Array.isArray(features))throw Error('FeatureCollection or Feature required.');
+  for(const feature of features){if(!feature.geometry)throw Error('Missing geometry.');feature.geometry.coordinates=coordinates(feature.geometry.coordinates);delete feature.bbox;}
  }
  delete data.crs;delete data.bbox;
  return data;

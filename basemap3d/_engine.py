@@ -5,7 +5,7 @@ import math
 import csv
 
 SUPPORT=Path(__file__).resolve().parent / "assets"
-STAGES={1:"Basiskarte, Gelände und 3D-Gebäude",2:"Rasterdaten: Luftbild und Transparenz",3:"Vektordaten: Untersuchungsflächen",4:"Räumliche Abfrage und Attribut-Popup",5:"Sonnenstand und Gebäudeschatten",6:"Bevölkerungsverteilung im 1-km-Gitter"}
+STAGES={1:"Base map, terrain and 3D buildings",2:"Raster data: imagery and opacity",3:"Vector data: study polygons",4:"Spatial query and attribute popup",5:"Sun position and building shadows",6:"Population in a 1 km grid"}
 
 def create_scene(title="basemap.de · 3D", center=(10.4515, 51.1657),
                  heading=25, pitch=-45, distance_m=900):
@@ -76,7 +76,7 @@ def _geojson(path):
         props = feature.setdefault("properties", {})
         if props is None:
             props = feature["properties"] = {}
-        props.setdefault("name", str(props.get("Name") or props.get("NAME") or props.get("Bezeichnung") or props.get("label") or feature.get("id") or f"Objekt {i + 1}"))
+        props.setdefault("name", str(props.get("Name") or props.get("NAME") or props.get("Bezeichnung") or props.get("label") or feature.get("id") or f"Object {i + 1}"))
         props.setdefault("color", palette[i % len(palette)])
     return data
 
@@ -94,11 +94,11 @@ def render(config):
     if config["query_enabled"]:
         if config.get("buildings_file"):
             buildings=_geojson(config["buildings_file"])
-            config['query_source_label']='Lokale Gebäude-Datei'
+            config['query_source_label']='Local building file'
         else:
             from ._osm import fetch_around
             buildings=fetch_around(plots,config['nearby_max_distance_m'])
-            config['query_source_label']='OSM automatisch für diese Flächen'
+            config['query_source_label']='OSM downloaded for these polygons'
     bars=_bars(config['bars_file'],config['bar_value']) if config.get('bars_enabled') else []
     config.pop("vector_file", None)
     config.pop("buildings_file", None)

@@ -114,11 +114,11 @@ class WmsTileLayer:
             raise ValueError("legend_url must use HTTPS.")
         default = url == "https://geo4.service24.rlp.de/wms/rp_dop20.fcgi" and layers == "rp_dop20"
         self.options = dict(url=str(url), layers=str(layers), opacity=opacity,
-                            name=str(name or ("Luftbild" if default else layers)),
+                            name=str(name or ("Aerial imagery" if default else layers)),
                             attribution=str(attribution if attribution is not None else
                                 ("©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0" if default else "")),
                             description=str(description if description is not None else
-                                ("DOP20-Luftbild · LVermGeo Rheinland-Pfalz." if default else "WMS-Rasterlayer")),
+                                ("DOP20 aerial imagery · LVermGeo Rheinland-Pfalz." if default else "WMS raster layer")),
                             styles=str(styles), format=str(format), transparent=bool(transparent),
                             version=version, crs=crs, bounds=list(bounds) if bounds else None,
                             show=bool(show), legend_url=legend_url)
@@ -143,7 +143,7 @@ class GeoJson:
         self.popup = bool(popup)
 
     def add_to(self, m):
-        m._update(3, vector_file=self.path, vector_layer_name=("Parkplätze · GeoJSON" if Path(self.path).name == "parking.geojson" else Path(self.path).name), has_vector=True, opacity=self.opacity,
+        m._update(3, vector_file=self.path, vector_layer_name=("Parking areas · GeoJSON" if Path(self.path).name == "parking.geojson" else Path(self.path).name), has_vector=True, opacity=self.opacity,
                   popup_enabled=self.popup or m._config["popup_enabled"])
         return self
 
@@ -189,7 +189,7 @@ class BarLayer:
     """
 
     def __init__(self, data, *, value="population", height_scale=0.08, bar_width_m=700,
-                 opacity=0.9, legend_title="Bevölkerung je 1-km-Zelle", unit="Personen",
+                 opacity=0.9, legend_title="Population per 1 km cell", unit="people",
                  attribution=""):
         if not 0 < height_scale <= 10 or not math.isfinite(height_scale):
             raise ValueError("height_scale must be finite, positive and at most 10 metres per unit.")
@@ -241,7 +241,7 @@ class TreeLayer(Tiles3D):
 
     def __init__(self, *, show=True, maximum_screen_space_error=12, base_url=None):
         base=(self.BASE_URL if base_url is None else str(base_url)).rstrip("/")
-        super().__init__(base+"/tileset-estimated.json", name="3D Bäume", show=show,
+        super().__init__(base+"/tileset-estimated.json", name="3D trees", show=show,
                          maximum_screen_space_error=maximum_screen_space_error,
                          attribution=self.ATTRIBUTION, popup=True, feature_id_label="tree",
                          require_terrain=True)
