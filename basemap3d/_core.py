@@ -241,10 +241,13 @@ class TreeLayer(Tiles3D):
 
     def __init__(self, *, show=True, maximum_screen_space_error=12, base_url=None):
         base=(self.BASE_URL if base_url is None else str(base_url)).rstrip("/")
-        super().__init__(base+"/tileset-estimated.json", name="3D trees", show=show,
+        tileset="tileset-C20261029.json" if base_url is None else "tileset-estimated.json"
+        super().__init__(base+"/"+tileset, name="3D trees", show=show,
                          maximum_screen_space_error=maximum_screen_space_error,
                          attribution=self.ATTRIBUTION, popup=True, feature_id_label="tree",
                          require_terrain=True)
+        if base_url is None:
+            self.options["dataset_label"]="C_balanced centre · 54,014 candidates in total"
 
 
 class HousePlacement:

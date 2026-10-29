@@ -23,7 +23,8 @@ class HostedTilesTest(TestCase):
         self.assertNotIn(str(DATA),second._render())
 
     def test_presets_and_input_validation(self):
-        self.assertTrue(TreeLayer().options['url'].endswith('/tileset-estimated.json'))
+        self.assertTrue(TreeLayer().options['url'].endswith('/tileset-C20261029.json'))
+        self.assertEqual(TreeLayer(base_url='https://example.org/trees').options['url'], 'https://example.org/trees/tileset-estimated.json')
         self.assertTrue(TreeLayer().options['require_terrain'])
         self.assertEqual(TreeLayer().options['feature_id_label'],'tree')
         for bad in ('file:///tmp/model.glb','data:text/html,hello','https://secret:password@example.org/tileset.json'):

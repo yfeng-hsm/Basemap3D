@@ -272,7 +272,7 @@ async function setupTiles3D(viewer, terrainEnabled){
   }
   const fit=document.createElement('button');fit.textContent='⌖';fit.title='Zoom to layer';fit.setAttribute('aria-label',option.name+' · Zoom to layer');fit.className='layer-fit';fit.disabled=true;const layerHeader=document.createElement('div');layerHeader.className='layer-header';label.replaceWith(layerHeader);layerHeader.append(label,fit);
   if(option.feature_id_label==='tree'){
-   const hint=document.createElement('p');hint.className='layer-description';hint.textContent='Estimated trees and heights for visualization; not a precise survey.';layerHeader.after(hint);
+   const hint=document.createElement('p');hint.className='layer-description';hint.textContent=(option.dataset_label?option.dataset_label+' · ':'')+'Estimated trees and heights for visualization; not a precise survey.';layerHeader.after(hint);
   }
   const state=document.createElement('p');state.className='shadow-note';state.textContent='Loading layer …';box.append(state);
   document.getElementById('tiles3d-controls').append(box);

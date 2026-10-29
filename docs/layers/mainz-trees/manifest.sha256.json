@@ -1,5 +1,5 @@
 {
-  "README.md": "18cc7278b25b5217fc7d6d6dd53aa7bdbee37b26ea775c658fa290b19e47e17e",
+  "README.md": "0585d03343e465459cd825449c8fef6ccf829122dfec60872cc846e4a41a1644",
   "data/aoi.geojson": "96373508bc31686e22a75e183a91307ea0263227a34fce17ff6776e470fa8a72",
   "data/building_footprints.geojson": "60228693aefe239c895ac472164ed6c03a2bf8cab359338ee9ee2d23a2d40df6",
   "data/input_manifest.json": "48b0847fd7696a0aec04c4bedb4ce47961b3652a7b83edd07f089f476203e2c7",
@@ -85,6 +85,7 @@
   "tiles/estimated/32_448_5538_fine.glb": "6236c280c37e74d04f430d5dc75993a8cbe5ac423af6309aa7c7ed3de10b9857",
   "tiles/estimated/32_448_5539_coarse.glb": "f29c14a2413d3b559b052157f33ed2b9e1f824ff662ad9a9eb48d422a8e7361c",
   "tiles/estimated/32_448_5539_fine.glb": "6cb5066e4d88054d20025b119bb19fda520862a8665c372f012315dae84b00ef",
+  "tileset-C20261029.json": "8dc7323a29f1dee1eee4aa65873b8f3473eb21576bfedc8a188ec9dec083029b",
   "tileset-estimated.json": "8dc7323a29f1dee1eee4aa65873b8f3473eb21576bfedc8a188ec9dec083029b",
   "tileset.json": "8dc7323a29f1dee1eee4aa65873b8f3473eb21576bfedc8a188ec9dec083029b"
 }

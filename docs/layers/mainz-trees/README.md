@@ -51,3 +51,7 @@ Model bases use basemap.de DGM5 level 16. Heights are sampled with Cesium-compat
 The C_balanced 3D models contain 54,014 candidates. Candidate and review GeoJSON updates are deferred in this release; the existing GeoJSON files retain the earlier extraction and do not match the updated centre models. The viewer reads GLB metadata and does not require the candidate GeoJSON.
 
 The prepared compact export (54,014 candidates, approximately 1.58 MB gzip) has not been added to this repository. Processing helpers support that format, but reproducing the C validation requires the corresponding updated candidates.
+
+## Browser cache and dataset version
+
+Hosted examples use `tileset-C20261029.json` to select the C centre models without reusing a cached legacy entry point. The layer label reads “C_balanced centre · 54,014 candidates in total”. Both legacy tileset filenames remain available.
