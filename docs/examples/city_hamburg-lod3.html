@@ -428,7 +428,7 @@ function setupHousePlacement(viewer, terrainEnabled){
  function draw(){
   const kind=el('template').value,t=templates[kind],a=Number(el('angle').value)*Math.PI/180,scale=Number(el('scale').value)/100;
   el('scale-value').textContent=Math.round(scale*100)+'%';
-  el('dimensions').textContent=(t.w*scale).toFixed(1)+' × '+(t.d*scale).toFixed(1)+' m · height '+((t.h+t.r)*scale).toFixed(2)+' m';
+  el('dimensions').textContent=(t.w*scale).toFixed(1)+' × '+(t.d*scale).toFixed(1)+' m · height '+((t.h+t.r+(kind==='grass'?.3:0))*scale).toFixed(2)+' m';
   remove(preview);preview=[];if(!anchor)return;
   const frame=Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromRadians(anchor.longitude,anchor.latitude,anchor.height));
   const point=([x,y,z])=>Cesium.Matrix4.multiplyByPoint(frame,new Cesium.Cartesian3((x*Math.cos(a)-y*Math.sin(a))*scale,(x*Math.sin(a)+y*Math.cos(a))*scale,z*scale),new Cesium.Cartesian3());
@@ -439,12 +439,21 @@ function setupHousePlacement(viewer, terrainEnabled){
   };
   if(kind==='grass'){
    const green=Cesium.Color.fromCssColorString('#69994d');
-   face([[-x,-y,0],[x,-y,0],[x,y,0],[-x,y,0]],green,{perPositionHeight:false,heightReference:Cesium.HeightReference.CLAMP_TO_GROUND,classificationType:Cesium.ClassificationType.TERRAIN,outline:false});
-   // Crossed triangular tufts show low vegetation; the patch itself follows terrain.
+   // A 0.30 m turf base at 100% scale makes the patch visible above the ground.
+   const lift=.3;
+   const groundZ=(px,py)=>{
+    const ground=viewer.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(point([px,py,0])));
+    return Number.isFinite(ground)?(ground-anchor.height)/scale:0;
+   };
+   const bottom=[[-x,-y],[x,-y],[x,y],[-x,y]].map(([px,py])=>[px,py,groundZ(px,py)]);
+   const surface=bottom.map(([px,py,pz])=>[px,py,pz+lift]);
+   face(surface,green,{outline:false});
+   const edge=Cesium.Color.fromCssColorString('#54833f');
+   for(let i=0;i<4;i++){const j=(i+1)%4;face([bottom[i],bottom[j],surface[j],surface[i]],edge,{outline:false});}
+   // Crossed triangular tufts start on the raised turf surface.
    for(let row=0;row<5;row++)for(let col=0;col<7;col++){
     const cx=-x+(col+.5)*t.w/7,cy=-y+(row+.5)*t.d/5;
-    const ground=viewer.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(point([cx,cy,0])));
-    const z=Number.isFinite(ground)?(ground-anchor.height)/scale:0;
+    const z=groundZ(cx,cy)+lift;
     const blade=Cesium.Color.fromCssColorString((row+col)%2?'#54833f':'#82ac58');
     const height=t.h*(.7+((row*7+col)%5)*.075);
     face([[cx-.24,cy,z],[cx+.24,cy,z],[cx+.08,cy,z+height]],blade,{outline:false});

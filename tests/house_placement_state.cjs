@@ -29,8 +29,8 @@ assert.equal(entities.size,21);el('undo').onclick();assert.equal(entities.size,1
 el('start').onclick();viewer.placeHouseAt({});el('cancel').onclick();assert.equal(entities.size,13);
 el('undo').onclick();el('undo').onclick();assert.equal(entities.size,0);assert.equal(el('undo').disabled,true);
 templateButtons[3].onclick();el('angle').value='0';el('start').onclick();viewer.placeHouseAt({});
-assert.equal(entities.size,71);assert.deepEqual(extent(),{x:12,y:8,z:.45});
-const patch=[...entities][0];assert.equal(patch.polygon.perPositionHeight,false);assert.equal(patch.polygon.classificationType,C.ClassificationType.TERRAIN);
+assert.equal(entities.size,75);assert.deepEqual(extent(),{x:12,y:8,z:.75});
+const patch=[...entities][0];assert.equal(patch.polygon.perPositionHeight,true);assert(patch.polygon.hierarchy.every(p=>p.z===.3));
 el('scale').value='150';el('scale').oninput();assert.equal(extent().x,18);assert.equal(extent().y,12);
 el('angle').value='90';el('angle').oninput();assert(Math.abs(extent().x-12)<1e-8);assert(Math.abs(extent().y-18)<1e-8);
 el('confirm').onclick();assert([...entities].every(e=>e.polygon.material.color!=='#e4b847'));assert.equal([...entities][0].polygon.material.color,'#69994d');
@@ -40,4 +40,4 @@ el('undo').onclick();assert.equal(entities.size,0);
 el('scale').value='500';el('larger').onclick();assert.equal(el('scale').value,'500');
 el('scale').value='80';el('smaller').onclick();assert.equal(el('scale').value,'80');
 context.setupHousePlacement(viewer,false);el('start').onclick();assert.equal(viewer.placeHouseAt({}),false);
-console.log('Placement state checks passed: pictured building/grass picker, grass terrain draping and preserved colors, scale bounds, scale-before-rotation geometry, confirm, cancel, undo, missed ground and unavailable terrain.');
+console.log('Placement state checks passed: pictured building/grass picker, raised turf base, terrain sampling and preserved colors, scale bounds, scale-before-rotation geometry, confirm, cancel, undo, missed ground and unavailable terrain.');
