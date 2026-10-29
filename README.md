@@ -1,72 +1,73 @@
-# Basemap3D · Unofficial Python wrapper for basemap.de
+# Basemap3D
 
-A city-independent, **Folium-style** Python interface to basemap.de's online maps, terrain and LoD2 buildings, rendered with CesiumJS. Create a `Map`, add layers with `.add_to(m)`, display `m` in Jupyter or Colab, and export with `m.save(...)`. The package is independent of the basemap.de providers and Folium; it is not an official SDK or a complete Folium-compatible API.
+**Build interactive 3D maps in Python, display them in Jupyter or Colab, and share them as HTML.**
 
-**Package documentation is English. The case studies, student exercises and viewer labels are German.** Mainz is one planning case; a separate Berlin population example demonstrates a different city and a different data theme.
+Combine city meshes, detailed buildings, terrain, trees and your own geospatial data in one CesiumJS viewer. The Python interface follows a familiar pattern: create a `Map`, add layers with `.add_to(m)`, then display or save it.
 
-[![Five-step planning lab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_3D_5_Tasks.ipynb) **Five-step planning lab**
-[![Population columns](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Population_3D_Columns.ipynb) **Population columns**
+**[Explore the examples](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/examples/) · [Documentation](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/) · [API reference](docs/API.md)**
 
-[![Mainz tree layer](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_Trees_3D.ipynb) **Hosted tree layer**
+## Start with a city model
 
-Click a badge to open that notebook in Colab, then run its setup cell and the remaining cells. The setup clones this public repository, installs the wrapper and makes the supplied files available. Colab displays maps through its official runtime iframe proxy; the wrapper manages the small HTML server automatically. Students do not start Go Live or type server commands. A Google sign-in may be required. No local installation or GPU runtime is needed for Colab. It does not start executing merely by opening the link.
-
-## Documentation and examples
-
-- [English website](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/) · [German planning examples](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/beispiele.html) · [German population example](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/population.html)
-- [Five-step notebook](Mainz_3D_5_Tasks.ipynb) · [Population notebook](Population_3D_Columns.ipynb)
-- [API reference](docs/API.md) · [Colab instructions](docs/COLAB.md) · [data and limitations](docs/DATA.md) · [teaching guide](docs/TEACHING.md)
-- [Download the complete repository ZIP](https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/archive/refs/heads/main.zip)
-
-The project is named **Basemap3D**; the Python import is `basemap3d`. It was previously named `basemapde`.
-
-## Familiar usage
+After installing the package, run this in a notebook:
 
 ```python
-from basemap3d import Map, GeoJson, NearbyBuildings
+from basemap3d import Map, Tiles3D
 
-m = Map(location=[52.52, 13.405], zoom_start=16)
-GeoJson("my_study_area.geojson", popup=True).add_to(m)
-NearbyBuildings(distance_m=75).add_to(m)
+m = Map(location=[50.36, 7.60], distance_m=2500,
+        buildings=False, title="Koblenz · 3D mesh")
+Tiles3D(
+    "https://dz.koblenz.de/assets/mesh_3D_2026/tileset.json",
+    name="Koblenz mesh 2026",
+    attribution="Stadt Koblenz · GeoPortal Koblenz",
+    popup=False,
+).add_to(m)
+m
+```
+
+Replace the tileset URL and map location to use another compatible 3D Tiles service. `buildings=False` turns off the default building layer when displaying a city mesh.
+
+To export the map:
+
+```python
 m.save("results/my_map.html")
-m
 ```
 
-`Map(location=[latitude, longitude])` follows Folium. GeoJSON and CSV coordinates use WGS84 longitude and latitude. `zoom_start` is an approximate 3D camera-distance preset, not an exact Leaflet zoom; `distance_m` provides explicit control. The default map centres on Germany, not a particular city.
+The exported HTML streams its online layers when opened; it does not download the complete city model for offline use.
 
-## Nearby buildings: no fixed-city dependency
+## What can I add?
 
-**`NearbyBuildings()` derives its requests from the polygons you actually add.** It retrieves OSM building ways and multipolygon relations, including courtyard holes, around those geometries. Changing the polygon file or study location changes the requests. The local metric reference is also derived from the input, not fixed Mainz coordinates.
+| Content | Python interface | Examples |
+|---|---|---|
+| Photorealistic city meshes | `Tiles3D(url)` | Koblenz, Trier, Hamburg, Potsdam, Cottbus, Nürnberg, Wuppertal |
+| Detailed building models | `Tiles3D(url)` | Hamburg LoD3; selected detailed models in Koblenz |
+| Background maps, terrain and LoD2 buildings | `Map(...)` | Germany-wide defaults from basemap.de |
+| Orthophotos and other WMS layers | `RasterLayer(...)` | Imagery and thematic overlays |
+| Your own polygons and attributes | `GeoJson(...)` | Study areas and planning proposals |
+| Buildings around your polygons | `NearbyBuildings(...)` | Interactive distance selection using OSM footprints |
+| Schematic 3D trees | `TreeLayer()` | Hosted Mainz tree candidates |
+| Thematic 3D columns | `BarLayer(...)` | Berlin population from Zensus 2022 |
+| Sun and shadows | `SunShadows(...)` | Explore different dates and times |
 
-- The interactive query covers 0–200 m. Footprints are fetched for that full radius once, then filtering runs in the browser.
-- Responses are cached locally for 24 hours in `.basemap3d-cache/`; this is OSM vector data, not an official 3D-tile cache.
-- The lightweight downloader limits a request to 12 small API boxes. For larger study areas, use a suitable local building GeoJSON. Network failures are reported; there is no silent fallback to the demonstration sites.
-- `NearbyBuildings("my_buildings.geojson", distance_m=75)` explicitly uses your local data instead.
-- `data/mainz_buildings_snapshot.geojson` is an **optional offline teaching snapshot**, covering only the original Mainz sites. The main notebook now uses automatic retrieval by default.
+In the [basic examples](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/examples/), choose **Mesh models** or **LoD3 buildings**, then select a city above the Python code. The scene and code update together. Some entries are different views of the same service. Koblenz's detailed models cover selected objects, rather than the whole city.
 
-Matching is still spatial classification of LoD2 geometry using OSM footprints, not a join on official building IDs. A separate 3 m display margin improves wall/eave coverage without changing selection or counts. Source discrepancies can remain. See [data limitations](docs/DATA.md).
+## Run without local installation
 
-## Population as 3D columns
+Open a notebook in Google Colab and run its setup cell first, followed by the remaining cells:
 
-```python
-from basemap3d import Map, BarLayer
+| Notebook | Contents | Open |
+|---|---|---|
+| [Modules](Mainz_Modules.ipynb) | Build up a map layer by layer | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_Modules.ipynb) |
+| [Planning lab](Mainz_3D_5_Tasks.ipynb) | Five exercises with imagery, polygons, nearby buildings and shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_3D_5_Tasks.ipynb) |
+| [Trees](Mainz_Trees_3D.ipynb) | Mainz trees and shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_Trees_3D.ipynb) |
+| [Population](Population_3D_Columns.ipynb) | Berlin population as 3D columns | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Population_3D_Columns.ipynb) |
 
-m = Map(location=[52.51, 13.39], buildings=False, distance_m=26000)
-BarLayer("data/berlin_population_1km.csv", value="population",
-         height_scale=0.06, bar_width_m=800).add_to(m)
-m.save("results/population.html")
-m
-```
+The setup installs the package from this repository. Colab handles the map display through the package; no separate web server or GPU runtime is needed. See [Colab help](docs/COLAB.md).
 
-The Berlin case uses **657 published 1-km cells from Zensus 2022**, reference date **15 May 2022**, from the Statistische Ämter des Bundes und der Länder. Heights and colours encode published counts; these are not simulated numbers or building heights. The viewer provides a height-factor slider, a minimum-value filter, a fixed quantile colour legend and per-column popups.
+## Install locally
 
-The CSV is a rectangular Berlin-area extract, not the city boundary; its sum is not the official Berlin population total. Confidentiality perturbation applies, absent cells are not measured zeroes, and the figures are historical. [Provenance metadata](data/berlin_population_1km.metadata.json) records the archive, hash, coordinate conversion and extraction rule.
+Use Python **3.10+** and a browser with WebGL2. [Download](https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/archive/refs/heads/main.zip) or clone this repository, open a terminal in its root directory, then run:
 
-## Local installation
-
-Use Python **3.10+** (3.11+ recommended), JupyterLab and a modern browser with WebGL2 and hardware acceleration. Download/unzip or clone the entire repository. Open a terminal in its root directory.
-
-### macOS / Linux
+**macOS / Linux**
 
 ```bash
 python3 -m venv .venv
@@ -74,7 +75,7 @@ python3 -m venv .venv
 .venv/bin/python -m jupyterlab
 ```
 
-### Windows PowerShell
+**Windows PowerShell**
 
 ```powershell
 py -3 -m venv .venv
@@ -82,81 +83,49 @@ py -3 -m venv .venv
 .\.venv\Scripts\python.exe -m jupyterlab
 ```
 
-These commands use the environment directly; no activation or execution-policy change is necessary. Installation includes the small Shapely dependency for automatic footprint display margins. Students do not need a desktop GIS, GeoPandas, Node.js, Docker, Folium or a Cesium ion account. The wrapper is installed from this repository; no PyPI release is implied.
+Open a notebook and use that environment's kernel. The import name is `basemap3d`; installation is from this repository.
 
-Open either notebook using that environment's Python kernel, trust your own notebook, and run top to bottom. The Colab setup cell does nothing on a local runtime. JavaScript rendering happens in the browser; no GPU notebook runtime is required. Internet access is needed for the online services and automatic OSM retrieval.
-
-## Five-step planning lab
-
-| Task | Added capability | German case | Prebuilt HTML |
-|---|---|---|---|
-| 1 | Basemap, DGM5 terrain, LoD2 buildings | Stadtmodell am Schloss | [3D](docs/examples/task1_3d.html) |
-| 2 | WMS raster and opacity | Luftbild als Rasterebene | [Raster](docs/examples/task2_raster.html) |
-| 3 | GeoJSON study polygons | Fünf Parkplatzflächen | [Vector](docs/examples/task3_vector.html) |
-| 4 | Automatic nearby-building query and popup | Gebäude im Umfeld | [Query](docs/examples/task4_query_popup.html) |
-| 5 | Sun-based shadows | Tageszeit und Verschattung | [Shadows](docs/examples/task5_sun_shadows.html) |
-
-Each task has at most seven lines of Python; the separate Colab setup is eight lines. Inputs stay in files, not in long notebook data literals. `.copy()` preserves earlier results. Student exports go to `results/`; checked-in gallery scenes live in `docs/examples/`.
-
-The additional [population HTML](docs/examples/population_berlin.html) and [population notebook](Population_3D_Columns.ipynb) are independent of the five-step planning sequence.
-
-## Repository layout
-
-```text
-basemap3d/                        # General Python wrapper and renderer assets
-Mainz_3D_5_Tasks.ipynb             # German planning case; Colab ready
-Population_3D_Columns.ipynb        # German Berlin population case; Colab ready
-data/parking.geojson              # Planning case's study polygons
-data/mainz_buildings_snapshot.geojson # Optional offline case snapshot
-data/berlin_population_1km.csv     # Official published census counts
-data/berlin_population_1km.metadata.json # Reproducible provenance
-docs/                            # English docs, German examples and HTML gallery
-tools/                           # Gallery builder; optional population preparation
-tests/                           # API, portability and data-contract checks
-results/                         # Generated locally; ignored by Git
-.basemap3d-cache/                 # OSM response cache; ignored by Git
-```
-
-## Maintenance
-
-```bash
-python -m unittest discover -s tests -v
-python tools/build_examples.py
-python -m http.server 8000
-```
-
-Gallery rebuilding runs the notebook cells; the planning query may fetch OSM data for its polygons. Open `http://localhost:8000/docs/`. GitHub Pages publishes `main` → `/docs`. Original code is MIT; data and services retain their own terms in [NOTICE.md](NOTICE.md).
-
-## Troubleshooting
-
-- Missing `basemap3d`: install into the notebook's Python environment, or rerun the Colab setup.
-- Blank notebook: trust your own output and test its exported HTML. GitHub source previews do not execute 3D code.
-- Missing map/tiles: check WebGL2, hardware acceleration, and access to `cesium.com`, `sgx.geodatenzentrum.de`, and the selected raster service.
-- Automatic OSM query fails: check access to `api.openstreetmap.org`, retry after a service interruption, reduce the area, or explicitly provide a local building file. No unrelated city data is substituted.
-- New location has no matching cached data: automatic retrieval uses location-based cache keys; a manually supplied snapshot must be replaced by an appropriate file.
-- Population interpretation: use the reference date and legend, not the visual column footprint, to interpret counts.
-
-## Hosted Mainz tree layer
-
-Basemap3D 0.4.0 adds `Tiles3D` for arbitrary hosted standard tilesets and `TreeLayer` as a preset for this project's **7 × 4 km processing frame** (28 spatial cells; 40,482 automatic candidates). No API key is required. The dataset is separate from the Python wheel.
+## Add your own data
 
 ```python
-from basemap3d import Map, TreeLayer
-m = Map(location=[49.99892, 8.27412], zoom_start=16)
-TreeLayer().add_to(m)
+from basemap3d import Map, GeoJson, NearbyBuildings
+
+m = Map(location=[49.999, 8.274], title="My study area")
+GeoJson("my_study_area.geojson", popup=True).add_to(m)
+NearbyBuildings(distance_m=75).add_to(m)
 m
 ```
 
-The viewer can switch to estimated height, hide the layer, fit its extent and show feature metadata. For other services use `Tiles3D(url, name="...").add_to(m)`.
+`NearbyBuildings` retrieves OSM building footprints around the polygons you add. Change the polygons to change the study area. For larger areas or repeatable offline footprint queries, supply a local building GeoJSON; see the [API reference](docs/API.md).
 
-[German case study](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/trees.html) · [Tree notebook](Mainz_Trees_3D.ipynb) · [Open in Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/Mainz_Trees_3D.ipynb) · [Layer documentation](docs/layers/mainz-trees/README.md)
+Map locations use **[latitude, longitude]**. GeoJSON coordinates use **[longitude, latitude]**, in WGS84. `distance_m` controls camera distance; `zoom_start` is an approximate alternative.
 
-**Estimated-height endpoint:** `https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset.json`
+## Data and availability
 
-**Estimated endpoint:** `https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset-estimated.json`
+City models are streamed from their providers. Availability, coverage, CORS settings and licences depend on each service. A working endpoint does not itself grant redistribution rights. Keep source attribution and check the provider's terms. The [city catalogue](docs/examples/city_sources.json) records URLs and source notes.
 
-The candidates are unverified; 29 height estimates above 30 m are flagged. Models have fixed base elevations aligned to basemap.de DGM5. Retain source credits; see the dataset documentation.
+The Mainz tree layer currently contains **40,482 automatic candidates in a 7 × 4 km processing frame**. It uses estimated heights and schematic crowns, not a verified tree inventory. **The selected C_balanced reprocessing has not yet been published:** the original city-centre area still contains 13,317 candidates. See [tree data documentation](docs/layers/mainz-trees/README.md) and [processing parameters](docs/layers/mainz-trees/data/processing_summary.json). Tree shadows support qualitative exploration; they do not model foliage transmission or cooling.
 
-### Tree and building shadows
+The Berlin population example uses historical Zensus 2022 counts, referenced to 15 May 2022. Its rectangular extract is not the administrative city boundary.
 
-The tree notebook also combines `TreeLayer` with `SunShadows(date="2026-06-21", hour=17)`. Compare times and seasons with a fixed camera, then toggle trees and buildings independently. [Open the shadow example](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/examples/mainz_trees_shadows.html). Schematic opaque crowns and estimated heights support qualitative exploration only; foliage seasonality, light transmission and cooling are not modelled.
+Basemap3D uses CesiumJS for rendering and basemap.de for its default background, terrain and LoD2 buildings. It is an independent project. The Python code is MIT-licensed; datasets and external services retain their own terms. See [NOTICE](NOTICE.md) and [data sources and limitations](docs/DATA.md).
+
+## More documentation
+
+- [API reference](docs/API.md)
+- [Teaching guide](docs/TEACHING.md)
+- [Planning examples](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/beispiele.html)
+- [Population example](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/population.html)
+
+If a scene is blank, check WebGL2 / hardware acceleration and access to the selected data services. GitHub's notebook preview cannot run interactive maps; use Colab, Jupyter or the HTML examples.
+
+## Development
+
+`basemap3d/` contains the Python API and viewer assets; `docs/` contains the website, examples and hosted tree tiles; `tools/` contains data-processing and gallery builders; `tests/` contains the automated checks.
+
+```bash
+python -m unittest discover -s tests -v
+python tools/build_docs.py
+```
+
+GitHub Pages publishes the `docs/` directory from `main`. Some example builders access online services. Student exports belong in `results/`.
