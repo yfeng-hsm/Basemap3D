@@ -28,25 +28,25 @@ main{max-width:940px;margin:36px auto;padding:42px 52px;background:#fff;border-t
 <ul>
 <li>Laden Sie das <strong>Stadtmesh von Trier</strong> mit <code>Tiles3D</code>. Deaktivieren Sie die standardmäßigen LoD2-Gebäude, damit sich die Modelle nicht überlagern.</li>
 <li>Ergänzen Sie <code>HousePlacement</code> und <code>SunShadows</code>. Platzieren Sie mindestens ein neues Haus und eine Grünfläche auf einer freien Fläche. Passen Sie Größe und Ausrichtung an.</li>
-<li>Vergleichen Sie die Schatten zu zwei Tageszeiten am selben Datum. Dokumentieren Sie die Szene mit Screenshots.</li>
+<li>Vergleichen Sie die Schatten zu zwei Tageszeiten am selben Datum.</li>
 </ul>
-<p>Nutzen Sie die <a href="https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/docs/API.md" target="_blank" rel="noopener">API-Dokumentation</a> und den <a href="https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/docs/examples/city_sources.json" target="_blank" rel="noopener">Stadtkatalog mit Mesh-URLs und Standorten</a>. Ein fertiges Trier-Notebook ist für diese Aufgabe nicht vorgesehen.</p>
+<p>Orientieren Sie sich an den <a href="https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/examples/#mesh" target="_blank" rel="noopener">Examples · Mesh models</a>. Wählen Sie dort Trier aus und verwenden Sie die Beispiele als Grundlage für Ihren eigenen Szenencode.</p>
 </section>
 
 <section><h2>3 · Auf Koblenz übertragen und vergleichen <span class="tag">Pflicht</span></h2>
 <p>Passen Sie Ihren eigenen Code für das <strong>Stadtmesh von Koblenz</strong> an. Wiederholen Sie die Platzierung von Haus und Grünfläche sowie den Schattenvergleich. Verwenden Sie dieselben Objektgrößen, dasselbe Datum und dieselben Uhrzeiten wie in Trier.</p>
 <ul>
 <li>Welche Unterschiede beobachten Sie? Achten Sie auf schwebende oder versunkene Objekte, durchdringende Oberflächen und die Sichtbarkeit der Schatten.</li>
-<li>Untersuchen Sie anhand des <a href="https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/basemap3d/assets/scene.js" target="_blank" rel="noopener">Renderer-Codes</a>, welche Oberfläche für die Platzierung verwendet wird. Erklären Sie mögliche Ursachen für die Unterschiede zwischen beiden Städten.</li>
-<li>Trennen Sie <strong>Beobachtungen, durch den Code belegte Aussagen und noch ungeprüfte Vermutungen</strong>. Falls Sie keinen Unterschied erkennen, dokumentieren Sie auch dieses Ergebnis.</li>
+<li>Erklären Sie mögliche Ursachen für die Unterschiede zwischen beiden Städten. Berücksichtigen Sie dabei das Zusammenspiel von Gelände und Mesh.</li>
+<li>Unterscheiden Sie zwischen Ihren Beobachtungen und möglichen Erklärungen. Falls Sie keinen Unterschied erkennen, berichten Sie auch dieses Ergebnis.</li>
 </ul>
 </section>
 
 <section><h2>4 · Das Python-Paket mit KI erweitern <span class="tag optional">Optional</span></h2>
 <p>Entwickeln Sie Basemap3D mithilfe eines KI-Assistenten weiter. Wählen Sie einen Anwendungsfall und ergänzen Sie passende <strong>geometrische Objekte</strong>, etwa Bäume, Bänke, Überdachungen oder Zylinder und Quader.</p>
-<p>Die Erweiterung soll über die Python-Schnittstelle nutzbar sein und die interaktive Platzierung unterstützen. Ermöglichen Sie passende Einstellungen für Größe, Höhe, Farbe oder Ausrichtung. Prüfen Sie den KI-generierten Code und testen Sie die Erweiterung. Dokumentieren Sie Ihren eigenen Beitrag, die KI-Unterstützung und bekannte Grenzen.</p>
+<p>Die Erweiterung soll über die Python-Schnittstelle nutzbar sein und die interaktive Platzierung unterstützen. Ermöglichen Sie passende Einstellungen für Größe, Höhe, Farbe oder Ausrichtung. Prüfen Sie den KI-generierten Code und testen Sie die Erweiterung. Erläutern Sie bei der Demonstration Ihren eigenen Beitrag, die KI-Unterstützung und bekannte Grenzen.</p>
 </section>
 
-<div class="submission"><strong>Abgabe:</strong> Ihr ausführbares Notebook, je zwei Screenshots aus Trier und Koblenz sowie eine kurze Erklärung der Unterschiede. Optional: geänderte Paketdateien, ein Python-Anwendungsbeispiel und ein Screenshot der Erweiterung.</div>
+<div class="submission"><strong>Abschluss:</strong> Wenn Sie die Pflichtaufgaben abgeschlossen haben, melden Sie sich per Handzeichen. Zeigen Sie dem Dozenten Ihre Szenen in Trier und Koblenz und erläutern Sie kurz die beobachteten Unterschiede. Falls Sie Aufgabe 4 bearbeitet haben, führen Sie auch Ihre Erweiterung vor. Eine Datei-Abgabe ist nicht erforderlich.</div>
 <footer><strong>Hinweise:</strong> Platzierte Objekte bleiben derzeit nur in der laufenden Kartensitzung erhalten; sie werden nicht im Notebook oder HTML-Export gespeichert. Schatten in Mesh-Texturen bleiben unverändert. Die Darstellung dient der qualitativen Untersuchung, nicht einer verbindlichen Planungsprüfung. Datenquellen im Viewer beibehalten.</footer>
 </main></body></html>
