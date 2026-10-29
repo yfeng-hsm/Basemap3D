@@ -304,6 +304,52 @@ async function setupTiles3D(viewer, terrainEnabled){
  }));
 }
 
+
+function setupHousePlacement(viewer, terrainEnabled){
+ const panel=document.getElementById('house-panel');panel.hidden=false;
+ const el=id=>document.getElementById('house-'+id);
+ const templates={flat:{w:16,d:12,h:9,r:0},gable:{w:12,d:9,h:6,r:3},hip:{w:14,d:10,h:6,r:3}};
+ let choosing=false,anchor=null,preview=[],placed=[],serial=0;
+ const status=text=>{el('status').textContent=text;};
+ const remove=group=>group.forEach(entity=>viewer.entities.remove(entity));
+ function controls(){el('confirm').disabled=!anchor;el('cancel').disabled=!choosing&&!anchor;el('undo').disabled=!placed.length;el('start').textContent=choosing?'Click open ground…':'Choose location';}
+ function draw(){
+  remove(preview);preview=[];if(!anchor)return;
+  const kind=el('template').value,t=templates[kind],a=Number(el('angle').value)*Math.PI/180;
+  const frame=Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromRadians(anchor.longitude,anchor.latitude,anchor.height));
+  const point=([x,y,z])=>Cesium.Matrix4.multiplyByPoint(frame,new Cesium.Cartesian3(x*Math.cos(a)-y*Math.sin(a),x*Math.sin(a)+y*Math.cos(a),z),new Cesium.Cartesian3());
+  const x=t.w/2,y=t.d/2,h=t.h,top=[[-x,-y,h],[x,-y,h],[x,y,h],[-x,y,h]];
+  const face=coords=>preview.push(viewer.entities.add({name:'Building preview',polygon:{hierarchy:coords.map(point),perPositionHeight:true,material:Cesium.Color.CYAN.withAlpha(.55),outline:true,outlineColor:Cesium.Color.DARKSLATEGRAY,shadows:Cesium.ShadowMode.ENABLED}}));
+  for(let i=0;i<4;i++){const j=(i+1)%4;face([[...top[i].slice(0,2),0],[...top[j].slice(0,2),0],top[j],top[i]]);}
+  if(kind==='flat')face(top);
+  else{
+   const inset=kind==='hip'?t.w*.23:0,L=[-x+inset,0,h+t.r],R=[x-inset,0,h+t.r];
+   face([top[0],top[1],R,L]);face([top[2],top[3],L,R]);face([top[3],top[0],L]);face([top[1],top[2],R]);
+  }
+  viewer.scene.requestRender();controls();
+ }
+ viewer.placeHouseAt=position=>{
+  if(!choosing)return false;
+  const ray=viewer.camera.getPickRay(position),hit=ray&&viewer.scene.globe.pick(ray,viewer.scene);
+  if(!hit){status('No ground at this point. Click visible ground.');return true;}
+  anchor=Cesium.Cartographic.fromCartesian(hit);choosing=false;draw();status('Preview ready. Adjust template or rotation, then confirm; choose location again to move.');return true;
+ };
+ el('start').onclick=()=>{
+  if(!terrainEnabled){status('Terrain is unavailable. Reload when the terrain service is reachable.');return;}
+  choosing=true;controls();status('Click an open space on the map to preview the building.');
+ };
+ el('template').onchange=draw;
+ el('angle').oninput=()=>{el('angle-value').textContent=el('angle').value+'°';draw();};
+ el('confirm').onclick=()=>{
+  if(!anchor)return;
+  serial++;preview.forEach(entity=>{entity.name='Placed building '+serial;entity.polygon.material=Cesium.Color.WHITE;});
+  placed.push(preview);preview=[];anchor=null;choosing=false;controls();status('Building placed. Choose another location or undo the last building.');viewer.scene.requestRender();
+ };
+ el('cancel').onclick=()=>{remove(preview);preview=[];anchor=null;choosing=false;controls();status('Preview cancelled.');viewer.scene.requestRender();};
+ el('undo').onclick=()=>{if(placed.length)remove(placed.pop());controls();status('Last placed building removed.');viewer.scene.requestRender();};
+ controls();
+}
+
 async function main(){
  if(typeof Cesium==='undefined') throw new Error('Could not load CesiumJS. Check internet access and CDN availability.');
  Cesium.Ion.defaultAccessToken = '';
@@ -443,6 +489,7 @@ async function main(){
  }
  more.onclick=appendObjects;appendObjects();
  viewer.screenSpaceEventHandler.setInputAction(click=>{
+  if(viewer.placeHouseAt && viewer.placeHouseAt(click.position))return;
   const picked=viewer.scene.pick(click.position);
   const entity=picked && picked.id;
   if((config.tiles3d_layers || []).some(layer=>layer.popup) && showTileFeature(viewer,picked))return;
@@ -488,6 +535,7 @@ async function main(){
  }catch(error){warnings.push('Building service unavailable. Polygons and base map remain visible. Check the network and reload.');console.error(error);}
  }
  await setupTiles3D(viewer,terrainEnabled);
+ if(config.house_placement_enabled)setupHousePlacement(viewer,terrainEnabled);
  go();report();viewer.scene.requestRender();
 }
 main().catch(error=>{status.textContent='Could not start the scene: '+error.message+'\nOpen the exported HTML file or check WebGL2 and hardware acceleration.';console.error(error);});

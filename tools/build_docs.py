@@ -2,7 +2,7 @@ from pathlib import Path
 import json,html,sys,os,shutil
 r=Path(__file__).resolve().parents[1];d=r/'docs'
 sys.path.insert(0,str(r));os.chdir(r)
-from basemap3d import Map,WmsTileLayer,GeoJson,NearbyBuildings,TreeLayer,SunShadows
+from basemap3d import Map,WmsTileLayer,GeoJson,NearbyBuildings,TreeLayer,SunShadows,HousePlacement
 def save_doc_scene(scene, path):
     snapshot=scene.copy()
     for layer in snapshot._config.get("tiles3d_layers", []):
@@ -31,6 +31,11 @@ WmsTileLayer(url=impervious_url,layers='HRL_NVLCC_IMD_2024_10m',name='Impervious
 GeoJson('data/parking.geojson',popup=True).add_to(m)
 TreeLayer().add_to(m);SunShadows(date='2026-06-21',hour=17).add_to(m)
 save_doc_scene(m,d/'examples/mainz_complete.html')
+house_scene=Map(location=[50.0063,8.2692],distance_m=700,title="Mainz · Place a building")
+TreeLayer().add_to(house_scene)
+HousePlacement().add_to(house_scene)
+save_doc_scene(house_scene,d/'examples/mainz_place_house.html')
+
 # A second WMS service demonstrates replaceable raster modules.
 impervious_map=Map(location=[50.0,8.27],distance_m=4000,buildings=False,heading=0,pitch=-70,title='Mainz · Imperviousness')
 WmsTileLayer(opacity=0.45).add_to(impervious_map)
@@ -54,7 +59,7 @@ css='''*{box-sizing:border-box} :root{--ink:#203a37;--muted:#74817e;--line:#e2e7
 (d/'assets/docs.css').write_text(css)
 nav=lambda depth,active:f'''<nav><a class="brand" href="{depth}index.html">Basemap<span>3D</span></a><a class="{'active' if active=='examples' else ''}" href="{depth}examples/">Examples</a><a href="{depth}getting-started.html">Get started</a><a href="https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/docs/API.md">API ↗</a></nav>'''
 head=lambda title,depth:f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} · Basemap3D</title><link rel="stylesheet" href="{depth}assets/docs.css"></head><body>'
-footer='<footer>Basemap3D · Unofficial Python wrapper for basemap.de · Python + CesiumJS · Data credits remain in each map.</footer>'
+footer='<footer>Basemap3D · Interactive 3D maps in Python · Python + CesiumJS · Data credits remain in each map.</footer>'
 fullcode='from basemap3d import (Map, WmsTileLayer, GeoJson,\n                       TreeLayer, SunShadows)\n\nm = Map(location=[50.0063, 8.2692], zoom_start=16)\nWmsTileLayer(opacity=0.7).add_to(m)\n\nwms = "https://geoserver.geoville.com/geoserver/nvlcc_2024/wms"\nWmsTileLayer(\n    url=wms, layers="HRL_NVLCC_IMD_2024_10m",\n    name="Imperviousness · 2024 · 10 m", opacity=0.8, show=False,\n    description="Copernicus IMD · 2024 · 10 m · 0–100 %",\n    attribution="© European Union · Copernicus Land Monitoring Service",\n    legend_url=wms + "?service=WMS&request=GetLegendGraphic"\n                     "&version=1.1.1&format=image/png"\n                     "&layer=HRL_NVLCC_IMD_2024_10m",\n).add_to(m)\nGeoJson("data/parking.geojson", popup=True).add_to(m)\nTreeLayer().add_to(m)\nSunShadows(date="2026-06-21", hour=17).add_to(m)\nm'
 def bench(title,desc,chips,code,url,depth=''):
  return f'''<div class="workbench"><section class="instructions"><div class="eyebrow">MODULES → MAP</div><h2 id="example-title">{title}</h2><p id="example-description">{desc}</p><div class="chips" id="modules">{''.join('<span class="chip">'+x+'</span>' for x in chips)}</div><div class="codebox"><div class="codehead"><span>Python</span><button id="copy">Copy code</button></div><pre id="code">{html.escape(code)}</pre></div><p class="note" id="example-note">The preview uses a local OSM building snapshot; the Python code downloads buildings automatically. Maps and models require internet access.</p></section><section class="result"><div class="resultbar"><span class="live">Interactive preview</span><a id="result-link" href="{url}" target="_blank" rel="noopener">Full screen ↗</a></div><iframe id="result" title="Interactive example map" src="{url}" loading="lazy" allow="fullscreen"></iframe></section></div>'''
@@ -81,6 +86,13 @@ add('shadows','6 · Trees, imagery & shadows','Add date and time controls to the
 add('complete','Complete · All visual modules','Combine aerial imagery, imperviousness (10 m), polygons, trees and shadows. Spatial queries are covered separately in example 4.',['Map','WmsTileLayer × 2','GeoJson','TreeLayer','SunShadows'],fullcode,'mainz_complete.html','The preview uses a local OSM building snapshot. Shadows and estimated tree heights support qualitative visualization.')
 impervious_code='from basemap3d import Map, WmsTileLayer\n\nm = Map(location=[50.0, 8.27], distance_m=4000,\n        buildings=False, heading=0, pitch=-70)\nWmsTileLayer(opacity=0.45).add_to(m)\n\nwms = "https://geoserver.geoville.com/geoserver/nvlcc_2024/wms"\nWmsTileLayer(\n    url=wms, layers="HRL_NVLCC_IMD_2024_10m",\n    name="Imperviousness · 2024 · 10 m", opacity=0.8,\n    description="Copernicus IMD · 2024 · 10 m · 0–100 %",\n    attribution="© European Union · Copernicus Land Monitoring Service",\n    legend_url=wms + "?service=WMS&request=GetLegendGraphic"\n                     "&version=1.1.1&format=image/png"\n                     "&layer=HRL_NVLCC_IMD_2024_10m",\n).add_to(m)\nm'
 add('impervious','Extra · Imperviousness (WMS)','The same module, a different service: Copernicus Imperviousness Density 2024 at 10 m over aerial imagery. Each layer has its own visibility and opacity controls.',['Map','WmsTileLayer × 2'],impervious_code,'impervious_surface.html','Copernicus Land Monitoring Service · IMD 2024 · 10 m. Values indicate 0–100% impervious cover per cell. Display opacity is a separate control. Source: https://doi.org/10.2909/f0bcb6f0-d775-4218-bec1-13adea01ff8f')
+add('place-house','Extra · Place a building','Choose one of three white building templates. Click open ground to preview, adjust the rotation, then confirm placement.',['Map','TreeLayer','HousePlacement'],'''from basemap3d import Map, TreeLayer, HousePlacement
+
+m = Map(location=[50.0063, 8.2692], distance_m=700,
+        title="Mainz · Place a building")
+TreeLayer().add_to(m)
+HousePlacement().add_to(m)
+m''','mainz_place_house.html','Flat, gable and hip roofs. Schematic dimensions; no collision or planning validation. Placements last for this browser session.')
 add('population','Extra · Population as 3D columns','Another combination: Map and BarLayer visualize 2022 census data around Berlin.',['Map','BarLayer'],'''from basemap3d import Map, BarLayer
 
 m = Map(location=[52.51, 13.39], buildings=False,

@@ -9,6 +9,13 @@
 <div id="scene"></div>
 <section class="panel">
 <h1 id="title"></h1><p id="stage-description"></p>
+<section id="house-panel" hidden>
+<p><strong>Place a white building</strong></p>
+<label>Template <select id="house-template"><option value="flat">Flat roof · 16 × 12 m · 9 m</option><option value="gable">Gable roof · 12 × 9 m · 6 + 3 m</option><option value="hip">Hip roof · 14 × 10 m · 6 + 3 m</option></select></label>
+<label>Rotation <output id="house-angle-value">0°</output><input id="house-angle" type="range" min="0" max="355" step="5" value="0"></label>
+<div class="row"><button id="house-start">Choose location</button><button id="house-confirm" disabled>Confirm placement</button><button id="house-cancel" disabled>Cancel preview</button><button id="house-undo" disabled>Undo last</button></div>
+<p id="house-status" role="status">Choose a template, then choose a location on open ground. Templates are schematic; placement is not a collision or planning check. Saved HTML does not retain placed houses.</p>
+</section>
 <section id="tiles3d-panel" hidden><p><strong>Additional 3D layers</strong></p><div id="tiles3d-controls"></div><p id="tiles3d-details" class="shadow-note">Click a tree to inspect its ID, model height and height source.</p></section>
 <section id="bars-panel" hidden>
 <p><strong id="bars-title"></strong></p><p id="bar-reading" class="reading"></p><div id="bar-legend"></div>

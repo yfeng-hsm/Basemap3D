@@ -245,3 +245,11 @@ class TreeLayer(Tiles3D):
                          maximum_screen_space_error=maximum_screen_space_error,
                          attribution=self.ATTRIBUTION, popup=True, feature_id_label="tree",
                          require_terrain=True)
+
+
+class HousePlacement:
+    """Enable three white building templates with click, preview and confirm controls."""
+
+    def add_to(self, m):
+        m._update(1, house_placement_enabled=True)
+        return self

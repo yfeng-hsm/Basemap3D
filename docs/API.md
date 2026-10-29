@@ -135,3 +135,17 @@ The initial parking dataset is a single GeoJSON layer containing five objects. A
 `WmsTileLayer(url, layers, opacity=0.8, *, name=None, attribution=None, description=None, styles="", format="image/png", transparent=True, version="1.1.1", crs="EPSG:4326", bounds=None, show=True, legend_url=None)` adds one independent raster overlay. Multiple calls accumulate layers, each with its own visibility and opacity control. `bounds` is optional and uses [west, south, east, north] in degrees; custom services have no fixed Mainz or RLP extent. Supported request CRS values are EPSG:4326 and EPSG:3857, using WMS 1.1.1. The service must allow cross-origin browser access. Add custom attribution and an optional GetLegendGraphic URL for thematic data. Calling without arguments retains the RLP DOP20 preset.
 
 See the impervious-surface example: `Impervious_Surface.ipynb` and `examples/impervious_surface.html`. This combines DOP20 aerial imagery and the Copernicus Land Monitoring Service IMD 2024 WMS at 10 m resolution. Data values are 0–100% estimated artificial sealing per cell; layer opacity is an independent display setting. The endpoint is `https://geoserver.geoville.com/geoserver/nvlcc_2024/wms`, layer `HRL_NVLCC_IMD_2024_10m`. Source: https://doi.org/10.2909/f0bcb6f0-d775-4218-bec1-13adea01ff8f .
+
+## Interactive building placement
+
+```python
+from basemap3d import Map, TreeLayer, HousePlacement
+m = Map(location=[50.0063, 8.2692], distance_m=700)
+TreeLayer().add_to(m)
+HousePlacement().add_to(m)
+m
+```
+
+`HousePlacement()` adds flat-roof (16 × 12 × 9 m), gable-roof (12 × 9 m, 6 m walls + 3 m roof) and hip-roof (14 × 10 m, 6 m walls + 3 m roof) templates. Choose a template, click **Choose location**, then click open ground to preview it. Adjust rotation or template, confirm, cancel or undo the last placed building. Click Choose location again to move a preview.
+
+Positions use the currently rendered terrain surface, with local east/north dimensions in metres. Existing buildings and trees remain visible. This is a schematic placement exercise with no collision, ownership or planning checks. Positions are not persisted when the page reloads and are not written back into Python or exported HTML. Terrain must initialize successfully to enable placement.
