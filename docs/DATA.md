@@ -68,8 +68,12 @@ Each column symbol represents an original equal-area 1-km cell. Its 800 m displa
 
 ## Mainz Stadtmitte tree candidates
 
-The estimated-height tree dataset in `docs/layers/mainz-trees/` covers a 7 × 4 km frame (EPSG:25832: [442000, 5537000, 449000, 5541000]). It retains 13,317 original candidates and adds 27,165, for 40,482 total. The Mainz municipal mask covers 25.2651 km² inside the frame; the northeast cell has no Mainz area. Heights use P99(DOM1−DGM1); bases align to basemap.de DGM5. The fixed 15 m variant is removed. Credits: ©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL. See the [dataset README](layers/mainz-trees/README.md).
+The estimated-height tree dataset in `docs/layers/mainz-trees/` covers a 7 × 4 km frame (EPSG:25832: [442000, 5537000, 449000, 5541000]). It contains 26,849 C_balanced centre candidates and 27,165 earlier extension candidates, for 54,014 total. The Mainz municipal mask covers 25.2651 km² inside the frame; the northeast cell has no Mainz area. Heights use P99(DOM1−DGM1); bases align to basemap.de DGM5. The fixed 15 m variant is removed. Credits: ©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL. See the [dataset README](layers/mainz-trees/README.md).
 
 ## Impervious-surface WMS example
 
 Copernicus Land Monitoring Service, Imperviousness Density 2024, 10 m raster, released 2026. Data values are estimated artificial sealing per pixel, 0–100%; 255 is outside the dataset area. © European Union, Copernicus Land Monitoring Service. Source and terms: https://doi.org/10.2909/f0bcb6f0-d775-4218-bec1-13adea01ff8f . WMS listed by the official metadata: https://geoserver.geoville.com/geoserver/nvlcc_2024/wms . Layer: HRL_NVLCC_IMD_2024_10m.
+
+Tree update (2026-10-29): the original 3 × 3 km centre now contains 26,849 C_balanced candidates, replacing 13,317 old candidates. Extension cells retain 27,165 candidates from the earlier stricter processing. Centre IDs were reassigned by reprocessing; they must not be used as stable matches to the old inventory.
+
+GeoJSON publication status (2026-10-29): The C_balanced 3D models contain 54,014 candidates. Candidate and review GeoJSON updates are deferred in this release; the existing GeoJSON files retain the earlier extraction and do not match the updated centre models. The viewer reads GLB metadata and does not require the candidate GeoJSON.

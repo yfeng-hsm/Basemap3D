@@ -1,3 +1,4 @@
+from point_io import read_points, write_points
 import os
 from pathlib import Path
 import json,struct,copy,math,shutil,hashlib
@@ -9,10 +10,10 @@ from PIL import Image,ImageDraw,ImageFont
 R=Path(os.environ.get("BASEMAP3D_TREE_WORK", str(Path(__file__).resolve().parents[2]/"work/tree_expansion")))
 REPO=Path(__file__).resolve().parents[2];OLD=REPO/'docs/layers/mainz-trees';OUT=R/'staging'
 (OUT/'data').mkdir(parents=True,exist_ok=True);(OUT/'tiles/estimated').mkdir(parents=True,exist_ok=True)
-old=[f for f in json.loads((OLD/'data/tree_points.geojson').read_text())['features'] if f['properties']['tree_id'].startswith('mainz_center_')];new=json.loads((R/'new_aligned_points.geojson').read_text())['features'];allpoints=old+new
+old=[f for f in read_points(OLD/'data/tree_points.geojson') if f['properties']['tree_id'].startswith('mainz_center_')];new=json.loads((R/'new_aligned_points.geojson').read_text())['features'];allpoints=old+new
 assert len({f['properties']['tree_id'] for f in allpoints})==len(allpoints)
 to_wgs=Transformer.from_crs(25832,4326,always_xy=True);to_utm=Transformer.from_crs(4326,25832,always_xy=True);to_ecef=Transformer.from_crs(4979,4978,always_xy=True)
-oldset=json.loads((OLD/'tileset-estimated.json').read_text());oldchildren={c['content']['uri'].split('/')[-1].replace('_coarse.glb',''):c for c in oldset['root']['children'] if c.get('content') and int(c['content']['uri'].split('/')[-1].split('_')[1])>=446 and int(c['content']['uri'].split('/')[-1].split('_')[2])<5540}
+oldset=json.loads((OLD/'tileset-estimated.json').read_text());oldchildren={c['content']['uri'].split('?')[0].split('/')[-1].replace('_coarse.glb',''):c for c in oldset['root']['children'] if c.get('content') and int(c['content']['uri'].split('/')[-1].split('_')[1])>=446 and int(c['content']['uri'].split('/')[-1].split('_')[2])<5540}
 by_tile={f'32_{x}_{y}':[] for x in range(442,449) for y in range(5537,5541)}
 for f in allpoints:by_tile[f['properties']['tile']].append(f)
 def unpack(path):
@@ -56,7 +57,8 @@ children=[]
 for tile,features in sorted(by_tile.items()):
  if tile in oldchildren:
   children.append(copy.deepcopy(oldchildren[tile]))
-  for lod in ('fine','coarse'):shutil.copyfile(OLD/f'tiles/estimated/{tile}_{lod}.glb',OUT/f'tiles/estimated/{tile}_{lod}.glb')
+  for node in [children[-1], *children[-1].get('children',[])]:
+   uri=node['content']['uri'].split('?')[0];destination=OUT/uri;destination.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(OLD/uri,destination)
  elif features:
   matrix,bounds=make_glb(tile,features,'fine');make_glb(tile,features,'coarse')
   children.append(dict(transform=matrix,boundingVolume=bounds,geometricError=3,refine='REPLACE',content={'uri':f'tiles/estimated/{tile}_coarse.glb'},children=[dict(boundingVolume=bounds,geometricError=0,content={'uri':f'tiles/estimated/{tile}_fine.glb'})]))
@@ -71,7 +73,7 @@ for child in children:
  if 'content' not in child:child['boundingVolume']['region'][-2:]=[minh,maxh]
 tileset=dict(asset=asset,geometricError=100,root=root)
 for name in ('tileset.json','tileset-estimated.json'):(OUT/name).write_text(json.dumps(tileset,ensure_ascii=False,separators=(',',':')))
-(OUT/'data/tree_points.geojson').write_text(json.dumps(dict(type='FeatureCollection',features=allpoints),ensure_ascii=False,separators=(',',':')))
+write_points(OUT/'data/tree_points.geojson.gz',allpoints)
 review=[f for f in allpoints if f['properties']['review_recommended']];(OUT/'data/review_points.geojson').write_text(json.dumps(dict(type='FeatureCollection',features=review),separators=(',',':')))
 boundarydoc=json.loads((OLD/'data/mainz_boundary.geojson').read_text());boundary=transform(to_utm.transform,shape(boundarydoc['geometry']));area=boundary.intersection(box(442000,5537000,449000,5541000)).area/1e6
 shutil.copyfile(OLD/'data/mainz_boundary.geojson',OUT/'data/mainz_boundary.geojson')

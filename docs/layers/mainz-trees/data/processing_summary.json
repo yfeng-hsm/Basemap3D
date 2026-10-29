@@ -1,14 +1,14 @@
 {
   "selected_frame_area_km2": 28,
   "mainz_area_inside_frame_km2": 25.2651,
-  "candidate_tree_count": 40482,
-  "retained_original_candidates": 13317,
+  "candidate_tree_count": 54014,
+  "retained_original_candidates": 0,
   "added_candidates": 27165,
   "height_range_m": [
-    4.02,
-    38.33
+    3,
+    39.22
   ],
-  "height_over_30m_review_count": 109,
+  "height_over_30m_review_count": 128,
   "building_footprints_used": 19164,
   "tile_counts": {
     "32_442_5537": 817,
@@ -27,33 +27,52 @@
     "32_445_5538": 1755,
     "32_445_5539": 2146,
     "32_445_5540": 1410,
-    "32_446_5537": 1943,
-    "32_446_5538": 2218,
-    "32_446_5539": 1449,
+    "32_446_5537": 4053,
+    "32_446_5538": 4378,
+    "32_446_5539": 2988,
     "32_446_5540": 911,
-    "32_447_5537": 2113,
-    "32_447_5538": 1617,
-    "32_447_5539": 918,
+    "32_447_5537": 4075,
+    "32_447_5538": 3268,
+    "32_447_5539": 1997,
     "32_447_5540": 296,
-    "32_448_5537": 2311,
-    "32_448_5538": 694,
-    "32_448_5539": 54,
+    "32_448_5537": 4594,
+    "32_448_5538": 1384,
+    "32_448_5539": 112,
     "32_448_5540": 0
   },
   "method": {
-    "ndvi_min": 0.3,
-    "minimum_height_m": 4,
-    "minimum_crown_area_m2": 16,
-    "peak_spacing_m": 4,
-    "building_exclusion_buffer_m": 1,
-    "height_estimation": "P99(pixelwise DOM1-DGM1)",
-    "municipal_mask": "OpenStreetMap Mainz relation 62630",
-    "expanded_area_segmentation": "1 m RGBI band averages; CHM Gaussian sigma 1 m; seeded watershed, 4 m peak spacing"
+    "configuration": "mixed_spatial_processing",
+    "center": {
+      "ndvi_min": 0.25,
+      "minimum_height_m": 3,
+      "minimum_crown_area_m2": 8,
+      "peak_spacing_m": 2,
+      "building_exclusion_buffer_m_approx": 0,
+      "configuration": "C_balanced",
+      "mask_min_height_m": 2.5,
+      "smoothed_sigma_m": 0.6,
+      "height_estimation": "P99(pixelwise DOM1-DGM1)",
+      "municipal_mask": "OpenStreetMap Mainz relation 62630"
+    },
+    "extension": {
+      "ndvi_min": 0.3,
+      "minimum_height_m": 4,
+      "minimum_crown_area_m2": 16,
+      "peak_spacing_m": 4,
+      "building_exclusion_buffer_m": 1,
+      "height_estimation": "P99(pixelwise DOM1-DGM1)",
+      "municipal_mask": "OpenStreetMap Mainz relation 62630",
+      "expanded_area_segmentation": "1 m RGBI band averages; CHM Gaussian sigma 1 m; seeded watershed, 4 m peak spacing"
+    }
   },
   "limits": [
-    "Automatic candidates, not field-verified.",
-    "Original nine tiles retained without resampling.",
-    "Municipal mask retained; northeast cell 32_448_5540 has no Mainz area and is intentionally empty.",
+    "Automatic estimates, not an official tree inventory or field-verified.",
+    "Original nine centre cells replaced by the selected C_balanced archive.",
+    "Extension cells retained without reprocessing; their stricter original settings still apply.",
     "2023 elevation and 2024 imagery are not simultaneous."
-  ]
+  ],
+  "replaced_original_candidates": 13317,
+  "center_candidate_count": 26849,
+  "extension_candidate_count": 27165,
+  "publication_note": "The C_balanced 3D models contain 54,014 candidates. Candidate and review GeoJSON updates are deferred in this release; the existing GeoJSON files retain the earlier extraction and do not match the updated centre models. The viewer reads GLB metadata and does not require the candidate GeoJSON."
 }

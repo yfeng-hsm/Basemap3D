@@ -9,13 +9,31 @@
     5541000
   ],
   "spatial_tiles": 28,
-  "candidate_count": 40482,
+  "candidate_count": 54014,
   "height_mode": "estimated",
-  "retained_original_candidates": 13317,
-  "added_candidates": 27165,
   "terrain_alignment": "Fixed model bases aligned to basemap.de DGM5 level 16 using Cesium-compatible triangle interpolation.",
   "source_data": "RLP DOM1/DGM1 2023, RGBI orthophotos 2024; OSM building and Mainz municipality masks.",
   "attribution": "©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL",
   "original_source_commit": "eeb2721591eae19ab4bdafbf1c0f5ebf7e380cce",
-  "municipal_mask_retained": true
+  "municipal_mask_retained": true,
+  "center_candidate_count": 26849,
+  "retained_extension_candidates": 27165,
+  "configuration": "C_balanced centre; original extension",
+  "center_archive_sha256": "28305caf151701f3884c9c5c6b6ce4e762eeb759df60024513a873ee5aec2ae5",
+  "center_bounds_epsg25832": [
+    446000,
+    5537000,
+    449000,
+    5540000
+  ],
+  "crown_scaling": "C centre: area-equivalent diameter independent of model height; extension unchanged",
+  "center_ids_reassigned": true,
+  "candidate_storage": {
+    "path": "data/tree_points.geojson",
+    "schema": "legacy",
+    "count": 40482,
+    "status": "Earlier extraction retained; C GeoJSON publication deferred",
+    "matches_current_center_models": false
+  },
+  "publication_note": "The C_balanced 3D models contain 54,014 candidates. Candidate and review GeoJSON updates are deferred in this release; the existing GeoJSON files retain the earlier extraction and do not match the updated centre models. The viewer reads GLB metadata and does not require the candidate GeoJSON."
 }

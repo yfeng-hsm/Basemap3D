@@ -7,3 +7,8 @@ From the repository root, install requirements into an isolated environment and 
 Segmentation uses NDVI ≥0.3, CHM ≥4 m, area ≥16 m², 4 m peak spacing, 1 m building exclusion, and CHM Gaussian sigma 1 m. Tree height is P99(DOM1−DGM1). Ground height uses DGM5 level 16, with Cesium-compatible heightmap triangle interpolation. Crown and trunk mesh geometry is reused from the original instanced model templates; coarse/fine LODs retain metadata and feature selection. Models and candidates are unverified estimates.
 
 Review the outputs in `work/tree_expansion/staging` before replacing the hosted dataset. Regenerate its checksum manifest after updating validation/provenance files. `tools/build_docs.py` creates gallery scenes referencing their adjacent tree tiles, while Python notebook exports keep the public estimated-height endpoint. Publication is a separate operation.
+
+## C centre update, 2026-10-29
+The hosted centre has been replaced by C_balanced (26,849 candidates); the 27,165 extension candidates retain the stricter settings above. Do not describe the entire expanded layer as C. Use apply_c_center.py with the archived C update ZIP, then validate_c_upgrade.py and regenerate manifest.sha256.json. Full extension reprocessing requires reacquiring the raw inputs.
+
+`point_io.py` supports legacy GeoJSON and compact gzip exports. The compact C candidate export is not included in this release; existing published GeoJSON remains from the earlier extraction. Supply matching updated candidates before running C validation or rebuilding C models. Browser popups use GLB metadata independently.

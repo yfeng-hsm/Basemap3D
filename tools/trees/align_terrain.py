@@ -1,3 +1,4 @@
+from point_io import read_points, write_points
 import os
 from pathlib import Path
 import json,math,subprocess,time
@@ -5,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor,as_completed
 import numpy as np
 R=Path(os.environ.get("BASEMAP3D_TREE_WORK", str(Path(__file__).resolve().parents[2]/"work/tree_expansion")));terrain=R/'terrain';terrain.mkdir(exist_ok=True)
 REPO=Path(__file__).resolve().parents[2]
-old=json.loads((REPO/'docs/layers/mainz-trees/data/tree_points.geojson').read_text())['features'];new=[]
+old=read_points(REPO/'docs/layers/mainz-trees/data/tree_points.geojson');new=[]
 for p in sorted((R/'processing').glob('32*.json')):new+=json.loads(p.read_text())['features']
 z=16
 key=lambda f:(int(math.floor((f['geometry']['coordinates'][0]+180)*2**(z+1)/360)),int(math.floor((f['geometry']['coordinates'][1]+90)*2**z/180)))

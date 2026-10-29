@@ -1,0 +1,1 @@
+The c_ scripts preserve the selected C archive processing code for provenance. They require the original rasters, OSM inputs and tree template; their original project paths must be adapted before running. To apply the already-generated archive reproducibly, use tools/trees/apply_c_center.py. This migration retains the wider extension dataset without rerunning it.

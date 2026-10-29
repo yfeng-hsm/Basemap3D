@@ -1,18 +1,25 @@
 {
-  "glb_files_validated": 54,
-  "trees": 40482,
-  "spatial_cells": 28,
-  "nonempty_cells": 27,
+  "trees": 54014,
+  "center_trees": 26849,
+  "extension_trees": 27165,
+  "glb_files_checked": 54,
+  "trees_per_lod": {
+    "coarse": 54014,
+    "fine": 54014
+  },
   "max_position_error_degrees": 2.1288926177476242e-10,
   "max_ground_height_error_m": 1.5127904703149397e-05,
-  "gltf_validation_errors": 0,
-  "gltf_validation_warnings": 0,
-  "terrain": {
-    "terrain_tiles": 305,
-    "level": 16,
-    "sample_count": 27165,
-    "original_reference_check_max_error_m": 4.8085329723335235e-05,
-    "method": "Cesium-compatible heightmap-1.0 triangle interpolation; heightScale=0.2, heightOffset=-1000"
-  },
-  "height_mode": "estimated_only"
+  "max_metadata_height_error_m": 7.568359364995558e-06,
+  "max_center_crown_diameter_error_m": 9.155273446026513e-07,
+  "checks": [
+    "GLB headers, buffer bounds, unique IDs and candidate references",
+    "Per-tile feature counts at both LODs",
+    "ECEF georeference and fixed DGM5 bases match candidate points",
+    "Source/model heights and C crown diameter metadata match candidates"
+  ],
+  "browser_render": "Not verified in this environment",
+  "khronos_validation": "Not rerun; source archive reports zero errors for its original exports",
+  "configuration": "C_balanced centre; extension unchanged",
+  "publication_note": "The C_balanced 3D models contain 54,014 candidates. Candidate and review GeoJSON updates are deferred in this release; the existing GeoJSON files retain the earlier extraction and do not match the updated centre models. The viewer reads GLB metadata and does not require the candidate GeoJSON.",
+  "candidate_reference": "Matching local C candidate export; not yet published in this repository"
 }

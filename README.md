@@ -105,7 +105,7 @@ Map locations use **[latitude, longitude]**. GeoJSON coordinates use **[longitud
 
 City models are streamed from their providers. Availability, coverage, CORS settings and licences depend on each service. A working endpoint does not itself grant redistribution rights. Keep source attribution and check the provider's terms. The [city catalogue](docs/examples/city_sources.json) records URLs and source notes.
 
-The Mainz tree layer currently contains **40,482 automatic candidates in a 7 × 4 km processing frame**. It uses estimated heights and schematic crowns, not a verified tree inventory. **The selected C_balanced reprocessing has not yet been published:** the original city-centre area still contains 13,317 candidates. See [tree data documentation](docs/layers/mainz-trees/README.md) and [processing parameters](docs/layers/mainz-trees/data/processing_summary.json). Tree shadows support qualitative exploration; they do not model foliage transmission or cooling.
+The Mainz tree layer currently contains **54,014 automatic candidates in a 7 × 4 km processing frame**. It uses estimated heights and schematic crowns, not a verified tree inventory. The original 3 × 3 km city centre now uses the selected **C_balanced** result (26,849 candidates). The surrounding extension retains its earlier extraction (27,165 candidates); it has not been reprocessed with C. See [tree data documentation](docs/layers/mainz-trees/README.md) and [processing parameters](docs/layers/mainz-trees/data/processing_summary.json). Tree shadows support qualitative exploration; they do not model foliage transmission or cooling.
 
 The Berlin population example uses historical Zensus 2022 counts, referenced to 15 May 2022. Its rectangular extract is not the administrative city boundary.
 
@@ -130,3 +130,5 @@ python tools/build_docs.py
 ```
 
 GitHub Pages publishes the `docs/` directory from `main`. Some example builders access online services. Student exports belong in `results/`.
+
+GeoJSON publication status (2026-10-29): The C_balanced 3D models contain 54,014 candidates. Candidate and review GeoJSON updates are deferred in this release; the existing GeoJSON files retain the earlier extraction and do not match the updated centre models. The viewer reads GLB metadata and does not require the candidate GeoJSON.
