@@ -46,7 +46,7 @@ The exported HTML streams its online layers when opened; it does not download th
 | Buildings around your polygons | `NearbyBuildings(...)` | Interactive distance selection using OSM footprints |
 | Schematic 3D trees | `TreeLayer()` | Hosted Mainz tree candidates |
 | Thematic 3D columns | `BarLayer(...)` | Berlin population from Zensus 2022 |
-| Place a white building interactively | `HousePlacement()` | Mainz; flat, gable and hip roof templates |
+| Place a yellow building interactively | `HousePlacement()` | Mainz; flat, gable and hip roof templates |
 | Sun and shadows | `SunShadows(...)` | Explore different dates and times |
 
 In the [basic examples](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/examples/), choose **Mesh models** or **LoD3 buildings**, then select a city above the Python code. The scene and code update together. Some entries are different views of the same service. Koblenz's detailed models cover selected objects, rather than the whole city.

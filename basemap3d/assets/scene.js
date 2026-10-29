@@ -308,18 +308,22 @@ async function setupTiles3D(viewer, terrainEnabled){
 function setupHousePlacement(viewer, terrainEnabled){
  const panel=document.getElementById('house-panel');panel.hidden=false;
  const el=id=>document.getElementById('house-'+id);
+ const buildingColor=Cesium.Color.fromCssColorString('#e4b847');
+ const templateButtons=panel.querySelectorAll('[data-house-template]');
  const templates={flat:{w:16,d:12,h:9,r:0},gable:{w:12,d:9,h:6,r:3},hip:{w:14,d:10,h:6,r:3}};
  let choosing=false,anchor=null,preview=[],placed=[],serial=0;
  const status=text=>{el('status').textContent=text;};
  const remove=group=>group.forEach(entity=>viewer.entities.remove(entity));
  function controls(){el('confirm').disabled=!anchor;el('cancel').disabled=!choosing&&!anchor;el('undo').disabled=!placed.length;el('start').textContent=choosing?'Click open ground…':'Choose location';}
  function draw(){
+  const kind=el('template').value,t=templates[kind],a=Number(el('angle').value)*Math.PI/180,scale=Number(el('scale').value)/100;
+  el('scale-value').textContent=Math.round(scale*100)+'%';
+  el('dimensions').textContent=(t.w*scale).toFixed(1)+' × '+(t.d*scale).toFixed(1)+' m · height '+((t.h+t.r)*scale).toFixed(1)+' m';
   remove(preview);preview=[];if(!anchor)return;
-  const kind=el('template').value,t=templates[kind],a=Number(el('angle').value)*Math.PI/180;
   const frame=Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromRadians(anchor.longitude,anchor.latitude,anchor.height));
-  const point=([x,y,z])=>Cesium.Matrix4.multiplyByPoint(frame,new Cesium.Cartesian3(x*Math.cos(a)-y*Math.sin(a),x*Math.sin(a)+y*Math.cos(a),z),new Cesium.Cartesian3());
+  const point=([x,y,z])=>Cesium.Matrix4.multiplyByPoint(frame,new Cesium.Cartesian3((x*Math.cos(a)-y*Math.sin(a))*scale,(x*Math.sin(a)+y*Math.cos(a))*scale,z*scale),new Cesium.Cartesian3());
   const x=t.w/2,y=t.d/2,h=t.h,top=[[-x,-y,h],[x,-y,h],[x,y,h],[-x,y,h]];
-  const face=coords=>preview.push(viewer.entities.add({name:'Building preview',polygon:{hierarchy:coords.map(point),perPositionHeight:true,material:Cesium.Color.CYAN.withAlpha(.55),outline:true,outlineColor:Cesium.Color.DARKSLATEGRAY,shadows:Cesium.ShadowMode.ENABLED}}));
+  const face=coords=>preview.push(viewer.entities.add({name:'Building preview',polygon:{hierarchy:coords.map(point),perPositionHeight:true,material:buildingColor.withAlpha(.78),outline:true,outlineColor:Cesium.Color.DARKSLATEGRAY,shadows:Cesium.ShadowMode.ENABLED}}));
   for(let i=0;i<4;i++){const j=(i+1)%4;face([[...top[i].slice(0,2),0],[...top[j].slice(0,2),0],top[j],top[i]]);}
   if(kind==='flat')face(top);
   else{
@@ -332,22 +336,31 @@ function setupHousePlacement(viewer, terrainEnabled){
   if(!choosing)return false;
   const ray=viewer.camera.getPickRay(position),hit=ray&&viewer.scene.globe.pick(ray,viewer.scene);
   if(!hit){status('No ground at this point. Click visible ground.');return true;}
-  anchor=Cesium.Cartographic.fromCartesian(hit);choosing=false;draw();status('Preview ready. Adjust template or rotation, then confirm; choose location again to move.');return true;
+  anchor=Cesium.Cartographic.fromCartesian(hit);choosing=false;draw();status('Preview ready. Adjust scale or rotation, then confirm; choose location again to move.');return true;
  };
  el('start').onclick=()=>{
   if(!terrainEnabled){status('Terrain is unavailable. Reload when the terrain service is reachable.');return;}
   choosing=true;controls();status('Click an open space on the map to preview the building.');
  };
+ templateButtons.forEach(button=>{button.onclick=()=>{
+  el('template').value=button.dataset.houseTemplate;
+  el('template-current').innerHTML=button.innerHTML;
+  templateButtons.forEach(option=>option.setAttribute('aria-pressed',String(option===button)));
+  el('picker').open=false;draw();
+ };});
  el('template').onchange=draw;
+ el('scale').oninput=draw;
+ const resize=step=>{el('scale').value=String(Math.max(50,Math.min(200,Number(el('scale').value)+step)));draw();};
+ el('smaller').onclick=()=>resize(-5);el('larger').onclick=()=>resize(5);
  el('angle').oninput=()=>{el('angle-value').textContent=el('angle').value+'°';draw();};
  el('confirm').onclick=()=>{
   if(!anchor)return;
-  serial++;preview.forEach(entity=>{entity.name='Placed building '+serial;entity.polygon.material=Cesium.Color.WHITE;});
+  serial++;preview.forEach(entity=>{entity.name='Placed building '+serial;entity.polygon.material=buildingColor;});
   placed.push(preview);preview=[];anchor=null;choosing=false;controls();status('Building placed. Choose another location or undo the last building.');viewer.scene.requestRender();
  };
  el('cancel').onclick=()=>{remove(preview);preview=[];anchor=null;choosing=false;controls();status('Preview cancelled.');viewer.scene.requestRender();};
  el('undo').onclick=()=>{if(placed.length)remove(placed.pop());controls();status('Last placed building removed.');viewer.scene.requestRender();};
- controls();
+ controls();draw();
 }
 
 async function main(){
