@@ -3,14 +3,14 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const source=fs.readFileSync('basemap3d/assets/scene.js','utf8');
 const code=source.slice(source.indexOf('function setupHousePlacement('),source.indexOf('async function main(){'));
 const elements=new Map();
-const templateButtons=['flat','gable','hip'].map(kind=>({dataset:{houseTemplate:kind},innerHTML:kind,attrs:{},setAttribute(key,value){this.attrs[key]=value;}}));
+const templateButtons=['flat','gable','hip','grass'].map(kind=>({dataset:{houseTemplate:kind},innerHTML:kind,attrs:{},setAttribute(key,value){this.attrs[key]=value;}}));
 const document={getElementById(id){if(!elements.has(id))elements.set(id,{value:id==='house-template'?'flat':id==='house-scale'?'100':'0',querySelectorAll:()=>templateButtons});return elements.get(id);}};
 const C={Cartesian3:class {constructor(x,y,z){Object.assign(this,{x,y,z});}static fromRadians(){return {}; }},
  Transforms:{eastNorthUpToFixedFrame:()=>({})},Matrix4:{multiplyByPoint:(_,p)=>p},
- Cartographic:{fromCartesian:p=>p},Color:{fromCssColorString:color=>({color,withAlpha:alpha=>({color,alpha})}),DARKSLATEGRAY:'outline'},ShadowMode:{ENABLED:1}};
+ Cartographic:{fromCartesian:p=>p},Color:{fromCssColorString:color=>({color,withAlpha:alpha=>({color,alpha})}),DARKSLATEGRAY:'outline'},ShadowMode:{ENABLED:1},HeightReference:{CLAMP_TO_GROUND:1},ClassificationType:{TERRAIN:1}};
 const context={document,Cesium:C};vm.createContext(context);vm.runInContext(code,context);
 let entities=new Set(),hit={longitude:.1,latitude:.8,height:100};
-const viewer={entities:{add:e=>(entities.add(e),e),remove:e=>entities.delete(e)},camera:{getPickRay:()=>({})},scene:{globe:{pick:()=>hit},requestRender(){}}};
+const viewer={entities:{add:e=>(entities.add(e),e),remove:e=>entities.delete(e)},camera:{getPickRay:()=>({})},scene:{globe:{pick:()=>hit,getHeight:()=>100},requestRender(){}}};
 context.setupHousePlacement(viewer,true);
 const el=id=>document.getElementById('house-'+id);
 assert.equal(viewer.placeHouseAt({}),false);
@@ -28,7 +28,16 @@ for(const type of ['flat','hip']){el('template').value=type;el('start').onclick(
 assert.equal(entities.size,21);el('undo').onclick();assert.equal(entities.size,13);
 el('start').onclick();viewer.placeHouseAt({});el('cancel').onclick();assert.equal(entities.size,13);
 el('undo').onclick();el('undo').onclick();assert.equal(entities.size,0);assert.equal(el('undo').disabled,true);
+templateButtons[3].onclick();el('angle').value='0';el('start').onclick();viewer.placeHouseAt({});
+assert.equal(entities.size,71);assert.deepEqual(extent(),{x:12,y:8,z:.45});
+const patch=[...entities][0];assert.equal(patch.polygon.perPositionHeight,false);assert.equal(patch.polygon.classificationType,C.ClassificationType.TERRAIN);
+el('scale').value='150';el('scale').oninput();assert.equal(extent().x,18);assert.equal(extent().y,12);
+el('angle').value='90';el('angle').oninput();assert(Math.abs(extent().x-12)<1e-8);assert(Math.abs(extent().y-18)<1e-8);
+el('confirm').onclick();assert([...entities].every(e=>e.polygon.material.color!=='#e4b847'));assert.equal([...entities][0].polygon.material.color,'#69994d');
+// Switching back to a building must not recolor the confirmed grass.
+templateButtons[0].onclick();assert.equal([...entities][0].polygon.material.color,'#69994d');
+el('undo').onclick();assert.equal(entities.size,0);
 el('scale').value='200';el('larger').onclick();assert.equal(el('scale').value,'200');
 el('scale').value='50';el('smaller').onclick();assert.equal(el('scale').value,'50');
 context.setupHousePlacement(viewer,false);el('start').onclick();assert.equal(viewer.placeHouseAt({}),false);
-console.log('Placement state checks passed: pictured template picker, scale bounds, scale-before-rotation geometry, confirm, cancel, undo, missed ground and unavailable terrain.');
+console.log('Placement state checks passed: pictured building/grass picker, grass terrain draping and preserved colors, scale bounds, scale-before-rotation geometry, confirm, cancel, undo, missed ground and unavailable terrain.');

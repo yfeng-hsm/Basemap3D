@@ -54,7 +54,7 @@ input[type="checkbox"]{accent-color:#288b83;width:16px;height:16px}
 #house-picker summary::-webkit-details-marker{display:none}
 #house-template-current{display:flex;align-items:center;gap:8px}
 #house-template-current svg{width:75px;height:54px}
-.house-template-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:7px;border-top:1px solid #e6dfc8}
+.house-template-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:7px;border-top:1px solid #e6dfc8}
 .house-template-options button{display:flex;align-items:center;flex-direction:column;padding:4px 2px;font-size:10px;background:#fffdf6;border-color:#e6dfc8;min-width:0}
 .house-template-options button svg{width:100%;height:58px}
 .house-template-options button[aria-pressed="true"]{background:#f8edc6;border-color:#bd963d;color:#69531d}

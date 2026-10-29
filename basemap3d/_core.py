@@ -248,7 +248,7 @@ class TreeLayer(Tiles3D):
 
 
 class HousePlacement:
-    """Enable three yellow building templates with click, preview and confirm controls."""
+    """Enable three yellow buildings and a green grass patch with placement controls."""
 
     def add_to(self, m):
         m._update(1, house_placement_enabled=True)

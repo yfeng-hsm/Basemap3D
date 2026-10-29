@@ -86,13 +86,13 @@ add('shadows','6 · Trees, imagery & shadows','Add date and time controls to the
 add('complete','Complete · All visual modules','Combine aerial imagery, imperviousness (10 m), polygons, trees and shadows. Spatial queries are covered separately in example 4.',['Map','WmsTileLayer × 2','GeoJson','TreeLayer','SunShadows'],fullcode,'mainz_complete.html','The preview uses a local OSM building snapshot. Shadows and estimated tree heights support qualitative visualization.')
 impervious_code='from basemap3d import Map, WmsTileLayer\n\nm = Map(location=[50.0, 8.27], distance_m=4000,\n        buildings=False, heading=0, pitch=-70)\nWmsTileLayer(opacity=0.45).add_to(m)\n\nwms = "https://geoserver.geoville.com/geoserver/nvlcc_2024/wms"\nWmsTileLayer(\n    url=wms, layers="HRL_NVLCC_IMD_2024_10m",\n    name="Imperviousness · 2024 · 10 m", opacity=0.8,\n    description="Copernicus IMD · 2024 · 10 m · 0–100 %",\n    attribution="© European Union · Copernicus Land Monitoring Service",\n    legend_url=wms + "?service=WMS&request=GetLegendGraphic"\n                     "&version=1.1.1&format=image/png"\n                     "&layer=HRL_NVLCC_IMD_2024_10m",\n).add_to(m)\nm'
 add('impervious','Extra · Imperviousness (WMS)','The same module, a different service: Copernicus Imperviousness Density 2024 at 10 m over aerial imagery. Each layer has its own visibility and opacity controls.',['Map','WmsTileLayer × 2'],impervious_code,'impervious_surface.html','Copernicus Land Monitoring Service · IMD 2024 · 10 m. Values indicate 0–100% impervious cover per cell. Display opacity is a separate control. Source: https://doi.org/10.2909/f0bcb6f0-d775-4218-bec1-13adea01ff8f')
-add('place-house','Extra · Place a building','Choose one of three yellow building templates. Choose a pictured template, adjust scale then rotation, and click open ground to preview and confirm placement.',['Map','TreeLayer','HousePlacement'],'''from basemap3d import Map, TreeLayer, HousePlacement
+add('place-house','Extra · Place a building','Choose one of three yellow building templates. Choose a pictured building or green grass patch, adjust scale then rotation, and click open ground to preview and confirm placement.',['Map','TreeLayer','HousePlacement'],'''from basemap3d import Map, TreeLayer, HousePlacement
 
 m = Map(location=[50.0063, 8.2692], distance_m=700,
         title="Mainz · Place a building")
 TreeLayer().add_to(m)
 HousePlacement().add_to(m)
-m''','mainz_place_house.html','Flat, gable and hip roofs. Schematic dimensions; no collision or planning validation. Placements last for this browser session.')
+m''','mainz_place_house.html','Flat, gable and hip roofs, plus a grass patch. Schematic dimensions; no collision or planning validation. Placements last for this browser session.')
 add('population','Extra · Population as 3D columns','Another combination: Map and BarLayer visualize 2022 census data around Berlin.',['Map','BarLayer'],'''from basemap3d import Map, BarLayer
 
 m = Map(location=[52.51, 13.39], buildings=False,

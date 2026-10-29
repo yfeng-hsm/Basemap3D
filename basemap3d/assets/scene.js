@@ -310,7 +310,7 @@ function setupHousePlacement(viewer, terrainEnabled){
  const el=id=>document.getElementById('house-'+id);
  const buildingColor=Cesium.Color.fromCssColorString('#e4b847');
  const templateButtons=panel.querySelectorAll('[data-house-template]');
- const templates={flat:{w:16,d:12,h:9,r:0},gable:{w:12,d:9,h:6,r:3},hip:{w:14,d:10,h:6,r:3}};
+ const templates={flat:{w:16,d:12,h:9,r:0},gable:{w:12,d:9,h:6,r:3},hip:{w:14,d:10,h:6,r:3},grass:{w:12,d:8,h:.45,r:0}};
  let choosing=false,anchor=null,preview=[],placed=[],serial=0;
  const status=text=>{el('status').textContent=text;};
  const remove=group=>group.forEach(entity=>viewer.entities.remove(entity));
@@ -318,17 +318,35 @@ function setupHousePlacement(viewer, terrainEnabled){
  function draw(){
   const kind=el('template').value,t=templates[kind],a=Number(el('angle').value)*Math.PI/180,scale=Number(el('scale').value)/100;
   el('scale-value').textContent=Math.round(scale*100)+'%';
-  el('dimensions').textContent=(t.w*scale).toFixed(1)+' × '+(t.d*scale).toFixed(1)+' m · height '+((t.h+t.r)*scale).toFixed(1)+' m';
+  el('dimensions').textContent=(t.w*scale).toFixed(1)+' × '+(t.d*scale).toFixed(1)+' m · height '+((t.h+t.r)*scale).toFixed(2)+' m';
   remove(preview);preview=[];if(!anchor)return;
   const frame=Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromRadians(anchor.longitude,anchor.latitude,anchor.height));
   const point=([x,y,z])=>Cesium.Matrix4.multiplyByPoint(frame,new Cesium.Cartesian3((x*Math.cos(a)-y*Math.sin(a))*scale,(x*Math.sin(a)+y*Math.cos(a))*scale,z*scale),new Cesium.Cartesian3());
   const x=t.w/2,y=t.d/2,h=t.h,top=[[-x,-y,h],[x,-y,h],[x,y,h],[-x,y,h]];
-  const face=coords=>preview.push(viewer.entities.add({name:'Building preview',polygon:{hierarchy:coords.map(point),perPositionHeight:true,material:buildingColor.withAlpha(.78),outline:true,outlineColor:Cesium.Color.DARKSLATEGRAY,shadows:Cesium.ShadowMode.ENABLED}}));
+  const face=(coords,color=buildingColor,options={})=>{
+   const entity=viewer.entities.add({name:kind==='grass'?'Grass preview':'Building preview',polygon:{hierarchy:coords.map(point),perPositionHeight:true,material:color.withAlpha(.78),outline:true,outlineColor:Cesium.Color.DARKSLATEGRAY,shadows:Cesium.ShadowMode.ENABLED,...options}});
+   entity._placementColor=color;preview.push(entity);
+  };
+  if(kind==='grass'){
+   const green=Cesium.Color.fromCssColorString('#69994d');
+   face([[-x,-y,0],[x,-y,0],[x,y,0],[-x,y,0]],green,{perPositionHeight:false,heightReference:Cesium.HeightReference.CLAMP_TO_GROUND,classificationType:Cesium.ClassificationType.TERRAIN,outline:false});
+   // Crossed triangular tufts show low vegetation; the patch itself follows terrain.
+   for(let row=0;row<5;row++)for(let col=0;col<7;col++){
+    const cx=-x+(col+.5)*t.w/7,cy=-y+(row+.5)*t.d/5;
+    const ground=viewer.scene.globe.getHeight(Cesium.Cartographic.fromCartesian(point([cx,cy,0])));
+    const z=Number.isFinite(ground)?(ground-anchor.height)/scale:0;
+    const blade=Cesium.Color.fromCssColorString((row+col)%2?'#54833f':'#82ac58');
+    const height=t.h*(.7+((row*7+col)%5)*.075);
+    face([[cx-.24,cy,z],[cx+.24,cy,z],[cx+.08,cy,z+height]],blade,{outline:false});
+    face([[cx,cy-.24,z],[cx,cy+.24,z],[cx-.06,cy,z+height*.9]],blade,{outline:false});
+   }
+  }else{
   for(let i=0;i<4;i++){const j=(i+1)%4;face([[...top[i].slice(0,2),0],[...top[j].slice(0,2),0],top[j],top[i]]);}
   if(kind==='flat')face(top);
   else{
    const inset=kind==='hip'?t.w*.23:0,L=[-x+inset,0,h+t.r],R=[x-inset,0,h+t.r];
    face([top[0],top[1],R,L]);face([top[2],top[3],L,R]);face([top[3],top[0],L]);face([top[1],top[2],R]);
+  }
   }
   viewer.scene.requestRender();controls();
  }
@@ -340,7 +358,7 @@ function setupHousePlacement(viewer, terrainEnabled){
  };
  el('start').onclick=()=>{
   if(!terrainEnabled){status('Terrain is unavailable. Reload when the terrain service is reachable.');return;}
-  choosing=true;controls();status('Click an open space on the map to preview the building.');
+  choosing=true;controls();status('Click an open space on the map to preview the selected model.');
  };
  templateButtons.forEach(button=>{button.onclick=()=>{
   el('template').value=button.dataset.houseTemplate;
@@ -355,11 +373,11 @@ function setupHousePlacement(viewer, terrainEnabled){
  el('angle').oninput=()=>{el('angle-value').textContent=el('angle').value+'°';draw();};
  el('confirm').onclick=()=>{
   if(!anchor)return;
-  serial++;preview.forEach(entity=>{entity.name='Placed building '+serial;entity.polygon.material=buildingColor;});
-  placed.push(preview);preview=[];anchor=null;choosing=false;controls();status('Building placed. Choose another location or undo the last building.');viewer.scene.requestRender();
+  serial++;const label=el('template').value==='grass'?'Grass patch':'Building';preview.forEach(entity=>{entity.name=label+' '+serial;entity.polygon.material=entity._placementColor;});
+  placed.push(preview);preview=[];anchor=null;choosing=false;controls();status('Model placed. Choose another location or undo the last placement.');viewer.scene.requestRender();
  };
  el('cancel').onclick=()=>{remove(preview);preview=[];anchor=null;choosing=false;controls();status('Preview cancelled.');viewer.scene.requestRender();};
- el('undo').onclick=()=>{if(placed.length)remove(placed.pop());controls();status('Last placed building removed.');viewer.scene.requestRender();};
+ el('undo').onclick=()=>{if(placed.length)remove(placed.pop());controls();status('Last placed model removed.');viewer.scene.requestRender();};
  controls();draw();
 }
 
