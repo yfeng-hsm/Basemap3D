@@ -22,7 +22,7 @@ def main():
     pages = ("task1_3d.html", "task2_raster.html", "task3_vector.html",
              "task4_query_popup.html", "task5_sun_shadows.html",
              "population_context.html", "population_berlin.html",
-             "mainz_trees.html", "mainz_trees_estimated.html")
+             "mainz_trees.html", "mainz_trees_estimated.html", "mainz_trees_shadows.html")
     for name in pages:
         shutil.copyfile(ROOT/"results"/name,target/name)
         print(f"Built {name}")

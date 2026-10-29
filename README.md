@@ -156,3 +156,7 @@ The viewer can switch to estimated height, hide the layer, fit its extent and sh
 **Estimated endpoint:** `https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees/tileset-estimated.json`
 
 The candidates are unverified; 29 height estimates above 30 m are flagged. Models have fixed base elevations aligned to basemap.de DGM5. Retain source credits; see the dataset documentation.
+
+### Tree and building shadows
+
+The tree notebook also combines `TreeLayer` with `SunShadows(date="2026-06-21", hour=17)`. Compare times and seasons with a fixed camera, then toggle trees and buildings independently. [Open the shadow example](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/examples/mainz_trees_shadows.html). Schematic opaque crowns and estimated heights support qualitative exploration only; foliage seasonality, light transmission and cooling are not modelled.
