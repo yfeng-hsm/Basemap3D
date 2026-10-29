@@ -1,0 +1,62 @@
+[
+  {
+    "id": "koblenz",
+    "kind": "mesh",
+    "city": "Koblenz",
+    "location": [
+      50.36,
+      7.6
+    ],
+    "url": "https://dz.koblenz.de/assets/mesh_3D_2026/tileset.json",
+    "credit": "Stadt Koblenz · GeoPortal Koblenz",
+    "note": "Photorealistic mesh 2026. Third-party republication permission must be confirmed with Stadt Koblenz."
+  },
+  {
+    "id": "trier",
+    "kind": "mesh",
+    "city": "Trier",
+    "location": [
+      49.756,
+      6.643
+    ],
+    "url": "https://data.geoportal-trier.de/ma_tiles/mesh2025/3d_tiles/tileset.json",
+    "credit": "Stadt Trier",
+    "note": "Photorealistic mesh 2025. Municipal service terms apply; confirm third-party republication permission."
+  },
+  {
+    "id": "hamburg-mesh",
+    "kind": "mesh",
+    "city": "Hamburg",
+    "location": [
+      53.543,
+      9.991
+    ],
+    "url": "https://www.daten-hamburg.de/gdi3d/datasource-data/3D_Mesh_Cesium_2022/3Dtiles_reduziert-aufgeloest/tileset.json",
+    "credit": "Freie und Hansestadt Hamburg · Landesbetrieb Geoinformation und Vermessung · dl-de/by-2-0",
+    "note": "Reduced-resolution photorealistic mesh. Published mesh dataset 2022; source imagery may be older. DL-DE/BY-2.0."
+  },
+  {
+    "id": "hamburg-lod3",
+    "kind": "lod3",
+    "city": "Hamburg · City centre",
+    "location": [
+      53.55,
+      9.995
+    ],
+    "url": "https://www.daten-hamburg.de/gdi3d/datasource-data/LoD3_tex20cm/tileset.json",
+    "credit": "Freie und Hansestadt Hamburg · Landesbetrieb Geoinformation und Vermessung · dl-de/by-2-0",
+    "note": "Official LoD3.0-HH: detailed roof geometry and aerial-image textures. DL-DE/BY-2.0. Not every visible window is modelled geometry."
+  },
+  {
+    "id": "hamburg-harburg",
+    "kind": "lod3",
+    "city": "Hamburg · Harburg",
+    "location": [
+      53.46,
+      9.983
+    ],
+    "url": "https://www.daten-hamburg.de/gdi3d/datasource-data/LoD3_tex20cm/tileset.json",
+    "credit": "Freie und Hansestadt Hamburg · Landesbetrieb Geoinformation und Vermessung · dl-de/by-2-0",
+    "note": "Same LoD3.0-HH service, Harburg viewpoint. DL-DE/BY-2.0."
+  }
+]

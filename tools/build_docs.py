@@ -133,3 +133,7 @@ extra=json.loads((r/'Mainz_Modules.ipynb').read_text());extra['cells']=extra['ce
  {'cell_type':'markdown','metadata':{},'source':['# Imperviousness as a WMS layer\n','Two independent raster layers: aerial imagery and Copernicus Imperviousness Density 2024 (10 m; values 0–100%).\n']},
  {'cell_type':'code','metadata':{},'execution_count':None,'outputs':[],'source':impervious_code.splitlines(keepends=True)}]
 (r/'Impervious_Surface.ipynb').write_text(json.dumps(extra,ensure_ascii=False,indent=1)+'\n')
+
+# External mesh and LoD3 examples share the basic gallery and are rebuilt with it.
+import runpy
+runpy.run_path(str(r/'tools/build_city_examples.py'), run_name='__main__')
