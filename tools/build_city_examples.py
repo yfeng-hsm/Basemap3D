@@ -17,6 +17,9 @@ SOURCES = [
  dict(id='hamburg-lod3-plain', kind='lod3', city='Hamburg · Untextured LoD3', location=[53.55,9.995], url='https://www.daten-hamburg.de/gdi3d/datasource-data/LoD3_untexturiert/tileset.json', credit='Freie und Hansestadt Hamburg · Landesbetrieb Geoinformation und Vermessung · dl-de/by-2-0', note='Official untextured LoD3.0-HH, for comparing detailed geometry with the textured service. DL-DE/BY-2.0.'),
  dict(id='koblenz-lod3', kind='lod3', city='Koblenz · Detailed models', location=[50.36,7.60], url='https://dz.koblenz.de/assets/tileset_lod3_3d/tileset.json', credit='Stadt Koblenz · GeoPortal Koblenz', note='Selected detailed models from the official viewer layer labelled LoD3; not a complete citywide LoD3 dataset. Third-party republication permission must be confirmed.'),
 
+ dict(id='nuernberg-mesh', kind='mesh', city='Nürnberg', location=[49.454,11.077], url='https://geoportal.nuernberg.de/gdi/3d_mesh/tileset.json', credit='Stadt Nürnberg · Amt für Geoinformation und Bodenordnung', note='Photorealistic mesh from the municipal 3D viewer (survey April 2024). Root and one child manifest tested with cross-origin access. Third-party republication permission is not confirmed.'),
+ dict(id='wuppertal-mesh', kind='mesh', city='Wuppertal', location=[51.256,7.15], url='https://wupp-3d-data.cismet.de/mesh2024/tileset.json', credit='Stadt Wuppertal · DigiTal Zwilling / Geoportal · Mesh 03/2024', note='Photorealistic mesh from the official DigiTal Zwilling (March 2024 survey). Root and one child manifest tested with GitHub Pages Origin. The open-data license of source photographs is not assumed to license this mesh; third-party republication permission is not confirmed.'),
+
 ]
 
 def main():

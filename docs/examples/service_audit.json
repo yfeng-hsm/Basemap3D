@@ -1,0 +1,149 @@
+{
+  "checked_on": "2026-10-29",
+  "test_origin": "https://yfeng-hsm.github.io",
+  "scope": "Root tileset and one referenced child only; no complete visual or load validation. HTTP accessibility and CORS do not establish reuse rights.",
+  "results": [
+    {
+      "name": "Solingen 2026",
+      "url": "https://solingen.virtualcitymap.de/datasource-data/HOSTING-solingen/3D-Mesh_2026/tileset.json",
+      "status": 200,
+      "cors": null,
+      "asset": {
+        "version": "1.0"
+      },
+      "valid": true,
+      "child_status": 200,
+      "child_cors": null,
+      "child_magic": "b'\\x1f\\x8b\\x08\\x00'"
+    },
+    {
+      "name": "Solingen 2023",
+      "url": "https://solingen.virtualcitymap.de/datasource-data/HOSTING-solingen/3D_Mesh_2023/tileset.json",
+      "status": 200,
+      "cors": null,
+      "asset": {
+        "version": "1.0"
+      },
+      "valid": true,
+      "child_status": 200,
+      "child_cors": null,
+      "child_magic": "b'\\x1f\\x8b\\x08\\x00'"
+    },
+    {
+      "name": "Bremen Mesh 2025",
+      "url": "https://bremen.virtualcitymap.de/datasource-data/HB_Mesh2025_10cm/CESIUM/3d_tiles/tileset.json",
+      "status": 200,
+      "cors": "*",
+      "asset": {
+        "version": "1.0"
+      },
+      "valid": true,
+      "child_status": 200,
+      "child_cors": "*",
+      "child_magic": "b'\\x1f\\x8b\\x08\\x00'"
+    },
+    {
+      "name": "Bremen trees",
+      "url": "https://bremen.virtualcitymap.de/datasource-data/d6bf8d50-b2b8-4583-860f-0b6c4ba75d30/tileset.json",
+      "status": 200,
+      "cors": "*",
+      "asset": {
+        "version": "1.0",
+        "tilesetVersion": "284324892760"
+      },
+      "valid": true,
+      "child_status": 200,
+      "child_cors": "*",
+      "child_magic": "b'\\x1f\\x8b\\x08\\x00'"
+    },
+    {
+      "name": "Wiesbaden buildings",
+      "url": "https://wiesbaden.virtualcitymap.de/datasource-data/7fd4200f-ddff-487e-9104-9833e1d5b2ad/tileset.json",
+      "status": 200,
+      "cors": null,
+      "asset": {
+        "version": "1.0",
+        "tilesetVersion": "255746283279"
+      },
+      "valid": true,
+      "child_status": 200,
+      "child_cors": null,
+      "child_magic": "b'\\x1f\\x8b\\x08\\x00'"
+    },
+    {
+      "name": "Wiesbaden summer trees",
+      "url": "https://wiesbaden.virtualcitymap.de/datasource-data/34351748-e6db-4e7c-b833-1ec2bfffb9ac/tileset.json",
+      "status": 200,
+      "cors": null,
+      "asset": {
+        "version": "1.1",
+        "tilesetVersion": "304621895989"
+      },
+      "valid": true,
+      "child_status": 200,
+      "child_cors": null,
+      "child_magic": "b'\\x1f\\x8b\\x08\\x00'"
+    },
+    {
+      "name": "Wiesbaden solar",
+      "url": "https://wiesbaden.virtualcitymap.de/datasource-data/38e73886-9508-4522-bc41-d1a284d3e516/tileset.json",
+      "status": 200,
+      "cors": null,
+      "asset": {
+        "version": "1.0",
+        "tilesetVersion": "258305383009"
+      },
+      "valid": true,
+      "child_status": 200,
+      "child_cors": null,
+      "child_magic": "b'\\x1f\\x8b\\x08\\x00'"
+    },
+    {
+      "name": "Wiesbaden synagogue",
+      "url": "https://wiesbaden.virtualcitymap.de/datasource-data/6fcbb5f5-1ade-4b34-910c-0588da4398c5/tileset.json",
+      "status": 200,
+      "cors": null,
+      "asset": {
+        "version": "1.0",
+        "tilesetVersion": "231709319984"
+      },
+      "valid": true,
+      "child_status": 200,
+      "child_cors": null,
+      "child_magic": "b'\\x1f\\x8b\\x08\\x00'"
+    },
+    {
+      "name": "Nürnberg Mesh",
+      "url": "https://geoportal.nuernberg.de/gdi/3d_mesh/tileset.json",
+      "status": 200,
+      "cors": "*",
+      "asset": {
+        "version": "1.0"
+      },
+      "valid": true,
+      "child_status": 200,
+      "child_cors": "*",
+      "child_magic": "b'{\"as'"
+    },
+    {
+      "name": "Wuppertal Mesh 2024",
+      "url": "https://wupp-3d-data.cismet.de/mesh2024/tileset.json",
+      "status": 200,
+      "cors": "https://yfeng-hsm.github.io",
+      "asset": {
+        "version": "1.0"
+      },
+      "valid": true,
+      "child_status": 200,
+      "child_cors": "https://yfeng-hsm.github.io",
+      "child_magic": "b'{\\n\\n\"'"
+    }
+  ],
+  "reuse_notes": {
+    "Bremen Mesh 2025": "Official metadata says fee-bearing and copyright protected; not added to gallery. https://metaver.de/trefferanzeige?docuuid=5030A4CE-7858-4C62-8586-631E286587EE",
+    "Solingen": "Root and child did not return Access-Control-Allow-Origin. Open-data terms list older mesh datasets; do not extrapolate them to all years.",
+    "Wiesbaden": "Buildings, summer trees, solar-textured buildings and synagogue found, but tested responses lacked Access-Control-Allow-Origin; dataset reuse license not established.",
+    "Nürnberg Mesh": "CORS passed. Municipal mesh-specific third-party reuse permission not established.",
+    "Wuppertal Mesh 2024": "CORS passed for the test Origin. Source oblique photographs have CC BY 4.0 metadata, but no equivalent mesh license was established."
+  }
+}
