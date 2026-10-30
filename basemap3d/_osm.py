@@ -44,7 +44,7 @@ def _download(box,cache_dir):
     if file.exists() and time.time()-file.stat().st_mtime<CACHE_SECONDS:
         return json.loads(file.read_text(encoding='utf-8'))
     url='https://api.openstreetmap.org/api/0.6/map.json?bbox='+','.join(map(str,box))
-    request=Request(url,headers={'User-Agent':'Basemap3D/0.3 teaching GIS (+https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz)'})
+    request=Request(url,headers={'User-Agent':'Basemap3D/0.3 teaching GIS (+https://github.com/yfeng-hsm/Basemap3D)'})
     try:
         with urlopen(request,timeout=30) as response:data=json.load(response)
     except Exception as exc:

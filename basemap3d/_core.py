@@ -236,7 +236,7 @@ class TreeLayer(Tiles3D):
     Model bases are fixed to basemap.de DGM5 terrain. Fixed heights are removed.
     """
 
-    BASE_URL="https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/layers/mainz-trees"
+    BASE_URL="https://yfeng-hsm.github.io/Basemap3D/layers/mainz-trees"
     ATTRIBUTION="©GeoBasis-DE / LVermGeoRP 2026, dl-de/by-2-0 [Daten bearbeitet]; © GeoBasis-DE/BKG 2026; © OpenStreetMap contributors, ODbL"
 
     def __init__(self, *, show=True, maximum_screen_space_error=12, base_url=None):

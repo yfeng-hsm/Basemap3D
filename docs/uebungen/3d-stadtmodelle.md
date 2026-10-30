@@ -4,7 +4,7 @@
 
 ## 1 · Grundlagen kennenlernen (Pflicht)
 
-Bearbeiten Sie die ersten beiden Beispiele im [Colab-Notebook „Modules“](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Mainz_Modules.ipynb). Führen Sie zuerst die Installation aus.
+Bearbeiten Sie die ersten beiden Beispiele im [Colab-Notebook „Modules“](https://colab.research.google.com/github/yfeng-hsm/Basemap3D/blob/main/notebooks/Mainz_Modules.ipynb). Führen Sie zuerst die Installation aus.
 
 - Ändern Sie Standort, Kameradistanz und Blickwinkel.
 - Erklären Sie kurz die Rollen von `Map` und `.add_to(m)`.
@@ -19,7 +19,7 @@ Erstellen Sie ein **eigenes Colab-Notebook**. Übernehmen Sie bei Bedarf die Ins
 
 - Vergleichen Sie die Schatten zu zwei Tageszeiten am selben Datum.
 
-Orientieren Sie sich an den [Examples · Mesh models](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/examples/#mesh). Wählen Sie dort Trier aus und verwenden Sie die Beispiele als Grundlage für Ihren eigenen Szenencode.
+Orientieren Sie sich an den [Examples · Mesh models](https://yfeng-hsm.github.io/Basemap3D/examples/#mesh). Wählen Sie dort Trier aus und verwenden Sie die Beispiele als Grundlage für Ihren eigenen Szenencode.
 
 ## 3 · Auf Koblenz übertragen und vergleichen (Pflicht)
 

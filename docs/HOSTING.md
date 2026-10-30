@@ -4,13 +4,13 @@ The documentation is a buildless static site. Its entry point is `docs/index.htm
 
 ## GitHub Pages
 
-This repository is configured to publish `main` → `/docs` at [the project site](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/).
+This repository is configured to publish `main` → `/docs` at [the project site](https://yfeng-hsm.github.io/Basemap3D/).
 
 For this repository, select **Settings → Pages → Build and deployment → Deploy from a branch**, then choose **main** and **/docs**, and save. The `docs/.nojekyll` file keeps the static files unchanged.
 
 After GitHub reports a successful Pages deployment, the expected project-site address is:
 
-`https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/`
+`https://yfeng-hsm.github.io/Basemap3D/`
 
 Uploading the HTML source alone does not enable Pages. Check the repository's Pages status before sharing this address. A repository administrator may need to enable hosting if the connected GitHub application cannot change Pages settings.
 

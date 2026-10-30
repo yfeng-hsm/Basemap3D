@@ -4,7 +4,7 @@
 
 Combine city meshes, detailed buildings, terrain, trees and your own geospatial data in one CesiumJS viewer. The Python interface follows a familiar pattern: create a `Map`, add layers with `.add_to(m)`, then display or save it.
 
-**[Explore the examples](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/examples/) · [Documentation](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/) · [API reference](docs/API.md)**
+**[Explore the examples](https://yfeng-hsm.github.io/Basemap3D/examples/) · [Documentation](https://yfeng-hsm.github.io/Basemap3D/) · [API reference](docs/API.md)**
 
 ## Start with a city model
 
@@ -49,7 +49,7 @@ The exported HTML streams its online layers when opened; it does not download th
 | Place a yellow building interactively | `HousePlacement()` | Mainz; flat, gable and hip roof templates |
 | Sun and shadows | `SunShadows(...)` | Explore different dates and times |
 
-In the [basic examples](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/examples/), choose **Mesh models** or **LoD3 buildings**, then select a city above the Python code. The scene and code update together. Some entries are different views of the same service. Koblenz's detailed models cover selected objects, rather than the whole city.
+In the [basic examples](https://yfeng-hsm.github.io/Basemap3D/examples/), choose **Mesh models** or **LoD3 buildings**, then select a city above the Python code. The scene and code update together. Some entries are different views of the same service. Koblenz's detailed models cover selected objects, rather than the whole city.
 
 ## Run without local installation
 
@@ -57,13 +57,13 @@ Open a notebook in Google Colab and run its setup cell first, followed by the re
 
 | Notebook | Contents | Open |
 |---|---|---|
-| [Modules](notebooks/Mainz_Modules.ipynb) | Build up a map layer by layer | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Mainz_Modules.ipynb) |
-| [Planning lab](notebooks/Mainz_3D_5_Tasks.ipynb) | Five exercises with imagery, polygons, nearby buildings and shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Mainz_3D_5_Tasks.ipynb) |
-| [Trees](notebooks/Mainz_Trees_3D.ipynb) | Mainz trees and shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Mainz_Trees_3D.ipynb) |
-| [Population](notebooks/Population_3D_Columns.ipynb) | Berlin population as 3D columns | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Population_3D_Columns.ipynb) |
-| [Trier: buildings and shadows](notebooks/Trier_Shadow_Building_Preview.ipynb) | Switch Mesh / LoD2, place a building and explore shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Trier_Shadow_Building_Preview.ipynb) |
-| [Koblenz: buildings and shadows](notebooks/Koblenz_Shadow_Building_Preview.ipynb) | Alternative city preview; check terrain / mesh alignment | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Koblenz_Shadow_Building_Preview.ipynb) |
-| [Imperviousness](notebooks/Impervious_Surface.ipynb) | Combine aerial imagery and imperviousness WMS | [Colab](https://colab.research.google.com/github/yfeng-hsm/GISProjekt26_HS_Mainz/blob/main/notebooks/Impervious_Surface.ipynb) |
+| [Modules](notebooks/Mainz_Modules.ipynb) | Build up a map layer by layer | [Colab](https://colab.research.google.com/github/yfeng-hsm/Basemap3D/blob/main/notebooks/Mainz_Modules.ipynb) |
+| [Planning lab](notebooks/Mainz_3D_5_Tasks.ipynb) | Five exercises with imagery, polygons, nearby buildings and shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/Basemap3D/blob/main/notebooks/Mainz_3D_5_Tasks.ipynb) |
+| [Trees](notebooks/Mainz_Trees_3D.ipynb) | Mainz trees and shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/Basemap3D/blob/main/notebooks/Mainz_Trees_3D.ipynb) |
+| [Population](notebooks/Population_3D_Columns.ipynb) | Berlin population as 3D columns | [Colab](https://colab.research.google.com/github/yfeng-hsm/Basemap3D/blob/main/notebooks/Population_3D_Columns.ipynb) |
+| [Trier: buildings and shadows](notebooks/Trier_Shadow_Building_Preview.ipynb) | Switch Mesh / LoD2, place a building and explore shadows | [Colab](https://colab.research.google.com/github/yfeng-hsm/Basemap3D/blob/main/notebooks/Trier_Shadow_Building_Preview.ipynb) |
+| [Koblenz: buildings and shadows](notebooks/Koblenz_Shadow_Building_Preview.ipynb) | Alternative city preview; check terrain / mesh alignment | [Colab](https://colab.research.google.com/github/yfeng-hsm/Basemap3D/blob/main/notebooks/Koblenz_Shadow_Building_Preview.ipynb) |
+| [Imperviousness](notebooks/Impervious_Surface.ipynb) | Combine aerial imagery and imperviousness WMS | [Colab](https://colab.research.google.com/github/yfeng-hsm/Basemap3D/blob/main/notebooks/Impervious_Surface.ipynb) |
 
 All notebooks are collected in [`notebooks/`](notebooks/). For the updated renderer, start a fresh Colab runtime and rerun setup; an existing clone can retain the older version.
 
@@ -71,7 +71,7 @@ The setup installs the package from this repository. Colab handles the map displ
 
 ## Install locally
 
-Use Python **3.10+** and a browser with WebGL2. [Download](https://github.com/yfeng-hsm/GISProjekt26_HS_Mainz/archive/refs/heads/main.zip) or clone this repository, open a terminal in its root directory, then run:
+Use Python **3.10+** and a browser with WebGL2. [Download](https://github.com/yfeng-hsm/Basemap3D/archive/refs/heads/main.zip) or clone this repository, open a terminal in its root directory, then run:
 
 **macOS / Linux**
 
@@ -120,8 +120,8 @@ Basemap3D uses CesiumJS for rendering and basemap.de for its default background,
 
 - [API reference](docs/API.md)
 - [Teaching guide](docs/TEACHING.md)
-- [Planning examples](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/beispiele.html)
-- [Population example](https://yfeng-hsm.github.io/GISProjekt26_HS_Mainz/population.html)
+- [Planning examples](https://yfeng-hsm.github.io/Basemap3D/beispiele.html)
+- [Population example](https://yfeng-hsm.github.io/Basemap3D/population.html)
 
 If a scene is blank, check WebGL2 / hardware acceleration and access to the selected data services. GitHub's notebook preview cannot run interactive maps; use Colab, Jupyter or the HTML examples.
 
