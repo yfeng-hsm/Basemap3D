@@ -11,7 +11,7 @@ def save_doc_scene(scene, path):
     snapshot._html=None
     snapshot.save(path)
 
-tree_scene=Map(location=[49.99892,8.27412],zoom_start=16,title="Mainz · 3D trees")
+tree_scene=Map(location=[49.99892,8.27412],distance_m=850,pitch=-50,title="Mainz · 3D trees")
 WmsTileLayer(opacity=.7).add_to(tree_scene)
 TreeLayer().add_to(tree_scene)
 save_doc_scene(tree_scene,d/'examples/mainz_trees.html')
@@ -22,7 +22,7 @@ save_doc_scene(tree_shadows,d/'examples/mainz_trees_shadows.html')
 
 impervious_url='https://geoserver.geoville.com/geoserver/nvlcc_2024/wms'
 impervious_legend=impervious_url+'?service=WMS&request=GetLegendGraphic&version=1.1.1&format=image/png&layer=HRL_NVLCC_IMD_2024_10m'
-m=Map(location=[50.0063,8.2692],distance_m=850,title='Mainz · All modules')
+m=Map(location=[50.0063,8.2692],distance_m=1200, pitch=-50,title='Mainz · All modules')
 WmsTileLayer(opacity=.7).add_to(m)
 WmsTileLayer(url=impervious_url,layers='HRL_NVLCC_IMD_2024_10m',name='Imperviousness · 2024 · 10 m',opacity=0.8,show=False,
  description='Copernicus IMD · 2024 · 10 m · 0–100 %',
@@ -31,7 +31,7 @@ WmsTileLayer(url=impervious_url,layers='HRL_NVLCC_IMD_2024_10m',name='Impervious
 GeoJson('data/parking.geojson',popup=True).add_to(m)
 TreeLayer().add_to(m);SunShadows(date='2026-06-21',hour=17).add_to(m)
 save_doc_scene(m,d/'examples/mainz_complete.html')
-house_scene=Map(location=[50.0063,8.2692],distance_m=700,title="Mainz · Place an object")
+house_scene=Map(location=[50.0063,8.2692],distance_m=1200, pitch=-50,title="Mainz · Place an object")
 TreeLayer().add_to(house_scene)
 HousePlacement().add_to(house_scene)
 save_doc_scene(house_scene,d/'examples/mainz_place_house.html')
@@ -45,11 +45,11 @@ WmsTileLayer(url=impervious_url,layers='HRL_NVLCC_IMD_2024_10m',name='Impervious
  legend_url=impervious_legend).add_to(impervious_map)
 impervious_map.save(d/'examples/impervious_surface.html')
 # Build sequential snapshots with the current controls and identical study area.
-base=Map(location=[50.0063,8.2692],distance_m=850,title='Mainz · City model')
+base=Map(location=[50.0063,8.2692],distance_m=1200, pitch=-50,title='Mainz · City model')
 stages=[('task1_3d.html',None),('task2_raster.html',WmsTileLayer(opacity=.7)),('task3_vector.html',GeoJson('data/parking.geojson',popup=True)),('task4_query_popup.html',NearbyBuildings('data/mainz_buildings_snapshot.geojson',distance_m=75)),('mainz_modules_trees.html',TreeLayer()),('mainz_modules_shadows.html',SunShadows(date='2026-06-21',hour=17))]
 for name,layer in stages:
  if name=='mainz_modules_trees.html':
-  base=Map(location=[49.99892,8.27412],distance_m=450,title='Mainz · Trees & imagery')
+  base=Map(location=[49.99892,8.27412],distance_m=850,pitch=-50,title='Mainz · Trees & imagery')
   WmsTileLayer(opacity=.7).add_to(base)
  if layer:layer.add_to(base)
  save_doc_scene(base,d/'examples'/name)
@@ -60,12 +60,12 @@ css='''*{box-sizing:border-box} :root{--ink:#203a37;--muted:#74817e;--line:#e2e7
 nav=lambda depth,active:f'''<nav><a class="brand" href="{depth}index.html">Basemap<span>3D</span></a><a class="{'active' if active=='examples' else ''}" href="{depth}examples/">Examples</a><a href="{depth}getting-started.html">Get started</a><a href="https://github.com/yfeng-hsm/Basemap3D/blob/main/docs/API.md">API ↗</a></nav>'''
 head=lambda title,depth:f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} · Basemap3D</title><link rel="stylesheet" href="{depth}assets/docs.css"></head><body>'
 footer='<footer>Basemap3D · Interactive 3D maps in Python · Python + CesiumJS · Data credits remain in each map.</footer>'
-fullcode='from basemap3d import (Map, WmsTileLayer, GeoJson,\n                       TreeLayer, SunShadows)\n\nm = Map(location=[50.0063, 8.2692], zoom_start=16)\nWmsTileLayer(opacity=0.7).add_to(m)\n\nwms = "https://geoserver.geoville.com/geoserver/nvlcc_2024/wms"\nWmsTileLayer(\n    url=wms, layers="HRL_NVLCC_IMD_2024_10m",\n    name="Imperviousness · 2024 · 10 m", opacity=0.8, show=False,\n    description="Copernicus IMD · 2024 · 10 m · 0–100 %",\n    attribution="© European Union · Copernicus Land Monitoring Service",\n    legend_url=wms + "?service=WMS&request=GetLegendGraphic"\n                     "&version=1.1.1&format=image/png"\n                     "&layer=HRL_NVLCC_IMD_2024_10m",\n).add_to(m)\nGeoJson("data/parking.geojson", popup=True).add_to(m)\nTreeLayer().add_to(m)\nSunShadows(date="2026-06-21", hour=17).add_to(m)\nm'
+fullcode='from basemap3d import (Map, WmsTileLayer, GeoJson,\n                       TreeLayer, SunShadows)\n\nm = Map(location=[50.0063, 8.2692], distance_m=1200, pitch=-50)\nWmsTileLayer(opacity=0.7).add_to(m)\n\nwms = "https://geoserver.geoville.com/geoserver/nvlcc_2024/wms"\nWmsTileLayer(\n    url=wms, layers="HRL_NVLCC_IMD_2024_10m",\n    name="Imperviousness · 2024 · 10 m", opacity=0.8, show=False,\n    description="Copernicus IMD · 2024 · 10 m · 0–100 %",\n    attribution="© European Union · Copernicus Land Monitoring Service",\n    legend_url=wms + "?service=WMS&request=GetLegendGraphic"\n                     "&version=1.1.1&format=image/png"\n                     "&layer=HRL_NVLCC_IMD_2024_10m",\n).add_to(m)\nGeoJson("data/parking.geojson", popup=True).add_to(m)\nTreeLayer().add_to(m)\nSunShadows(date="2026-06-21", hour=17).add_to(m)\nm'
 def bench(title,desc,chips,code,url,depth=''):
  return f'''<div class="workbench"><section class="instructions"><div class="eyebrow">MODULES → MAP</div><h2 id="example-title">{title}</h2><p id="example-description">{desc}</p><div class="chips" id="modules">{''.join('<span class="chip">'+x+'</span>' for x in chips)}</div><div class="codebox"><div class="codehead"><span>Python</span><button id="copy">Copy code</button></div><pre id="code">{html.escape(code)}</pre></div><p class="note" id="example-note">The preview uses a local OSM building snapshot; the Python code downloads buildings automatically. Maps and models require internet access.</p></section><section class="result"><div class="resultbar"><span class="live">Interactive preview</span><a id="result-link" href="{url}" target="_blank" rel="noopener">Full screen ↗</a></div><iframe id="result" title="Interactive example map" src="{url}" loading="lazy" allow="fullscreen"></iframe></section></div>'''
 copyjs="document.getElementById('copy').onclick=async()=>{try{await navigator.clipboard.writeText(document.getElementById('code').textContent);document.getElementById('copy').textContent='Copied';}catch{document.getElementById('copy').textContent='Select code to copy';}};"
 (d/'index.html').write_text(head('Simple Python. Interactive 3D maps.','')+nav('','home')+'''<main class="shell"><div class="intro"><div><div class="eyebrow">A small Python API for 3D maps</div><h1>Build a map.<br>Add what you need.</h1><p>Combine imagery, vectors, 3D layers and shadows.<br>A few lines of Python. One interactive scene.</p></div><div class="actions"><a class="button primary" href="examples/">Explore examples →</a><a class="button" href="getting-started.html">Get started</a></div></div>'''+bench('All visual modules. One map.','The complete Mainz scene: aerial imagery, imperviousness (10 m), your polygons, 3D trees and adjustable shadows. Explore spatial building queries in a separate example.',['Map','WmsTileLayer × 2','GeoJson','TreeLayer','SunShadows'],fullcode,'examples/mainz_complete.html')+'''<div class="below"><span>New here? Build this scene one step at a time in Examples.</span><a href="examples/">Start with the base map →</a></div></main>'''+footer+'<script>'+copyjs+'</script></body></html>')
-basecode='from basemap3d import Map\n\nm = Map(location=[50.0063, 8.2692], zoom_start=16)'
+basecode='from basemap3d import Map\n\nm = Map(location=[50.0063, 8.2692], distance_m=1200, pitch=-50)'
 items=[]
 def add(id,title,desc,modules,code,file,note='Build on the previous example. Use m.copy() to keep an intermediate scene.'):
  items.append(dict(id=id,title=title,description=desc,modules=modules,code=code,file=file,note=note))
@@ -75,12 +75,12 @@ add('vectors','3 · Your polygons','Load GeoJSON polygons from a file, or replac
 querycode='''from basemap3d import (Map, WmsTileLayer, GeoJson,
                        NearbyBuildings)
 
-m = Map(location=[50.0063, 8.2692], zoom_start=16)
+m = Map(location=[50.0063, 8.2692], distance_m=1200, pitch=-50)
 WmsTileLayer(opacity=0.7).add_to(m)
 GeoJson("data/parking.geojson", popup=True).add_to(m)
 NearbyBuildings(distance_m=75).add_to(m)'''
 add('query','4 · Query nearby buildings','Upload your own GeoJSON polygons. Buildings load for the new extent and are selected using the search distance.',['Map','WmsTileLayer','GeoJson','NearbyBuildings'],querycode+'\nm','task4_query_popup.html','Add GeoJson before NearbyBuildings. The preview uses a local OSM snapshot; the code downloads buildings automatically.')
-treecode='from basemap3d import Map, WmsTileLayer, TreeLayer\n\nm = Map(location=[49.99892, 8.27412], distance_m=450)\nWmsTileLayer(opacity=0.7).add_to(m)\nTreeLayer().add_to(m)'
+treecode='from basemap3d import Map, WmsTileLayer, TreeLayer\n\nm = Map(location=[49.99892, 8.27412], distance_m=850, pitch=-50)\nWmsTileLayer(opacity=0.7).add_to(m)\nTreeLayer().add_to(m)'
 add('trees','5 · Trees & aerial imagery','Combine 3D trees with aerial imagery. This example has no polygons or building query.',['Map','WmsTileLayer','TreeLayer'],treecode+'\nm','mainz_modules_trees.html','Estimated trees and heights for visualization; not a precise survey.')
 add('shadows','6 · Trees, imagery & shadows','Add date and time controls to the tree scene. No polygons or building query.',['Map','WmsTileLayer','TreeLayer','SunShadows'],treecode+'\nfrom basemap3d import SunShadows\n\nSunShadows(date="2026-06-21", hour=17).add_to(m)\nm','mainz_modules_shadows.html','Shadows captured in the imagery remain unchanged. Hide the imagery to compare model shadows.')
 add('complete','Complete · All visual modules','Combine aerial imagery, imperviousness (10 m), polygons, trees and shadows. Spatial queries are covered separately in example 4.',['Map','WmsTileLayer × 2','GeoJson','TreeLayer','SunShadows'],fullcode,'mainz_complete.html','The preview uses a local OSM building snapshot. Shadows and estimated tree heights support qualitative visualization.')
@@ -88,7 +88,7 @@ impervious_code='from basemap3d import Map, WmsTileLayer\n\nm = Map(location=[50
 add('impervious','Extra · Imperviousness (WMS)','The same module, a different service: Copernicus Imperviousness Density 2024 at 10 m over aerial imagery. Each layer has its own visibility and opacity controls.',['Map','WmsTileLayer × 2'],impervious_code,'impervious_surface.html','Copernicus Land Monitoring Service · IMD 2024 · 10 m. Values indicate 0–100% impervious cover per cell. Display opacity is a separate control. Source: https://doi.org/10.2909/f0bcb6f0-d775-4218-bec1-13adea01ff8f')
 add('place-house','9 · Place an object','Choose a building template or grass patch, adjust its scale and rotation, then click open ground to preview and confirm placement.',['Map','TreeLayer','HousePlacement'],'''from basemap3d import Map, TreeLayer, HousePlacement
 
-m = Map(location=[50.0063, 8.2692], distance_m=700,
+m = Map(location=[50.0063, 8.2692], distance_m=1200, pitch=-50,
         title="Mainz · Place an object")
 TreeLayer().add_to(m)
 HousePlacement().add_to(m)
@@ -117,7 +117,7 @@ python -m pip install -e ".[notebook]"
 python -m jupyterlab</pre><p>Open <code>notebooks/Mainz_Modules.ipynb</code> in JupyterLab and select the Python environment you installed above. Keep the repository as your working folder so relative data paths work.</p></section>
 <section class="start-card"><h2>3. Create a map, then add modules</h2><p>In a notebook cell, start with <code>Map</code>. Terrain and 3D buildings are included. Add imagery, polygons, trees or shadows with <code>.add_to(m)</code>. Finish the cell with <code>m</code> to display it.</p><pre>from basemap3d import Map, WmsTileLayer, TreeLayer
 
-m = Map(location=[49.99892, 8.27412], distance_m=450)
+m = Map(location=[49.99892, 8.27412], distance_m=850, pitch=-50)
 WmsTileLayer(opacity=0.7).add_to(m)
 TreeLayer().add_to(m)
 m</pre><p class="note">TreeLayer provides estimated trees for the Mainz study area. For your own polygons, add GeoJson before NearbyBuildings. See Examples for complete combinations.</p></section>

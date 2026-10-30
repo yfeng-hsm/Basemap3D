@@ -26,7 +26,7 @@ def main():
  target=ROOT/'docs/examples'
  variants=[]
  for s in SOURCES:
-  code=(f'from basemap3d import Map, Tiles3D\n\nm = Map(location={s["location"]!r}, distance_m=1800,\n        buildings=False, title={s["city"]!r})\nTiles3D(\n    {s["url"]!r},\n    name={s["city"]!r},\n    attribution={s["credit"]!r},\n    popup=False,\n).add_to(m)\nm')
+  code=(f'from basemap3d import Map, Tiles3D\n\nm = Map(location={s["location"]!r}, distance_m=2200, pitch=-50,\n        buildings=False, title={s["city"]!r})\nTiles3D(\n    {s["url"]!r},\n    name={s["city"]!r},\n    attribution={s["credit"]!r},\n    popup=False,\n).add_to(m)\nm')
   scope={};exec(code,scope)
   filename='city_'+s['id']+'.html';scope['m'].save(target/filename)
   variants.append(dict(id=s['kind'],city=s['city'],title=('Mesh models' if s['kind']=='mesh' else 'LoD3 buildings')+' · '+s['city'],description='Stream external 3D Tiles with the same Tiles3D interface. Switch the city or viewpoint to update the scene and Python code.',modules=['Map','Tiles3D'],code=code,file=filename,note=s['note']))
